@@ -15,6 +15,7 @@ tutorials-url: hhttps://docs.adobe.com/content/help/en/experience-manager-learn/
 + [Asset Compute Service user guide](home.md)
 + [Overview](introduction.md)
 + [Release Notes](release-notes.md)
++ [Architecture](architecture.md)
 + [Set up the environment](devenvironment.md)
-+ [Develop](develop.md)
++ [Develop custom application](develop-custom-app.md)
 + [Best practices and troubleshoot](best-practices.md)

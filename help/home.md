@@ -9,10 +9,9 @@ This guide covers all Asset Compute Service tasks such as introduction, how to d
 
 ## Key articles
 
-* [Know about Asset Compute Service](introduction.md)
+* [Know more about Asset Compute Service](introduction.md)
 * [Release notes](/help/release-notes.md)
 * [Recent Documentation Updates](https://helpx.adobe.com/experience-manager/documentation-updates.html)
-* [AEM Security Checklist](/help/sites-administering/security-checklist.md)
 
 ## Resources
 
