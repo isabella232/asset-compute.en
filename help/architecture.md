@@ -15,8 +15,18 @@ description: Asset Compute Service is a cloud-native asset processing service th
 * Borrow from/link back Firefly docs?
 * Explain important transactions/handshakes?
 * How does it work? Flow of assets/control?
-* Illustrations
+* Illustrations. See the SVG shared by Alex.
 * Exceptions? Limitations?
-* Things to remember for devs.
+-->
 
+## Know the basic terminology {#glossary}
+
+<!-- 
+* Any existing info that's complete from Firefly's perspective and Compute Service's perspective?
+-->
+
+## Understand the required files and folders {#understand-purpose-of-files-folders}
+
+<!-- 
+See https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#5-anatomy-of-a-project-firefly-application
 -->
