@@ -5,6 +5,8 @@ description: Developer environment setup for Asset Compute Service to start crea
 
 # Set developer environment {#set-environment}
 
+**TBD**:
+
 * Leverage Firefly's environment setup instructions. https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md
 
 * What additional steps are required for Asset Compute Service?
@@ -19,7 +21,11 @@ description: Developer environment setup for Asset Compute Service to start crea
   * naming conventions to follow
   * Retrieve and format credentials (YAML file details)
 
+---
+
 ## Set environment for Adobe Experience Manager as a Cloud Service {#aem-specific-setup}
+
+**TBD**:
 
 Are any changes required in AEMaaCS?
 
@@ -29,6 +35,11 @@ Are any changes required in AEMaaCS?
 * Any add-ons or packages to be installed for specific functionality?
 * Any Adobe-approved assets provided to try the examples provided?
 
+---
+
 ## Test your setup {#test-setup}
 
-Instructions to verify the setup and ensure that it works.
+**TBD**:
+
+* Instructions to verify the setup and ensure that it works.
+---
