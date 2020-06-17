@@ -21,7 +21,7 @@ description: Developer environment setup for Asset Compute Service to start crea
   * naming conventions to follow
   * Retrieve and format credentials (YAML file details)
 
----
+___________
 
 ## Set environment for Adobe Experience Manager as a Cloud Service {#aem-specific-setup}
 
@@ -35,11 +35,12 @@ Are any changes required in AEMaaCS?
 * Any add-ons or packages to be installed for specific functionality?
 * Any Adobe-approved assets provided to try the examples provided?
 
----
+___________
 
 ## Test your setup {#test-setup}
 
 **TBD**:
 
 * Instructions to verify the setup and ensure that it works.
----
+
+___________

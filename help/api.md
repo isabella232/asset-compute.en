@@ -71,7 +71,7 @@ For an existing technical account (I/O Console integration) that was setup for A
 |--------|--------|
 | Method | `POST` |
 | Path   | `/register` |
-| Header <authorization> | All [authorization related headers](#autentication). | 
+| Header `<authorization>` | All [authorization related headers](#autentication). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
 
 Request body should be empty.
@@ -86,6 +86,7 @@ Request body should be empty.
 Status codes:
 
 * **200 Success** if the request was successful. It will contain the `journal` URL that is required to be notified about any results of the asynchronous processing triggered via `/process`.
+
   ```
   {
       "ok": true,
@@ -93,6 +94,7 @@ Status codes:
       "requestId": "1234567890
   }
   ```
+
 * **401 Unauthorized**: if the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid api key.
 * **403 Forbidden**: if the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the IO console integration (technical account) is not subscribed to all required services.
 * **429 Too many requests**: if the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
@@ -119,7 +121,7 @@ Status codes:
 |--------|--------|
 | Method | `POST` |
 | Path   | `/unregister` |
-| Header <authorization> | All [authorization related headers](#autentication). |
+| Header `<authorization>` | All [authorization related headers](#autentication). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
 
 The request body is empty.

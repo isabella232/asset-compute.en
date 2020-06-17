@@ -14,7 +14,7 @@ TBD:
   * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).
   * Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
 
----
+___________
 
 The Asset Compute Service is built on top of serverless Adobe I/O Runtime platform. It provides Adobe Sensei content services support for assets, where a JSON file is returned with one or more client-chosen, Adobe Sensei-generated describing a single asset.
 
@@ -71,7 +71,7 @@ TBD:
 * Project Firefly and its term.
 * AEMaaCS: See https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html.
 
----
+___________
 
 ## Understand the required files and folders {#understand-purpose-of-files-folders}
 

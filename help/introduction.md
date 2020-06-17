@@ -11,7 +11,8 @@ Also, it provides design and framework for a developer to create a custom asset 
 
 [!DNL Project Firefly] is a framework to build and deploy custom web applications on [!DNL Adobe I/O] runtime. To create custom applications, the developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 
----
+___________
+
 TBD:
 
 * Add an introduction, PM overview.
@@ -33,7 +34,8 @@ The service does not do the following on its own, by default.
 | Store any configurations such as processing rules or settings for a user or an organization's account. | Add processing request to each request/instruction. |
 | Direct event handling of asset creation events from storage systems and processing completed notifications, and errors. | Use Adobe I/O Events and other methods. |
 
----
+___________
+
 TBD:
 
 * Some info about the benefits is at https://git.corp.adobe.com/nui/nui/blob/master/whitepaper/Project-Nui-Asset-Compute-Service.md#benefits-for-aem-assets. See what's worth including.
@@ -50,7 +52,8 @@ To create and deploy and custom worker, fulfil the following requirements:
 * Ensure a developer role or administrator permissions in the organization.
 * Ensure that [!DNL Adobe I/O CLI] is installed locally. <!-- Link to CLI GitHub for more info. -->
 
----
+___________
+
 TBD:
 
 * Also, see https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#technical-requirements
