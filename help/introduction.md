@@ -1,35 +1,35 @@
 ---
 title: Introduction to the Asset Compute Service.
-description: Asset Compute Service is a cloud-native asset processing service that helps reduce complexity and improves scalability.
+description: Asset Compute Service is a cloud-native asset processing service that reduces complexity and improves scalability.
 ---
 
 # Overview of Asset Compute Service {#overview}
 
-Project Firefly is a framework to build and deploy custom web applications on Adobe I/O Runtime. Developers can leverage React Spectrum (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs to create custom apps for business users.
+Asset Compute Service is a scalable, lightweight, and extensible platform service to process assets. The Asset Compute Service provides Sensei content services support for assets.
 
-Asset Compute is a scalable, lightweight, and extensible platform service to process assets for AEM. The service works completely on the Adobe I/O runtime. It is easily extendable by creating custom workers based off Project Firefly. These custom workers are Project Firefly apps and can be written to do tasks such as add custom conversion tools, or call external APIs to perform image operations.
+The service works completely on the [!DNL Adobe I/O] runtime. It is easily extendable by creating custom workers based off [!DNL Project Firefly]. These custom workers are [!DNL Project Firefly] apps and do tasks such as add custom conversion tools or call external APIs to perform image operations.
 
-See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
+Project Firefly is a framework to build and deploy custom web applications on Adobe I/O Runtime. Developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs to create custom apps. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 
 <!-- 
 * Introduction/ PM Overview.
 * Some info about benefits is at https://git.corp.adobe.com/nui/nui/blob/master/whitepaper/Project-Nui-Asset-Compute-Service.md#benefits-for-aem-assets
 -->
 
-## Get to know Compute Service {#get-to-know}
+## What Compute Service can do for you {#example-of-use-cases}
 
 <!-- 
 * Explain extensibility in detail.
-* Supported use cases.
+* Supported top-level use cases.
 * Benefits of this method over previous method.
-* Key overview section for developers.
+* Explain a few specific use cases as one-liners to illustrate the needs that Asset Compute Service can fulfill. 
 -->
 
-### What Compute Service can do for you {#example-of-use-cases}
+You can use Asset Compute web service to generate thumbnails for different file types, high-quality image renderings for the [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html), extract metadata, extract full text as precursor for indexing, and use the supported [!DNL Adobe Sensei] services on an asset.
 
-<!-- Explain a few use cases as one-liners to illustrate the needs that Asset Compute Service can fulfill. -->
+You can easily add custom conversion tools, say create composition workflows that combine [!DNL Adobe Sensei] results with image operations.
 
-### Prerequisites {#prerequisites}
+## Prerequisites {#prerequisites}
 
 To create and deploy and custom worker, fulfil the following requirements:
 
