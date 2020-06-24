@@ -5,7 +5,9 @@ description: Asset Compute Service is a cloud-native asset processing service th
 
 # Architecture of Asset Compute Service {#overview}
 
-TBD:
+**TBD:** 
+
+This article can cover the following topics:
 
 * Explain important transactions/handshakes?
 * Flow of assets/control? See the illustration on Nui-diagrams wiki.
@@ -14,7 +16,7 @@ TBD:
   * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).
   * Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
 
-___________
+
 
 The Asset Compute Service is built on top of serverless Adobe I/O Runtime platform. It provides Adobe Sensei content services support for assets, where a JSON file is returned with one or more client-chosen, Adobe Sensei-generated describing a single asset.
 
@@ -65,17 +67,15 @@ An example of the JSON file is:
 
 ## Know the basic terminology {#glossary}
 
-TBD:
+**TBD:**
 
 * What do we want to populate here?
 * Project Firefly and its term.
 * AEMaaCS: See https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html.
 
-___________
-
 ## Understand the required files and folders {#understand-purpose-of-files-folders}
+
+**TBD:**
 
 * About the YAML file?
 * See https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#5-anatomy-of-a-project-firefly-application
-
----

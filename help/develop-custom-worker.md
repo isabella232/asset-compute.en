@@ -17,9 +17,7 @@ description: Create customization using Asset Compute Service.
 
 ## Create a custom worker {#create-custom-worker}
 
-<!-- 
-* See https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#4-bootstrapping-new-app-using-the-cli
--->
+See https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#4-bootstrapping-new-app-using-the-cli
 
 ## Execute the worker app {#run-custom-worker}
 

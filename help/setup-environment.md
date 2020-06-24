@@ -3,9 +3,11 @@ title: Set the development environment required for Asset Compute Service.
 description: Developer environment setup for Asset Compute Service to start creating and testing custom code.
 ---
 
-# Set developer environment {#set-environment}
+# Set developer environment on your local machine {#set-environment-locally}
 
 **TBD**:
+
+This section can be updated with the following information:
 
 * Leverage Firefly's environment setup instructions. https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md
 
@@ -21,26 +23,22 @@ description: Developer environment setup for Asset Compute Service to start crea
   * naming conventions to follow
   * Retrieve and format credentials (YAML file details)
 
-___________
-
-## Set environment for Adobe Experience Manager as a Cloud Service {#aem-specific-setup}
+### Adobe Experience Manager as a Cloud Service configuration {#aem-setup}
 
 **TBD**:
 
-Are any changes required in AEMaaCS?
+This section can be updated with the following information:
 
-* Change configurations? or create new configuration?
-* Any OSGi config changes?
-* Provide roles and permissions to developers?
+* Any changes and configurations required in AEMaaCS? Any OSGi config changes?
+* What roles and permissions are to be provided to the developers?
 * Any add-ons or packages to be installed for specific functionality?
-* Any Adobe-approved assets provided to try the examples provided?
-
-___________
+* List if any Adobe-approved assets are provided to try the examples that we provide in docs.
 
 ## Test your setup {#test-setup}
 
 **TBD**:
 
-* Instructions to verify the setup and ensure that it works.
+This section can be updated with the following information:
 
-___________
+* See https://git.corp.adobe.com/nui/example-custom-worker
+* Instructions to verify the setup and ensure that it works.

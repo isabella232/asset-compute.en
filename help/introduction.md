@@ -11,9 +11,7 @@ Also, it provides design and framework for a developer to create a custom asset 
 
 [!DNL Project Firefly] is a framework to build and deploy custom web applications on [!DNL Adobe I/O] runtime. To create custom applications, the developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 
-___________
-
-TBD:
+**TBD:**
 
 * Add an introduction, PM overview.
 
@@ -34,9 +32,9 @@ The service does not do the following on its own, by default.
 | Store any configurations such as processing rules or settings for a user or an organization's account. | Add processing request to each request/instruction. |
 | Direct event handling of asset creation events from storage systems and processing completed notifications, and errors. | Use Adobe I/O Events and other methods. |
 
-___________
+**TBD:**
 
-TBD:
+This section can be updated with the following information:
 
 * Some info about the benefits is at https://git.corp.adobe.com/nui/nui/blob/master/whitepaper/Project-Nui-Asset-Compute-Service.md#benefits-for-aem-assets. See what's worth including.
 * Explain extensibility and top-level functional use cases.
@@ -44,31 +42,11 @@ TBD:
 
 ## Prerequisites {#prerequisites}
 
-To create and deploy and custom worker, fulfil the following requirements:
-
-* Be a part of an [!DNL Adobe Experience Cloud] organization. <!-- how to check and where to ask? -->
-* Ensure that [!DNL Adobe Experience Manager as a Cloud Service] is enabled for the [!DNL Adobe Experience Cloud] organization. <!-- how to check and where to ask? -->
-* Ensure that the [!DNL Adobe Experience Cloud] organization is part of the [!DNL Project Firefly] developer preview program. See [how to apply for access](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md).
-* Ensure a developer role or administrator permissions in the organization.
-* Ensure that [!DNL Adobe I/O CLI] is installed locally. <!-- Link to CLI GitHub for more info. -->
-
-___________
-
-TBD:
-
-* Also, see https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#technical-requirements
-* Anything more? Separate storage, AIO access, what technical know-how/skills are required/assumed for the developer persona.
-
-<!--
-
-TBD: When RNs will be required, uncomment this section.
-
-## Release notes of Asset Compute Service {#release-notes}
-
--->
+See [prerequisites in the release notes](release-notes.md#prerequisites).
 
 >[!MORELIKETHIS]
 >
 >* [Overview of asset processing with asset microservices in Adobe Experience Manager as a Cloud Service](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html).
 >* [Documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 >* [File formats supported for processing](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
+>* [Release notes of the Asset Compute Service](release-notes.md)
