@@ -23,6 +23,9 @@ This section can be updated with the following information:
   * naming conventions to follow
   * Retrieve and format credentials (YAML file details)
 
+
+Remove from here:
+
 ### Adobe Experience Manager as a Cloud Service configuration {#aem-setup}
 
 **TBD**:

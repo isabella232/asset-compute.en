@@ -5,7 +5,7 @@ description: Considerations when creating and using Asset Compute Service custom
 
 # Considerations when creating and using custom worker {#considerations-custom-worker}
 
-## Provisioning requirements {#provisioning}
+## Prerequisites and provisioning requirements {#provisioning}
 
 **TBD:**
 
@@ -19,4 +19,5 @@ description: Considerations when creating and using Asset Compute Service custom
 **TBD**:
 
 * Security?
-* Custom worker SLAs and KPIs?
+* Custom worker SLA is dependent on SLAs of various services it depends on.
+* How do devs know KPIs of their custom?

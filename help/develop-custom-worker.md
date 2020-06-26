@@ -24,7 +24,3 @@ See https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/fir
 **TBD**:
 
 * See https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#running-the-application
-
-## Debug and test custom worker {#debug}
-
-## Deploy a custom worker {#deploy}

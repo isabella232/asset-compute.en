@@ -7,7 +7,6 @@ description: Use Asset Compute Service to process assets.
 
 **TBD:**
 
-* How AEM uses the service?
+* How AEM uses the service? Link back to microservice article.
 * How can other solutions integrate with the service? Use of APIs.
-* How to use the workers in a standalone way?
-* About the need for custom workers when OOTB services are not enough.
+* About the need for custom workers when OOTB services are not enough. Link to how to extend.
