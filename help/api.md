@@ -27,7 +27,7 @@ All APIs require access token authentication. The requests must set the followin
 
 1. `Authorization` header with bearer token, which is the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md) from Adobe Developer Console integration. The [scopes](#scopes) are documented below.
 
-<!-- TBD: Change existing master to a new path when it is available. Logged ticket in AIO's GitHub repo. 
+<!-- TBD: Change the existing URL to a new path when a new path for docs is available. The current path contains master word that is not an inclusive term. Logged ticket in AIO's GitHub repo to get a new URL.
 -->
 
 1. `x-gw-ims-org-id` header with the IMS organization ID.
@@ -91,7 +91,7 @@ Ensure that the body of the request is empty.
 MIME type is `application/json`. Header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and for support requests. See also API Gateway documentation.
 
 <!--
-TBD: Add publicly available version of the page as a link. https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation
+Attention: Add publicly available version of the page as a link. https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation
 -->
 
 The status codes are:
@@ -346,7 +346,7 @@ For backwards compatibility with the beta API, an `activationId` is returned. It
 
 These are the available instructions for the `renditions` array in [/process](#process-request). Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use, for example, `width` and `height`.
 
-<!-- TBD: Remove reference to git.corp.
+<!-- Attention: Remove reference to git.corp.
 -->
 
 | Name | Type | Description | Example | Change note |
@@ -354,19 +354,19 @@ These are the available instructions for the `renditions` array in [/process](#p
 | `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` | Changes to `type` specifying a MIME types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
 | `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` | |
 | `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` | |
-| `wid` | `number` | width in pixels. only for image renditions | `200` | will change to `width` |
-| `hei` | `number` | height in pixels. only for image renditions | `200` | will change to `height` |
-| | |  - if only `wid` or `hei` is specified, the resulting image will use that and keep the aspect ratio<br> - without `wid` and `hei`, the original image pixel size will be used (this depends on the source type; for some such as PDFs a default size will be used) | | |
-| `qlt` | `number` | specify jpeg quality in the range of `1` to `100`. only for image renditions. | `90` | will change to `quality` |
-| `xmp`| `string` | used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | | might change in the future |
-| `interlace` | `bool` | if true creates interlaced PNG or GIF or progressive JPEG. has no effect on other formats | | |
+| `wid` | `number` | Width in pixels. only for image renditions. | `200` | It will change to `width`. |
+| `hei` | `number` | Height in pixels. only for image renditions. | `200` | It will change to `height`. |
+| | |  - if only `wid` or `hei` is specified, the resulting image will use that and keep the aspect ratio<br> - without `wid` and `hei`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | | |
+| `qlt` | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` | It will change to `quality` soon. |
+| `xmp`| `string` | Used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | |  |
+| `interlace` | `bool` | Create interlaced PNG or GIF or progressive JPEG by setting it to true. It has no effect on other file formats. | | |
 | `jpegSize` | `number` | approximate size of JPEG file in bytes. note this overrides any `qlt` setting. has no effect on other formats | | |
-| `dpi` | `number` or `object` | x and y dpi to set. for simplicity it can also be set to a single number in which case the two values will be identical.  has no effect on image itself | `96` or `{ xdpi: 96, ydpi: 96 }` | |
+| `dpi` | `number` or `object` | Set x and y dpi. For simplicity, it can also be set to a single number in which case the two values are identical. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` | |
 | `convertToDpi` | `number` or `object` | x and y dpi to resample to while maintaining physical size.  for simplicity it can also be set to a single number in which case the two values will be identical. | `96` or `{ xdpi: 96, ydpi: 96 }` | |
 | `files` | `array` | ZIP archival (`fmt=zip`).<br> List of files to include in the ZIP archive. Each entry can either be a URL or an object with the fields:<ul><li>`url`: URL to download asset</li><li>`path`: Store asset under this path in the ZIP</li></ul> | `[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]` | |
 | `duplicate` | `string` | ZIP archival (`fmt=zip`).<br> Duplicate handling. By default multiple assets stored under the same path in the ZIP will generate an error. Setting `duplicate` to `ignore` will result in only the first asset to be stored and the rest to be ignored. | `ignore` | |
-| `worker` | `string` | URL of a [custom worker](https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md). Must be a `https://` URL. If this field is present, the rendition will be created by a custom worker. Any other field for the rendition is then for the custom worker. | `"https://1234.adobeioruntime.net`<br>`/api/v1/web`<br>`/example-custom-worker-master/worker"` | |
-| `*` | `*` | (advanced) custom fields can be added that a custom `worker` would understand | | |
+| `worker` | `string` | URL of a [custom worker](develop-custom-worker.md). Must be a `https://` URL. If this field is present, the rendition is created by a custom worker. Any other field for the rendition is then for the custom worker. | `"https://1234.adobeioruntime.net`<br>`/api/v1/web`<br>`/example-custom-worker-master/worker"` | |
+| `*` | `*` | Advanced, custom fields can be added that a custom `worker` understands. | | |
 
 ### Future fields {#future-fields}
 

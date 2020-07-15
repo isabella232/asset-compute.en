@@ -7,17 +7,7 @@ description: Considerations when creating and using Asset Compute Service custom
 
 It is simple to get started with serverless and OpenWhisk. Create a single NodeJS file, one `main` function accepting a `params` object, deploy with one `wsk` command and you can go live with it! In Asset Compute Service, it is kept this way. There are not additional complexities when creating a custom worker using Asset Compute Service. Extending Asset Compute Service with new workers is made simple through libraries, APIs, and build tooling. The simplification addresses the mundane work so that developers can focus on value-added tasks. An overly simplified way to create a worker is by creating a simple Shell script to integrate command line apps as workers.
 
-<!-- TBD: Is it possible to provide a public-facing example of a basic Shell script as a worker. An internal sample is at https://git.corp.adobe.com/aklimets/project-nui/blob/master/actions/tika/worker.sh
--->
-
-<!-- 
-* Current [worker library](https://github.com/adobe/asset-compute-sdk)
-* Workers are packaged (including automatically wrapping shell script workers) and tested using
-  the [Compute Service CLI](https://git.corp.adobe.com/nui/cli)
-  * `nui package` package worker/action
-  * `nui deploy` deploy worker/action
-  * `nui test-worker` unit test runner specific to workers
-  * `nui run-worker` run worker locally for development
+<!-- Attention: Is it possible to provide a public-facing example of a basic Shell script as a worker. An internal sample is at https://git.corp.adobe.com/aklimets/project-nui/blob/master/actions/tika/worker.sh
 -->
 
 ## Prerequisites and provisioning requirements {#provisioning}
@@ -96,8 +86,6 @@ A sample custom worker processing request is below.
     }
 }
 ```
-
-
 
 The Asset Compute Service sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly.
 

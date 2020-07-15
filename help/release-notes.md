@@ -10,7 +10,7 @@ The latest release of Asset Compute Service is released on Jul 30, 2020.
 **TBD:**
 
 * Are we versioning the releases?
-* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or offerings such as InDesign Server?
+* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or other offerings/integrations such as InDesign Server?
 
 ## Prerequisites {#prerequisites}
 

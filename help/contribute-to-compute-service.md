@@ -15,17 +15,9 @@ Members and [code owners](https://help.github.com/articles/about-codeowners/) re
 
 ## Contribution guidelines {#contribution-guidelines}
 
-Asset Compute Service has repository modularity and naming guidelines. It is modular to the extent possible, as fostered by the serverless concept and OpenWhisk framework. It means having small and focused GitHub repositories that support decoupled development and deployment lifecycles. One repository for one action is OK if it represents its own small services such as a worker.
+Asset Compute Service has repository modularity and naming guidelines. It is modular to the extent possible, as fostered by the serverless concept and OpenWhisk framework. It means having small and focused GitHub repositories that support decoupled development and deployment lifecycles. One repository for one action is OK if it represents its own small services such as a worker. If you want to create a separate repository, log an issue in [Asset Compute SDK repository](https://github.com/adobe/asset-compute-sdk).
 
-**TBD**:
-
-* Follow these [Git commit message guidelines](https://chris.beams.io/posts/git-commit/).
-* A version of guidelines exist at https://github.com/adobe/asset-compute-commons/blob/master/.github/CONTRIBUTING.md. Will there be a different/better public-facing version? Who owns the authoring of it? Need for any review by a separate team, say the Open-source team or the Legal team?
-* What are Adobe's generic contribution guidelines to open-sourced code? I think everyone needs to first sign the CLA at [https://opensource.adobe.com/cla.html](https://opensource.adobe.com/cla.html).
-* What are the specific licensing requirements for anyone to contribute to this code?
-* Is it necessary to add the Adobe License header to each source file? If yes, is there a public-facing link to the same?
-* What are the dos and dont's of contributing to Compute Service code? Any gotchas or areas not to be modified?
-* How do devs communicate with and share feedback with Adobe? Do we recommend creating issues in the public repo?
+For detailed guidelines, see the [contribution guidelines](https://github.com/adobe/asset-compute-sdk/blob/master/.github/CONTRIBUTING.md). Also, follow these [Git commit message guidelines](https://chris.beams.io/posts/git-commit/).
 
 ## Available resources and libraries {#available-resources}
 
@@ -37,13 +29,13 @@ The open-sourced libraries of Asset Compute Service are:
 * [Asset Compute example workers](https://github.com/adobe/asset-compute-example-workers): Samples of third-party Asset Compute worker.
 * Adobe I/O Events library.
 * [ESlint configuration](https://github.com/adobe/eslint-config-asset-compute): Shared ESLint configuration for Nodejs projects related to the Adobe Asset Compute service.
-* [Asset Compute Devtool](https://github.com/adobe/asset-compute-devtool): Library for the developer tool to explore and to test the Adobe Asset Compute Service.
+* [Asset Compute Development Tool](https://github.com/adobe/asset-compute-devtool): Library for the developer tool to explore and to test the Adobe Asset Compute Service.
 * https://github.com/adobe/aio-cli-plugin-asset-compute
 * https://github.com/adobe/asset-compute-integration-tests
 
-A few general purpose node libraries:
+A few general purpose node libraries are:
 
-* https://github.com/adobe/node-fetch-retry
+* [node-fetch-retry](https://github.com/adobe/node-fetch-retry): Node Module for performing retries for HTTP requests.
 * https://github.com/adobe/node-httptransfer
 * https://github.com/adobe/node-cgroup-metrics
 * https://github.com/adobe/node-openwhisk-newrelic
@@ -57,7 +49,7 @@ The available Adobe I/O Runtime and OpenWhisk resources are:
 * [Adobe I/O Runtime FAQ](https://wiki.corp.adobe.com/pages/viewpage.action?pageId=1492581057)
 * [OpenWhisk tips and tricks](https://wiki.corp.adobe.com/display/~aklimets/OpenWhisk+Tips+and+Tricks): For example, how to run OW locally.
 
-<!-- TBD: Is any public-facing content available on GitHub.com for the above Adobe-internal wiki links?
+<!-- attention: Is any public-facing content available on GitHub.com for the above Adobe-internal wiki links?
 -->
 
 **TBD**:

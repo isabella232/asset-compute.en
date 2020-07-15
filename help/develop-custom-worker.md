@@ -22,16 +22,19 @@ Seed content available at:
 
 ### Node.js worker
 
-<!-- TBD: Add correct path here if required. Else remove the first paragraph.
+<!-- TBD: Some content indicates that it will change in the future. Has it changed already? If yes, then update it in the doc.
 -->
 
 To be specified. For now, see the [JavaScript code here](https://github.com/adobe/asset-compute-sdk), especially the exports at the bottom. This will change.
 
-To see an example of a simple JavaScript worker which uses our standard docker image see [dcx worker](https://git.corp.adobe.com/nui/worker-dcx/blob/master/worker.js).  This is a worker that also takes advantage of GraphicsMagick which is included as part of our standard docker image.  Workers can use GraphicsMagick both to produce a format that the worker itself may not support and to resize an image.
+<!-- Attention: What should be the public-facing link to the JS files of various workers?
+-->
 
-For an example of a JavaScript worker that makes use of a custom docker image see [Flite worker](https://git.corp.adobe.com/nui/worker-flite/blob/master/action/worker.js).  This worker uses a custom docker image [Flite Dockerfile](https://git.corp.adobe.com/nui/worker-flite/blob/master/docker/Dockerfile) which includes the Adobe Switch Engine to create image renditions.
+To see an example of a simple JavaScript worker which uses our standard Docker image, see [dcx worker](https://git.corp.adobe.com/nui/worker-dcx/blob/master/worker.js). This is a worker that also takes advantage of GraphicsMagick which is included as part of our standard docker image. Workers can use GraphicsMagick both to produce a format that the worker itself may not support and to resize an image.
 
-The most complex worker we currently have is the [PIE (Photoshop Imaging Engine) worker](https://git.corp.adobe.com/nui/worker-pie/blob/master/action/worker.js).  Unlike all other workers we currently have this one creates all of the renditions with one invocation of the program it uses instead of using the library function [forEachRendition](https://git.corp.adobe.com/nui/asset-compute-sdk/blob/master/library.js#L634-L636) to create one rendition at a time.  It also uses a custom docker image [PIE Dockerfile](https://git.corp.adobe.com/nui/worker-pie/blob/master/docker/Dockerfile) to bring in the PIE based renderer. This docker image itself makes use of a special docker image [Compiler Dockerfile](https://git.corp.adobe.com/nui/worker-pie/blob/master/compiler/Dockerfile) to build the executable that is bundled.
+To see an example of a JavaScript worker that makes use of a custom Docker image see [Flite worker](https://git.corp.adobe.com/nui/worker-flite/blob/master/action/worker.js). This worker uses a custom docker image [Flite Dockerfile](https://git.corp.adobe.com/nui/worker-flite/blob/master/docker/Dockerfile) which includes the Adobe Switch Engine to create image renditions.
+
+The most complex worker available is the [PIE (Photoshop Imaging Engine) worker](https://git.corp.adobe.com/nui/worker-pie/blob/master/action/worker.js). This worker creates an image's renditions with one invocation of the program. It uses instead of using the library function [forEachRendition](https://git.corp.adobe.com/nui/asset-compute-sdk/blob/master/library.js#L634-L636) to create one rendition at a time.  It also uses a custom docker image [PIE Dockerfile](https://git.corp.adobe.com/nui/worker-pie/blob/master/docker/Dockerfile) to bring in the PIE based renderer. This docker image itself makes use of a special docker image [Compiler Dockerfile](https://git.corp.adobe.com/nui/worker-pie/blob/master/compiler/Dockerfile) to build the executable that is bundled.
 
 ### Shell script worker
 

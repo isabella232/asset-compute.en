@@ -5,7 +5,7 @@ description: Worker status
 
 # Worker status {#worker-status}
 
-<!-- TBD: Do we want to include this information in the public docs. Once we have documented the supported file types from the formats MD file, is this information further useful to the devs?
+<!-- Attention: Do we want to include this information in the public docs. Once we have documented the supported file types from the formats MD file, is this information further useful to the devs?
 -->
 
 One of the current issues with the workers is do they support specifying any combination of width and/or height for a rendition with not specifying either means producing a full size rendition. The state of workers that create image renditions is below.

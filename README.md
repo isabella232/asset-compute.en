@@ -1,6 +1,6 @@
-# Adobe's Asset Compute Service Documentation
+# Adobe Asset Compute Service Documentation
 
-This is the repository for documentation of Adobe's Asset Compute Service.
+This is the repository for documentation of Adobe Asset Compute Service.
 
 Your contributions to the documentation are welcome. See the following resources:
 

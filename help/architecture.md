@@ -10,7 +10,7 @@ description: Asset Compute Service is a cloud-native asset processing service th
 This article can cover the following topics:
 
 * Explain important transactions/handshakes?
-* Flow of assets/control? See the illustration on Nui-diagrams wiki.
+* Flow of assets/control? See the illustration on the Nui diagrams wiki.
 * Illustrations. See the SVG shared by Alex.
 * Exceptions? Limitations? Call-outs? Gotchas?
   * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).

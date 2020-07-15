@@ -58,8 +58,4 @@ If your worker is a Shell script be sure to return the status from the process t
 
 ## Use custom application in Experience Manager {#use-in-aem}
 
-**TBD:** Move this information to AEMaaCS article about using Compute Service.
-
-* Best practices around using processing profiles and workers.
-* Scenarios or use cases examples of usage.
-* If both approaches are possible, what are the parameters to look into and diligence to do so that developers can pick the best approach?
+For information, see [use asset microservices in Experience Manager Assets](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html).
