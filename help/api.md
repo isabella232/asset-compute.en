@@ -13,7 +13,7 @@ The article describes the HTTP API. A high-level flow for clients of the service
    >
    >In Adobe Experience Manager as a Cloud Service, it happens automatically, except for the stage environments.
 
-1. Client generates an access token for the technical account using the [JWT exchange with IMS](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md#creating-a-json-web-token).
+1. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
 
 1. Client calls [`/register`](#register) first to retrieve the journal URL.
 
@@ -25,7 +25,7 @@ The article describes the HTTP API. A high-level flow for clients of the service
 
 All APIs require access token authentication. The requests must set the following headers:
 
-1. `Authorization` header with bearer token, which is the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md) from Adobe Developer Console integration. The [scopes](#scopes) are documented below.
+1. `Authorization` header with bearer token, which is the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html) from Adobe Developer Console integration. The [scopes](#scopes) are documented below.
 
 <!-- TBD: Change the existing URL to a new path when a new path for docs is available. The current path contains master word that is not an inclusive term. Logged ticket in AIO's GitHub repo to get a new URL.
 -->

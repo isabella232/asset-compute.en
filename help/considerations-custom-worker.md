@@ -38,7 +38,7 @@ Understand the end-to-end workflow of a digital asset that is processed by Adobe
 
 ### Registration {#registration}
 
-The client must call [`/register`](api.md#registration) once before the first request to [`/process`](api.md#process) in order to set up and retrieve the journal URL for receiving Adobe I/O Events for Adobe Asset Compute.
+The client must call [`/register`](api.md#register) once before the first request to [`/process`](api.md#process-request) in order to set up and retrieve the journal URL for receiving Adobe I/O Events for Adobe Asset Compute.
 
 ```sh
 curl -X POST \
