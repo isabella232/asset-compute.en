@@ -372,8 +372,8 @@ These are the available instructions for the `renditions` array in [/process](#p
 
 | Name | Type | Description |
 |------|------|-------------|
-| `fit` | `string` | Control the resizing. Only for image renditions. |
-| `crop` | `object` | Crop an image. JSON object specifying a crop rectangle, with fields `x`,`y` for top left coordinate and `w`,`h` for width and height of rectangle in pixels. only for image renditions. |
+| `fit` | `string` | Control the resizing. Applies to image renditions only. |
+| `crop` | `object` | Crop an image. JSON object specifying a crop rectangle, with fields `x`,`y` for top-left coordinate and `w`,`h` for width and height of rectangle in pixels. Applies to image renditions only. |
 
 ## Asynchronous events {#asynchronous-events}
 
@@ -381,7 +381,7 @@ When processing is finished or when an error occurs, the events are sent through
 
 ![Illustration to explain the polling logic](assets/adobeio-journal-v2.png).
 
-The Adobe I/O event type for all events of the Asset Compute service is `asset_compute`. The journal is automatically subscribed to this event type only and there is no further requirement to filter based on the ADobe I/O event type. The service specific event types are available in the `type` property of the event.
+The Adobe I/O Event type for all events of the Asset Compute service is `asset_compute`. The journal is automatically subscribed to this event type only and there is no further requirement to filter based on the Adobe I/O Event type. The service specific event types are available in the `type` property of the event.
 
 ### Event types {#event-types}
 

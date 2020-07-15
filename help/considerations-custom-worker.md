@@ -67,7 +67,7 @@ curl -X POST \
 
 The client is responsible for correctly formatting the renditions with pre-signed URLs. The [`@adobe/node-cloud-blobstore-wrapper`](https://github.com/adobe/node-cloud-blobstore-wrapper#presigned-urls) JavaScript library can be used in NodeJS applications to pre-sign URLs. Currently the library only supports Azure Blob Storage and AWS S3 Containers.
 
-The processing request returns a `requestId` that can be used for polling Adobe I/O Events. 
+The processing request returns a `requestId` that can be used for polling Adobe I/O Events.
 
 A sample custom worker processing request is below.
 
@@ -162,4 +162,4 @@ For details on how to get journal events, see [Adobe I/O Events API](https://www
 **TBD:**
 
 * Illustration of the controls/data flow.
-* Basic overview, in text and not code, of how a workers works. See Alex's note at https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460.
+* Basic overview, in text and not code, of how a workers works. See Alex's note at [https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460](https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460).
