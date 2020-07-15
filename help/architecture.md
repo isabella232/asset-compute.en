@@ -5,7 +5,7 @@ description: Asset Compute Service is a cloud-native asset processing service th
 
 # Architecture of Asset Compute Service {#overview}
 
-**TBD:** 
+**TBD:**
 
 This article can cover the following topics:
 
@@ -15,8 +15,6 @@ This article can cover the following topics:
 * Exceptions? Limitations? Call-outs? Gotchas?
   * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).
   * Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
-
-
 
 The Asset Compute Service is built on top of serverless Adobe I/O Runtime platform. It provides Adobe Sensei content services support for assets, where a JSON file is returned with one or more client-chosen, Adobe Sensei-generated describing a single asset.
 
@@ -44,7 +42,7 @@ The architecture consists of the following parts:
 
 * **Workers to process assets** that specialize on certain types of file formats or target renditions (although their containers could be combined if that leads to a higher ratio of hot containers on I/O Runtime). Workers are a combination of: a container image, which includes the I/O Runtime server managing the script execution and the necessary tools, for example a command line application to generate thumbnails; and a script (action or function) that either invokes the tools on the container, invokes other actions on I/O Runtime (such as Sensei functions) or makes a request to external services. Conceptually, a worker is similar to the Unix pipe concept: an input file gets transformed into one or more output files. Actual worker scripts operate solely on the local filesystem.
 
-* **A common worker library** handles common tasks like downloading the source file, uploading the renditions, error reporting, monitoring and so on. This is designed so that developing a worker stays as simple as possible, following the serverless idea, and can be restricted to local filesystem interactions. The library can be supplied in the various languages supported by I/O Runtime.
+* **A common worker library** handles common tasks like downloading the source file, uploading the renditions, error reporting, monitoring and so on. This is designed so that developing a worker stays as simple as possible, following the serverless idea, and can be restricted to local filesystem interactions. The library can be supplied in the various languages supported by Adobe I/O Runtime.
 
 <!--
 An example of the JSON file is:
@@ -63,6 +61,7 @@ An example of the JSON file is:
     ]
 }
 ```
+
 -->
 
 ## Know the basic terminology {#glossary}
@@ -71,7 +70,7 @@ An example of the JSON file is:
 
 * What do we want to populate here?
 * Project Firefly and its term.
-* AEMaaCS: See https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html.
+* AEMaaCS: See [https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html).
 
 ## Understand the required files and folders {#understand-purpose-of-files-folders}
 

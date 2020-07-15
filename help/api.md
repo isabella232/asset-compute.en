@@ -7,30 +7,40 @@ description: Best practices, limitations, and tips to create custom workers usin
 
 The article describes the HTTP API. A high-level flow for clients of the service is below:
 
-1. Client is provisioned as Adobe I/O console integration in an IMS organization. In Adobe Experience Manager as a Cloud Service, it happens automatically, except for the stage environments. Each separate system or environment has its own separate integration, in order to isolate the journal.
+1. Client is provisioned as Adobe Developer Console integration in an IMS organization. Each separate system or environment has its own separate integration, in order to isolate the journal.
+
+   >[!NOTE]
+   >
+   >In Adobe Experience Manager as a Cloud Service, it happens automatically, except for the stage environments.
 
 1. Client generates an access token for the technical account using the [JWT exchange with IMS](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md#creating-a-json-web-token).
 
 1. Client calls [`/register`](#register) first to retrieve the journal URL.
 
-1. Client calls [`/process`](#process) for each asset for which it wants to generate N renditions, this is asynchronous.
+1. Client calls [`/process`](#process) for each asset for which it wants to generate N renditions. This is asynchronous.
 
 1. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed or if there was an error.
 
-## Authentication and authorization
+## Authentication and authorization {#authentication-and-authorization}
 
 All APIs require access token authentication. The requests must set the following headers:
 
-1. `Authorization` header with bearer token, which must be the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md) from the I/O console integration. [Scopes](#scopes) are documented below.
+1. `Authorization` header with bearer token, which is the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md) from Adobe Developer Console integration. The [scopes](#scopes) are documented below.
 
-1. `x-gw-ims-org-id` header with the IMS organization ID
-   * Note: currently you have to also set a `x-ims-org-id` header with the same org id value
+<!-- TBD: Change existing master to a new path when it is available. Logged ticket in AIO's GitHub repo. 
+-->
 
-1. `x-api-key` with the client ID from the IO Console integration
+1. `x-gw-ims-org-id` header with the IMS organization ID.
 
-### Scopes
+  >[!NOTE]
+  >
+  >Currently, set a `x-ims-org-id` header with the same org ID value.
 
-The access token must have the following scopes:
+1. `x-api-key` with the client ID from the Adobe Developers Console integration.
+
+### Scopes {#scopes}
+
+Ensure the following scopes for the access token:
 
 * `openid`
 * `AdobeID`
@@ -42,7 +52,7 @@ The access token must have the following scopes:
 * `additional_info.roles`
 * `additional_info.projectedProductContext`
 
-These require the I/O Console integration to be subscribed to `Asset Compute`, `I/O Events`, and `I/O Management API` services. The breakdown of individual scopes is:
+These require the Adobe Developer Console integration to be subscribed to `Asset Compute`, `I/O Events`, and `I/O Management API` services. The breakdown of individual scopes is:
 
 * Basic
   * scopes: `openid,AdobeID`
@@ -51,43 +61,44 @@ These require the I/O Console integration to be subscribed to `Asset Compute`, `
   * metascope: `asset_compute_meta`
   * scopes: `asset_compute,read_organizations`
 
-* I/O Events
+* Adobe I/O Events
   * metascope: `event_receiver_api`
   * scopes: `event_receiver,event_receiver_api`
 
-* I/O Management API
+* Adobe I/O Management API
   * metascope: `ent_adobeio_sdk`
   * scopes: `adobeio_api,additional_info.roles,additional_info.projectedProductContext`
 
-## Registration
+## Registration {#registration}
 
-For an existing technical account (I/O Console integration), create an Asset Compute service registration that is required before the first request to `/process`. It returns the I/O Event journal URL to receive asynchronous events.
+For an existing technical account (Adobe Developer Console integration), create an Asset Compute service registration that is required before the first request to `/process`. It returns the Event journal URL to receive asynchronous events.
 
-For an existing technical account (I/O Console integration) that was setup for Asset Compute with `/register`, you can remove the setup and journal.
+For an existing technical account (Adobe Developer Console integration) that was setup for Asset Compute with `/register`, you can remove the setup and journal.
 
-### Register request
+### Register request {#register-request}
 
-|        |        |
-|--------|--------|
-| Method | `POST` |
-| Path   | `/register` |
+| Parameter                | Value                                                |
+|--------------------------|------------------------------------------------------|
+| Method                   | `POST`                                               |
+| Path                     | `/register`                                          |
 | Header `<authorization>` | All [authorization related headers](#autentication). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
 
-Request body should be empty.
+Ensure that the body of the request is empty.
 
-### Register response
+### Register response {#register-response}
 
-|        |        |
-|--------|--------|
-| Mime type | `application/json` |
-| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and/or support requests. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+MIME type is `application/json`. Header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and for support requests. See also API Gateway documentation.
 
-Status codes:
+<!--
+TBD: Add publicly available version of the page as a link. https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation
+-->
 
-* **200 Success** if the request was successful. It will contain the `journal` URL that is required to be notified about any results of the asynchronous processing triggered via `/process`.
+The status codes are:
 
-  ```
+* **200 Success**: If the request is successful. It contains the `journal` URL that is to be notified about any results of the asynchronous processing triggered via `/process`.
+
+  ```json
   {
       "ok": true,
       "journal": "https://api.adobe.io/events/organizations/105979/integrations/47334/f761f39a-469a-4c36-b91b-8de033912393",
@@ -95,19 +106,12 @@ Status codes:
   }
   ```
 
-* **401 Unauthorized**: if the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid api key.
-* **403 Forbidden**: if the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the IO console integration (technical account) is not subscribed to all required services.
-* **429 Too many requests**: if the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
-* **4xx error** if there was any other client error and registration failed. Usually a json such as this is returned, although that is not guaranteed for all errors:
-  ```
-  {
-      "ok": false,
-      "requestId": "1234567890,
-      "message": "error message"
-  }
-  ```
-* **5xx error** if there was any other server side error and registration failed. Usually a json such as this is returned, although that is not guaranteed for all errors:
-  ```
+* **401 Unauthorized**: If the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
+* **403 Forbidden**: If the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console integration (technical account) is not subscribed to all required services.
+* **429 Too many requests**: If the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
+* **4xx error**: If there was any other client error and registration failed. Usually a JSON such as this is returned, although that is not guaranteed for all errors:
+
+  ```json
   {
       "ok": false,
       "requestId": "1234567890,
@@ -115,7 +119,17 @@ Status codes:
   }
   ```
 
-### Unregister request
+* **5xx error**: If there was any other server side error and registration failed. Typically a JSON file such as this is returned, although that is not guaranteed for all errors:
+
+  ```json
+  {
+      "ok": false,
+      "requestId": "1234567890,
+      "message": "error message"
+  }
+  ```
+
+### Unregister request {#unregister-request}
 
 |        |        |
 |--------|--------|
@@ -126,18 +140,15 @@ Status codes:
 
 The request body is empty.
 
-### Unregister response
+### Unregister response {#unregister-response}
 
-|        |        |
-|--------|--------|
-| Mime type | `application/json` |
-| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use to identify requests across systems and/or support requests. |
+MIME type is `application/json`. The header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use to identify requests across systems and support requests.
 
-Status codes:
+The status codes are:
 
-* **200 Success** if the registration and journal was found and removed.
+* **200 Success** if the registration and journal is found and removed.
 
-  ```
+  ```json
   {
       "ok": true,
       "requestId": "1234567890
@@ -145,20 +156,21 @@ Status codes:
   ```
 
 * **401 Unauthorized**: if the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
-* **403 Forbidden**: if the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the IO console integration (technical account) is not subscribed to all required services.
+* **403 Forbidden**: if the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console integration (technical account) is not subscribed to all required services.
 * **404 Not found** if there is no current registration for the given credentials.
 
-  ```
+  ```json
   {
       "ok": true,
       "requestId": "1234567890
   }
   ```
 
-* **429 Too many requests**: if the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
+* **429 Too many requests**: If the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
 
 * **4xx error** if there was any other client error. Usually a JSON such as this is returned, although that is not guaranteed for all errors:
-  ```
+
+  ```json
   {
       "ok": false,
       "requestId": "1234567890,
@@ -168,7 +180,7 @@ Status codes:
 
 * **5xx error** if there was any other server side error. Usually a JSON such as this is returned, although that is not guaranteed for all errors:
 
-  ```
+  ```json
   {
       "ok": false,
       "requestId": "1234567890,
@@ -176,31 +188,31 @@ Status codes:
   }
   ```
   
-## Asset Processing
+## Asset processing {#asset-processing}
 
 For a list of the supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
 
-The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion or any errors are sent to an I/O Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Illformed requests will fail with a 400 immediately.
+The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion or any errors are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
 
-### process request
+### Process request {#process-request}
 
 |        |        |
 |--------|--------|
 | Method | `POST` |
 | Path   | `/process` |
 | Mime type | `application/json` |
-| Header <authorization> | All [authorization related headers](#autentication). |
+| Header &lt;authorization&gt; | All [authorization related headers](#autentication). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
 
 The request body must be in JSON format. It provides instructions on what asset to compute and what renditions to generate.
 
-Binaries are referenced using URLs, such as Amazon AWS S3 presigned URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs).
+Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs).
 
-To generate presigned S3 URLs, these scripts might help, because the standard AWS CLI only supports presign of GET: [s3-presign-put](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-put), [s3-presign-get](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-get).
+To generate pre-signed S3 URLs, these scripts might help, because the standard AWS CLI only supports pre-sign of GET: [s3-presign-put](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-put), [s3-presign-get](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-get).
 
-#### Process Request JSON Fields
+#### Process request JSON Fields {#process-request-json-fields}
 
-```
+```json
 {
     "source": "", // source url
     "renditions" : [], // array with 1..N requested renditions, including target locations
@@ -229,7 +241,7 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
 }
 ```
 
-#### Source object fields
+#### Source object fields {#source-object-fields}
 
 | Name | Type | Description | Example |
 |------|------|-------------|---------|
@@ -238,7 +250,7 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
 | `size` | `number` | File size in bytes. Takes precedence over content-length header of the binary resource. | `10234` |
 | `mimetype`| `string` | MIME type. Takes precedence over the content-type header of the binary resource. | `"image/jpeg"` |
 
-#### A complete `process` request example
+#### A complete `process` request example {#complete-process-request-example}
 
 ```json
 {
@@ -270,7 +282,7 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
 }
 ```
 
-### process response
+### Process response {#process-response}
 
 |        |        |
 |--------|--------|
@@ -281,9 +293,9 @@ This request will return immediately with success or failure based on basic requ
 
 Status codes:
 
-* **200 Success**: if the request was successfully submitted. Response json will also include `"ok": true`:
+* **200 Success**: If the request was successfully submitted. Response JSON also includes `"ok": true`:
 
-  ```
+  ```json
   {
       "ok": true,
       "requestId": "1234567890,
@@ -291,9 +303,9 @@ Status codes:
   }
   ```
 
-* **400 Invalid request**: if the request was illformed, such as incorrect attributes in the request json. Response json will also include `"ok": false`:
+* **400 Invalid request**: If the request is incorrectly formed, such as incorrect attributes in the request JSON.The response JSON also includes `"ok": false`:
 
-  ```
+  ```json
   {
       "ok": false,
       "requestId": "1234567890,
@@ -306,7 +318,7 @@ Status codes:
 * **429 Too many requests**: if the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
 * **4xx error** if there was any other client error. Usually a JSON such as this is returned, although that is not guaranteed for all errors:
 
-  ```
+  ```json
   {
       "ok": false,
       "requestId": "1234567890,
@@ -316,7 +328,7 @@ Status codes:
 
 * **5xx error** if there was any other server side error. Usually a JSON such as this is returned, although that is not guaranteed for all errors:
 
-  ```
+  ```json
   {
       "ok": false,
       "requestId": "1234567890,
@@ -324,23 +336,24 @@ Status codes:
   }
   ```
   
-Most clients are likely inclined to retry the exact same request with [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) on any error _except_ configuration issues such as 401 or 403, or invalid requests like 400. Apart from regular rate limiting via 429 responses, a temporary service outage or limitation might result in 5xx errors for some time, and a client wanting to process assets could retry once that is over.
+Most clients are likely inclined to retry the exact same request with [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) on any error *except* configuration issues such as 401 or 403, or invalid requests like 400. Apart from regular rate limiting via 429 responses, a temporary service outage or limitation might result in 5xx errors for some time, and a client wanting to process assets could retry once that is over.
 
-All JSON responses (if present) will include the `requestId` which will be the same value as the `X-Request-Id` header. It is recommended to read from the header, since that will always be present. The `requestId` will also be returned in all IO Events related to this processing requests, as `requestId` field on the event. Clients must not make any assumption about the format of this string, it is an opaque string identifier.
+All JSON responses (if present) include the `requestId` which is the same value as the `X-Request-Id` header. It is recommended to read from the header, since it is always present. The `requestId` is also returned in all I/O events related to this processing requests, as `requestId` field on the event. Clients must not make any assumption about the format of this string, it is an opaque string identifier.
 
-For backwards compatibility with the beta API, an `activationId` will be returned. It is deprecated and new clients MUST NOT rely on it and use `requestId`/`X-Request-Id` instead. `activationId` will be removed at some point.
+For backwards compatibility with the beta API, an `activationId` is returned. It is deprecated and will be removed in the future. New clients instead use `requestId`/`X-Request-Id`.
 
-## Rendition instructions
+## Rendition instructions {#rendition-instructions}
 
-Available instructions for the `renditions` array in [/process](#process).
+These are the available instructions for the `renditions` array in [/process](#process). Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use, for example, `width` and `height`.
 
-Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use e.g. `width` and `height`, see the right-most column.
+<!-- TBD: Remove reference to git.corp.
+-->
 
 | Name | Type | Description | Example | Change note |
 |------|------|-------------|---------|-------------|
-| `fmt`  | `string` | the target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](formats.md) | `png` | will change to `type` specifying a mime types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
+| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](formats.md) | `png` | Changes to `type` specifying a MIME types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
 | `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` | |
-| `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | ```{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }``` | |
+| `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` | |
 | `wid` | `number` | width in pixels. only for image renditions | `200` | will change to `width` |
 | `hei` | `number` | height in pixels. only for image renditions | `200` | will change to `height` |
 | | |  - if only `wid` or `hei` is specified, the resulting image will use that and keep the aspect ratio<br> - without `wid` and `hei`, the original image pixel size will be used (this depends on the source type; for some such as PDFs a default size will be used) | | |
@@ -350,19 +363,19 @@ Most rendition fields currently follow the [Scene7 ImageServing command format](
 | `jpegSize` | `number` | approximate size of JPEG file in bytes. note this overrides any `qlt` setting. has no effect on other formats | | |
 | `dpi` | `number` or `object` | x and y dpi to set. for simplicity it can also be set to a single number in which case the two values will be identical.  has no effect on image itself | `96` or `{ xdpi: 96, ydpi: 96 }` | |
 | `convertToDpi` | `number` or `object` | x and y dpi to resample to while maintaining physical size.  for simplicity it can also be set to a single number in which case the two values will be identical. | `96` or `{ xdpi: 96, ydpi: 96 }` | |
-| `files` | `array` | ZIP archival (`fmt=zip`).<br> List of files to include in the ZIP archive. Each entry can either be a URL or an object with the fields:<ul><li>`url`: URL to download asset</li><li>`path`: Store asset under this path in the ZIP</li></ul> | ```[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]``` | |
+| `files` | `array` | ZIP archival (`fmt=zip`).<br> List of files to include in the ZIP archive. Each entry can either be a URL or an object with the fields:<ul><li>`url`: URL to download asset</li><li>`path`: Store asset under this path in the ZIP</li></ul> | `[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]` | |
 | `duplicate` | `string` | ZIP archival (`fmt=zip`).<br> Duplicate handling. By default multiple assets stored under the same path in the ZIP will generate an error. Setting `duplicate` to `ignore` will result in only the first asset to be stored and the rest to be ignored. | `ignore` | |
 | `worker` | `string` | URL of a [custom worker](https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md). Must be a `https://` URL. If this field is present, the rendition will be created by a custom worker. Any other field for the rendition is then for the custom worker. | `"https://1234.adobeioruntime.net`<br>`/api/v1/web`<br>`/example-custom-worker-master/worker"` | |
 | `*` | `*` | (advanced) custom fields can be added that a custom `worker` would understand | | |
 
-### Future fields
+### Future fields {#future-fields}
 
 | Name | Type | Description |
 |------|------|-------------|
-| `fit` | `string` | control the resizing. only for image renditions. |
-| `crop` | `object` | to crop an image. json object specifying a crop rectangle, with fields `x`,`y` for top left coordinate and `w`,`h` for width and height of rectangle in pixels. only for image renditions. |
+| `fit` | `string` | Control the resizing. Only for image renditions. |
+| `crop` | `object` | Crop an image. JSON object specifying a crop rectangle, with fields `x`,`y` for top left coordinate and `w`,`h` for width and height of rectangle in pixels. only for image renditions. |
 
-## Asynchronous Events
+## Asynchronous events {#asynchronous-events}
 
 When processing is finished or when an error occurs, the events are sent through [Adobe I/O Events](https://www.adobe.io/apis/experienceplatform/events/documentation.html#!adobedocs/adobeio-events/master/intro/journaling_api.md). Clients must listen to the journal provided through [/register](#register). The events are JSON objects in the `event` field of the objects in the `events` array of the journal response.
 
@@ -370,14 +383,14 @@ When processing is finished or when an error occurs, the events are sent through
 
 The Adobe I/O event type for all events of the Asset Compute service is `asset_compute`. The journal is automatically subscribed to this event type only and there is no further requirement to filter based on the ADobe I/O event type. The service specific event types are available in the `type` property of the event.
 
-### Event Types
+### Event types {#event-types}
 
 | Event  | Description |
 |--------|-------------|
 | `rendition_created` | Sent for each successfully processed and uploaded rendition. |
 | `rendition_failed` | Sent for each rendition that failed to process or upload. |
 
-### Event Attributes
+### Event attributes {#Event-attributes}
 
 | Attribute   | Type     | Event         | Description |
 |-------------|----------|---------------|-------------|
@@ -386,11 +399,11 @@ The Adobe I/O event type for all events of the Asset Compute service is `asset_c
 | `source`    | `object` | `*`           | The `source` of the `/process` request. |
 | `userData`  | `object` | `*`           | The `userData` of the `/process` request if set. |
 | `rendition` | `object` | `rendition_*` | The corresponding rendition object passed in `/process`. |
-| `metadata ` | `object` | `rendition_created` | The [metadata](#metadata) properties of the rendition. |
+| `metadata` | `object` | `rendition_created` | The [metadata](#metadata) properties of the rendition. |
 | `errorReason` | `string` | `rendition_*` | Rendition failure [reason](#error-reasons) if any. |
 | `errorMessage` | `string` | `rendition_*` | Text giving more detail about the rendition failure if any. |
 
-### Metadata
+### Metadata {#metadata}
 
 | Property  | Description |
 |--------|-------------|
@@ -399,7 +412,8 @@ The Adobe I/O event type for all events of the Asset Compute service is `asset_c
 | `repo:size` | The size of the rendition in bytes. |
 | `repo:sha1` | The sha1 digest of the rendition. |
 
-### Error Reasons
+### Error reasons {#error-reasons}
+
 | Reason  | Description |
 |--------|-------------|
 | `SourceFormatUnsupported` | The source is of an unsupported type. |

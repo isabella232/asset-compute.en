@@ -10,12 +10,11 @@ The latest release of Asset Compute Service is released on Jul 30, 2020.
 **TBD:**
 
 * Are we versioning the releases?
-* Are we naming the releases?
-* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or specific services such as InDesign Server or Sensei?
+* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or offerings such as InDesign Server?
 
 ## Prerequisites {#prerequisites}
 
-Prereqs only for compute service:
+Prerequisites only for Compute Service:
 
 * Bring the provisioning requirements here.
 * Account access, permissions...
@@ -28,10 +27,13 @@ To create and deploy and custom worker, fulfill the following requirements:
 
 ## Known issues {#known-limitations}
 
-
 **TBD:**
 
 This section can be updated with the following information:
 
 * Also, see https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#technical-requirements
 * Anything more? Separate storage, AIO access, what technical know-how/skills are required/assumed for the developer persona.
+
+## Contribute to open-source Asset Compute Service project {#contribute-open-source}
+
+Asset Compute Service is developed under an open development model that welcomes contributions from everyone who is interested in asset and rendition processing. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).

@@ -25,5 +25,6 @@ tutorials-url: hhttps://docs.adobe.com/content/help/en/experience-manager-learn/
   + [Develop a custom application](develop-custom-worker.md)
   + [Test a custom application](test-custom-worker.md)
   + [Deploy and publish a custom application](deploy-custom-worker.md)
-  + [Integrate and use in AEMaaCS](link to AEM article)
+  + [Integrate and use in Experience Manager as a Cloud Service](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html)
 + [Best practices and troubleshoot](best-practices.md)
++ [Contribute to the open-source project](contribute-to-compute-service.md)

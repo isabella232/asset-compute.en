@@ -7,9 +7,9 @@ description: Developer environment setup for Asset Compute Service to start crea
 
 **TBD**:
 
-This section can be updated with the following information:
+Update this section with the following information:
 
-* Leverage Firefly's environment setup instructions. https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md
+* Leverage Project Firefly's environment setup instructions. https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md
 
 * What additional steps are required for Asset Compute Service?
 
