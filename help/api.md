@@ -17,7 +17,7 @@ The article describes the HTTP API. A high-level flow for clients of the service
 
 1. Client calls [`/register`](#register) first to retrieve the journal URL.
 
-1. Client calls [`/process`](#process) for each asset for which it wants to generate N renditions. This is asynchronous.
+1. Client calls [`/process`](#process-request) for each asset for which it wants to generate N renditions. This is asynchronous.
 
 1. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed or if there was an error.
 
@@ -69,7 +69,7 @@ These require the Adobe Developer Console integration to be subscribed to `Asset
   * metascope: `ent_adobeio_sdk`
   * scopes: `adobeio_api,additional_info.roles,additional_info.projectedProductContext`
 
-## Registration {#registration}
+## Registration {#register}
 
 For an existing technical account (Adobe Developer Console integration), create an Asset Compute service registration that is required before the first request to `/process`. It returns the Event journal URL to receive asynchronous events.
 
@@ -81,7 +81,7 @@ For an existing technical account (Adobe Developer Console integration) that was
 |--------------------------|------------------------------------------------------|
 | Method                   | `POST`                                               |
 | Path                     | `/register`                                          |
-| Header `<authorization>` | All [authorization related headers](#autentication). |
+| Header `<authorization>` | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
 
 Ensure that the body of the request is empty.
@@ -135,7 +135,7 @@ The status codes are:
 |--------|--------|
 | Method | `POST` |
 | Path   | `/unregister` |
-| Header `<authorization>` | All [authorization related headers](#autentication). |
+| Header `<authorization>` | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
 
 The request body is empty.
@@ -201,7 +201,7 @@ The `process` operation submits a job that will transform a source asset into mu
 | Method | `POST` |
 | Path   | `/process` |
 | Mime type | `application/json` |
-| Header &lt;authorization&gt; | All [authorization related headers](#autentication). |
+| Header &lt;authorization&gt; | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
 
 The request body must be in JSON format. It provides instructions on what asset to compute and what renditions to generate.
@@ -344,14 +344,14 @@ For backwards compatibility with the beta API, an `activationId` is returned. It
 
 ## Rendition instructions {#rendition-instructions}
 
-These are the available instructions for the `renditions` array in [/process](#process). Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use, for example, `width` and `height`.
+These are the available instructions for the `renditions` array in [/process](#process-request). Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use, for example, `width` and `height`.
 
 <!-- TBD: Remove reference to git.corp.
 -->
 
 | Name | Type | Description | Example | Change note |
 |------|------|-------------|---------|-------------|
-| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](formats.md) | `png` | Changes to `type` specifying a MIME types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
+| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` | Changes to `type` specifying a MIME types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
 | `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` | |
 | `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` | |
 | `wid` | `number` | width in pixels. only for image renditions | `200` | will change to `width` |
