@@ -41,9 +41,9 @@ A few general purpose node libraries are:
 * [node-fetch-retry](https://github.com/adobe/node-fetch-retry): Node module to perform retries for HTTP requests.
 * [node-httptransfer](https://github.com/adobe/node-httptransfer): Transfer file content from HTTP(S) URLs to HTTP(S) URLs and between HTTP(S) URL.
 * [CGROUP-METRICS](https://github.com/adobe/node-cgroup-metrics): Node module for reading `cgroup` metrics. Reads from `/sys/fs/cgroup/`.
-* [node-openwhisk-newrelic](https://github.com/adobe/node-openwhisk-newrelic): Gather metrics from Apache OpenWhisk actions and sen them to New Relic Insights.
-* https://github.com/adobe/node-metrics-sampler
-* https://github.com/adobe/node-cloud-blobstore-wrapper
+* [node-openwhisk-newrelic](https://github.com/adobe/node-openwhisk-newrelic): Gather metrics from Apache OpenWhisk actions and send those to New Relic Insights.
+* [node-metrics-sampler](https://github.com/adobe/node-metrics-sampler): Library for collecting and gathering metrics.
+* [Cloud Blob Store Wrapper](https://github.com/adobe/node-cloud-blobstore-wrapper): General cloud storage library for Azure and AWS.
 
 The available Adobe I/O Runtime and OpenWhisk resources are:
 

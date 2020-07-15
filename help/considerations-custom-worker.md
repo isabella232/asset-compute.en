@@ -12,6 +12,12 @@ It is simple to get started with serverless and OpenWhisk. Create a single NodeJ
 
 ## Prerequisites and provisioning requirements {#provisioning}
 
+Ensure you meet the following prerequisites:
+
+* An Experience Cloud Organization. More information [here](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials).
+* The Experience Organization must have AEM as a Cloud Service enabled.
+* The Experience Organization must be added to Project Firefly developer preview program. If you do not have access to Project Firefly, read [here](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md) how you can apply for access.
+
 **TBD:**
 
 * What all accesses and licenses are required?

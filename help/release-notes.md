@@ -23,7 +23,7 @@ To create and deploy and custom worker, fulfill the following requirements:
 
 * Ensure that the [!DNL Adobe Experience Cloud] organization is part of the [!DNL Project Firefly] developer preview program. See [how to apply for access](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md).
 * Ensure a developer role or administrator permissions in the organization.
-* Ensure that [!DNL Adobe I/O CLI] is installed locally. <!-- Link to CLI GitHub for more info. -->
+* Ensure that [!DNL Adobe I/O CLI] is installed locally. <!-- TBD: Link to CLI GitHub for more info. -->
 
 ## Known issues {#known-limitations}
 
