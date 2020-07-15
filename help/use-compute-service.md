@@ -5,7 +5,7 @@ description: Use Asset Compute Service to process assets.
 
 # How to use Asset Compute Service {#use-compute-service}
 
-# Get started {#get-started}
+## Get started {#get-started}
 
 * Get familiar with the available resources.
 * Get familiar with the architecture and workflow.

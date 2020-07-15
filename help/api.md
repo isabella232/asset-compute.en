@@ -187,7 +187,7 @@ The status codes are:
       "message": "error message"
   }
   ```
-  
+
 ## Asset processing {#asset-processing}
 
 For a list of the supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
@@ -335,7 +335,7 @@ Status codes:
       "message": "error message"
   }
   ```
-  
+
 Most clients are likely inclined to retry the exact same request with [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) on any error *except* configuration issues such as 401 or 403, or invalid requests like 400. Apart from regular rate limiting via 429 responses, a temporary service outage or limitation might result in 5xx errors for some time, and a client wanting to process assets could retry once that is over.
 
 All JSON responses (if present) include the `requestId` which is the same value as the `X-Request-Id` header. It is recommended to read from the header, since it is always present. The `requestId` is also returned in all I/O events related to this processing requests, as `requestId` field on the event. Clients must not make any assumption about the format of this string, it is an opaque string identifier.

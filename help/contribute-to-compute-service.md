@@ -35,7 +35,7 @@ The open-sourced libraries of Asset Compute Service are:
 * [Asset Compute Commons](https://github.com/adobe/asset-compute-commons): Common utilities needed by all Asset Compute serverless actions.
 * [Asset Compute Client](https://github.com/adobe/asset-compute-client): JavaScript client for the Adobe Asset Compute Service.
 * [Asset Compute example workers](https://github.com/adobe/asset-compute-example-workers): Samples of third-party Asset Compute worker.
-* [Adobe I/O Events library]()
+* Adobe I/O Events library.
 * [ESlint configuration](https://github.com/adobe/eslint-config-asset-compute): Shared ESLint configuration for Nodejs projects related to the Adobe Asset Compute service.
 * [Asset Compute Devtool](https://github.com/adobe/asset-compute-devtool): Library for the developer tool to explore and to test the Adobe Asset Compute Service.
 * https://github.com/adobe/aio-cli-plugin-asset-compute
