@@ -7,14 +7,14 @@ description: Developer environment setup for Asset Compute Service to start crea
 
 To create a setup that allows you to develop for Compute Service, follow these requirements and instructions.
 
+<!-- Attention: Add public-facing multiple links.
+-->
+
 1. [Acquire access and credentials](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials) for Project Firefly.
 
 1. [Set up the local environment](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#local-environment-set-up) and the required tools.
 
-1. Some more tools that help you get started developing smoothly are.
-
-<!-- Attention: Add public-facing multiple links.
--->
+1. Some more tools that help you get started developing smoothly are:
 
    * [Git](https://git-scm.com/).
    * [Docker](https://www.docker.com) on Mac. Use [Docker for Mac](https://docs.docker.com/docker-for-mac/install/).
@@ -30,7 +30,7 @@ To create a setup that allows you to develop for Compute Service, follow these r
    * (Optional) [ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/). Required to validate test results in `worker-cameraraw`. [Download here](https://www.sno.phy.queensu.ca/~phil/exiftool/install.html) or `brew install exiftool`.
    * (Optional) [I/O Runtime Shell UI](https://git.corp.adobe.com/cloudshell/experimental-shell). [Download here](https://git.corp.adobe.com/cloudshell/experimental-shell/releases), OSX only right now.
 
-Ensure to meet the [prerequisites](release-notes.md#prerequisites).
+1. Ensure to meet the [prerequisites](release-notes.md#prerequisites).
 
 **TBD**:
 
