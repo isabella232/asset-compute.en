@@ -5,7 +5,18 @@ description: Test and debug Asset Compute Service custom worker.
 
 # Test a custom application {#test-custom-worker}
 
-For creating unit tests and running those, see [test-worker](https://git.corp.adobe.com/nui/asset-compute-cli#test-worker). You can use `nui run-worker` to create renditions for your unit tests. However, if you have a large set of test cases, use the `-u` option with `nui test-worker`. Test a worker in the complete environment using [Meahana](https://git.corp.adobe.com/nui/meahana).
+To test a custom worker, run the following command in the root of the application:
+
+```
+aio app test
+```
+
+## Adding Worker Tests
+
+To add additional worker tests, follow the guidlines.
+ <!-- either add this information here or link it: https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/AddWorkerTests.md -->
+
+<!-- example worker tests: https://github.com/adobe/asset-compute-example-workers/tree/master/projects/worker-animal-pictures/test/asset-compute/worker-animal-pictures -->
 
 ## Error reporting {#error-reporting}
 
