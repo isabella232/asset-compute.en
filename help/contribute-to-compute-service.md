@@ -11,11 +11,11 @@ Asset Compute Service is developed under an open development model that welcomes
 * Contribute a new container or a new worker: To contribute a new container or a standard worker, request a new repository by creating an issue in the [Asset Compute Service GitHub repository](https://git.corp.adobe.com/nui/nui/issues/new).
 * Patch: To provide a patch, fork and provide a pull request.
 
-Members and [code owners](https://help.github.com/articles/about-codeowners/) review the pull requests and accept or reject the changes. Do not make direct changes to the master.
+Members and [code owners](https://help.github.com/articles/about-codeowners/) review the pull requests and accept or reject the changes. You can not make direct changes to the `main` (aka `master`) branch, as you will need to create a pull request beforehand to be reviewed and merged into the main branch.
 
 ## Contribution guidelines {#contribution-guidelines}
 
-Asset Compute Service has repository modularity and naming guidelines. It is modular to the extent possible, as fostered by the serverless concept and OpenWhisk framework. It means having small and focused GitHub repositories that support decoupled development and deployment lifecycles. One repository for one action is OK if it represents its own small services such as a worker. If you want to create a separate repository, log an issue in [Asset Compute SDK repository](https://github.com/adobe/asset-compute-sdk).
+Asset Compute Service has repository modularity and naming guidelines. It is modular to the extent possible, as fostered by the serverless concept and OpenWhisk framework. It means having small and focused GitHub repositories that support decoupled development and deployment lifecycles. One repository for one action is OK if it represents its own small service such as a worker. If you want to create a separate repository, log an issue in [Asset Compute SDK repository](https://github.com/adobe/asset-compute-sdk).
 
 For detailed guidelines, see the [contribution guidelines](https://github.com/adobe/asset-compute-sdk/blob/master/.github/CONTRIBUTING.md). Also, follow these [Git commit message guidelines](https://chris.beams.io/posts/git-commit/).
 
@@ -38,7 +38,7 @@ The open-sourced libraries of Asset Compute Service are:
 
 A few general purpose node libraries are:
 
-* [node-fetch-retry](https://github.com/adobe/node-fetch-retry): Node module to perform retries for HTTP requests.
+* [node-fetch-retry](https://github.com/adobe/node-fetch-retry): Node module to perform retries for HTTP(S) requests.
 * [node-httptransfer](https://github.com/adobe/node-httptransfer): Transfer file content from HTTP(S) URLs to HTTP(S) URLs and between HTTP(S) URL.
 * [CGROUP-METRICS](https://github.com/adobe/node-cgroup-metrics): Node module for reading `cgroup` metrics. Reads from `/sys/fs/cgroup/`.
 * [node-openwhisk-newrelic](https://github.com/adobe/node-openwhisk-newrelic): Gather metrics from Apache OpenWhisk actions and send those to New Relic Insights.
