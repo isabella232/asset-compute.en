@@ -24,11 +24,11 @@ Add possible troubleshooting steps to this section:
 
 ## Minimal Docker image {#minimal-docker-image}
 
-If you have to build a custom docker image you may need to install files that are only needed during the build process.  Be sure that these extra files are not included in the final docker image.  Doing so will cause the image to be larger than necessary and slow down the start up time.
+If you have to build a custom docker image you may need to install files into the image that are only needed during the build process.  Be sure that these extra files are not included in the final docker image.  For instance, you can use multistage builds to have a minimal final image. Doing so will cause the image to be larger than necessary and slow down the start up time. Usually Docker images are based on a Linux operating system (e.g. CentOS).
 
 ## Single focused {#single-focused}
 
-For custom container workers, they should only wrap a single tool if that's enough for the action(s) using it. Warm containers in OpenWhisk are never reused for another action, so there is no benefit. Images would get too large, maintenance and testing becomes hard due to the unnecessary coupling (e.g. updating to a new version). This is ok however, if the action requires calling both tools in succession for example, and it would be inefficient having to copy the intermediate result (binary) from one worker to the next, via binary cloud storage as indirection.
+For custom container workers, they should only wrap a single tool if that's enough for the action(s) using it. Warm containers in OpenWhisk are never reused for another action, so there is no benefit. Images and containers would get too large, maintenance and testing becomes hard due to the unnecessary coupling (e.g. updating to a new version). This is ok however, if the action requires calling both tools in succession for example, and it would be inefficient having to copy the intermediate result (binary) from one worker to the next, via binary cloud storage as indirection.
 
 ## CLI app or server {#cli-app-or-server}
 
@@ -54,7 +54,8 @@ After every invocation, a worker (as in hot container) needs to erase any data o
 
 ## Show errors {#show-errors}
 
-If your worker is a Shell script be sure to return the status from the process that does the work.  Frequently, Shell scripts do cleanup at the end and you don't want the status from the shell script be that from those commands.  If your worker is written in JavaScript make sure any errors that may come from cleanup on failure don't generate their own errors that hide the original problem.
+- If your worker is a Shell script be sure to return the status from the process that does the work.  Frequently, Shell scripts do cleanup at the end and you don't want the status from the shell script be that from those commands.  
+- If your worker is written in JavaScript make sure any errors that may come from cleanup on failure don't generate their own errors that hide the original problem.
 
 ## Use custom application in Experience Manager {#use-in-aem}
 
