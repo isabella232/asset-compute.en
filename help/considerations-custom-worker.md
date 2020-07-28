@@ -104,7 +104,7 @@ The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-c
 
 #### Worker code {#worker-code}
 
-Custom code only needs to provide a callback that takes the locally available source file (`source.path`) and turns it into a rendition file using the name passed in (`rendition.path`):
+Custom code only needs to provide a callback that takes the locally available source file (`source.path`). The `rendition.path` is the location to place the final result of an asset processing request. The custom worker uses the callback to turn the locally available source files into a rendition file using the name passed in (`rendition.path`). A custom worker must write to `rendition.path` to create a rendition:
 
 ```js
 const { worker } = require('@adobe/asset-compute-sdk');
@@ -130,7 +130,7 @@ A custom worker only deals with local files. Downloading the source file is hand
 
 The SDK invokes an asynchronous [rendition callback function](https://github.com/adobe/asset-compute-sdk#rendition-callback-for-worker-required) for each rendition.
 
-The callback function has access to the [source](https://github.com/adobe/asset-compute-sdk#source) and [rendition](https://github.com/adobe/asset-compute-sdk#rendition) objects. The `source.path` already exists and is the path to local copy of source file. The `rendition.path` is the path to store the rendition locally. The `rendition.path` does not exist yet and will have to be created by the callback. The worker must use exactly the `rendition.path`, otherwise the SDK cannot locate or identify the rendition file.
+The callback function has access to the [source](https://github.com/adobe/asset-compute-sdk#source) and [rendition](https://github.com/adobe/asset-compute-sdk#rendition) objects. The `source.path` already exists and is the path to local copy of source file. The `rendition.path` is the path where the processed rendition must be stored. The worker must use exactly the `rendition.path`, otherwise the SDK cannot locate or identify the rendition file.
 
 The example above is an overly simplified worker that just copies the source file to the rendition destination.
 
@@ -138,7 +138,7 @@ For more information about the rendition callback parameters, see the Asset Comp
 
 #### Upload renditions {#upload-rendition}
 
-After each rendition is created and stored locally in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used).
+After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used).
 
 ### Adobe I/O Events {#aio-events}
 
