@@ -104,7 +104,7 @@ The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-c
 
 #### Worker code {#worker-code}
 
-Custom code only needs to provide a callback that takes the locally available source file (`source.path`). `rendition.path` is the location to place the final result of an asset processing request. The custom worker uses the callback to turns the locally available source files into a rendition file using the name passed in (`rendition.path`). A custom worker must write to `rendition.path` to create a rendition:
+Custom code only needs to provide a callback that takes the locally available source file (`source.path`). The `rendition.path` is the location to place the final result of an asset processing request. The custom worker uses the callback to turn the locally available source files into a rendition file using the name passed in (`rendition.path`). A custom worker must write to `rendition.path` to create a rendition:
 
 ```js
 const { worker } = require('@adobe/asset-compute-sdk');
