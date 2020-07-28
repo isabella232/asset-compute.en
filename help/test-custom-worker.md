@@ -58,8 +58,8 @@ It is possible to mock external service calls in your actions by defining `mock-
         mock-<HOST_NAME2>.json
 ```
 
-The mock file must be a JSON formatted http response using the documentation [here](https://www.mock-server.com/mock_server/creating_expectations.html). If there are multiple host names to mock, define multiple mock-*.json files. 
-Here is an exxample mock file for `google.com` named `mock-google.com.json`:
+The mock file must be a JSON formatted http response using the documentation [here](https://www.mock-server.com/mock_server/creating_expectations.html). If there are multiple host names to mock, define multiple mock-<mocked-host>.json files. 
+Here is an exaample mock file for `google.com` named `mock-google.com.json`:
 
 ```
 [{
