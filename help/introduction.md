@@ -7,7 +7,7 @@ description: Asset Compute Service is a cloud-native asset processing service th
 
 Asset Compute Service is a scalable, lightweight, and extensible platform service to process assets. Asset Compute Service provides scalable and resilient processing of assets using cloud services. Adobe manages the cloud services for optimal handling of different asset types and processing options.
 
-Also, it provides design and framework for a developer to create a custom asset worker that extends the default asset processing service. Asset Compute Service provides [!DNL Adobe Sensei] support for digital assets. The service works on the [!DNL Adobe I/O] runtime. It is extendable by creating custom workers based on [!DNL Project Firefly]. These custom workers are [!DNL Project Firefly] apps and do tasks such as add custom conversion tools or call external APIs to perform image operations.
+Also, it provides design and framework for a developer to create a custom asset compute worker that extends the default asset processing service. Extending Asset Compute Service provides a way to easily integration [!DNL Adobe Sensei] services for digital assets. The service works on the [!DNL Adobe I/O] runtime. It is extendable by creating custom workers using [!DNL Project Firefly]. These custom workers are (usually headless) [!DNL Project Firefly] apps and do tasks such as add custom conversion tools or call external APIs to perform image operations.
 
 [!DNL Project Firefly] is a framework to build and deploy custom web applications on [!DNL Adobe I/O] runtime. To create custom applications, the developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 
@@ -19,7 +19,7 @@ Also, it provides design and framework for a developer to create a custom asset 
 
 The Asset Compute Service supports standard use cases like basic image processing; Adobe application specific conversions; and custom workers creation that orchestrate complex business requirements.
 
-You can use [!DNL Asset Compute] web service to generate thumbnails for different file types, high-quality image renderings for the [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html), extract metadata, extract full text as precursor for indexing, and use the supported [!DNL Adobe Sensei] services on an asset.
+You can use [!DNL Asset Compute] web service to generate thumbnails for different file types, high-quality image renderings for the [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html), extract metadata, extract full text as precursor for indexing..
 
 You can easily add custom conversion tools, say create composition workflows that combine [!DNL Adobe Sensei] results with image operations.
 
