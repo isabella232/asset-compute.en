@@ -5,7 +5,7 @@ description: This guide covers all Asset Compute Service tasks such as introduct
 
 # About Asset Compute Service
 
-Asset Compute Service is a cloud-native, scalable, lightweight, and extensible platform service to process assets. Also, it provides design and framework for developers to create custom asset workers that extend the default asset processing service to address their use cases.
+Asset Compute Service is a scalable and extensible service of Adobe Experience Cloud to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text & metadata, archives and more. Developers can plugin custom workers to address custom use cases, built using [Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html) and running in serverless [Adobe I/O Runtime](https://www.adobe.io/apis/experienceplatform/runtime.html).
 
 This docset covers all [!DNL Asset Compute Service] topics such as how to develop, manage, deploy, and troubleshoot your custom code. To know what [!DNL Asset Compute Service] offering is, see this [introduction](introduction.md). Check out [what the service can do for you](introduction.md#possible-use-cases-benefits).
 
