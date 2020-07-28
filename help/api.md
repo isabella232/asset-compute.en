@@ -13,13 +13,13 @@ The article describes the HTTP API. A high-level flow for clients of the service
    >
    >In Adobe Experience Manager as a Cloud Service, it happens automatically, except for the stage environments.
 
-1. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
+2. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
 
-1. Client calls [`/register`](#register) first to retrieve the journal URL.
+3. Client calls [`/register`](#register) first to retrieve the journal URL. [`/register`](#register) needs to be called only once.
 
-1. Client calls [`/process`](#process-request) for each asset for which it wants to generate N renditions. This is asynchronous.
+4. Client calls [`/process`](#process-request) for each asset for which it wants to generate N renditions. This is asynchronous.
 
-1. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed or if there was an error.
+5. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed (`rendition_created` event type) or if there was an error (`rendition_failed` event type).
 
 ## Authentication and authorization {#authentication-and-authorization}
 
@@ -30,13 +30,13 @@ All APIs require access token authentication. The requests must set the followin
 <!-- TBD: Change the existing URL to a new path when a new path for docs is available. The current path contains master word that is not an inclusive term. Logged ticket in AIO's GitHub repo to get a new URL.
 -->
 
-1. `x-gw-ims-org-id` header with the IMS organization ID.
+2. `x-gw-ims-org-id` header with the IMS organization ID.
 
   >[!NOTE]
   >
   >Currently, set a `x-ims-org-id` header with the same org ID value.
 
-1. `x-api-key` with the client ID from the Adobe Developers Console integration.
+3. `x-api-key` with the client ID from the Adobe Developers Console integration.
 
 ### Scopes {#scopes}
 
@@ -82,26 +82,22 @@ For an existing technical account (Adobe Developer Console integration) that was
 | Method                   | `POST`                                               |
 | Path                     | `/register`                                          |
 | Header `<authorization>` | All [authorization related headers](#authentication-and-authorization). |
-| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems.|
 
 Ensure that the body of the request is empty.
 
 ### Register response {#register-response}
 
-MIME type is `application/json`. Header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and for support requests. See also API Gateway documentation.
-
-<!--
-Attention: Add publicly available version of the page as a link. https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation
--->
+MIME type is `application/json`. Header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and for support requests. 
 
 The status codes are:
 
-* **200 Success**: If the request is successful. It contains the `journal` URL that is to be notified about any results of the asynchronous processing triggered via `/process`.
+* **200 Success**: If the request is successful. It contains the `journal` URL that is to be notified about any results of the asynchronous processing triggered via `/process` (as events type `rendition_created` when successful, or `rendition_failed` when failing).
 
   ```json
   {
       "ok": true,
-      "journal": "https://api.adobe.io/events/organizations/105979/integrations/47334/f761f39a-469a-4c36-b91b-8de033912393",
+      "journal": "https://api.adobe.io/events/organizations/xxxxx/integrations/xxxx/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       "requestId": "1234567890
   }
   ```
@@ -192,7 +188,7 @@ The status codes are:
 
 For a list of the supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
 
-The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion or any errors are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
+The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
 
 ### Process request {#process-request}
 
@@ -202,13 +198,11 @@ The `process` operation submits a job that will transform a source asset into mu
 | Path   | `/process` |
 | Mime type | `application/json` |
 | Header &lt;authorization&gt; | All [authorization related headers](#authentication-and-authorization). |
-| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
 
 The request body must be in JSON format. It provides instructions on what asset to compute and what renditions to generate.
 
-Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs).
-
-To generate pre-signed S3 URLs, these scripts might help, because the standard AWS CLI only supports pre-sign of GET: [s3-presign-put](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-put), [s3-presign-get](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-get).
+Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs). The client is responsible for generating these pre-signed URLs.
 
 #### Process request JSON Fields {#process-request-json-fields}
 
@@ -259,14 +253,14 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
             "name": "image.48x48.png",
             "url": "https://some-presigned-put-url-for-image.48x48.png",
             "fmt": "png",
-            "wid": 48,
-            "hei": 48
+            "width": 48,
+            "height": 48
         },{
             "name": "image.200x200.jpg",
             "url": "https://some-presigned-put-url-for-image.200x200.jpg",
             "fmt": "jpg",
-            "wid": 200,
-            "hei": 200
+            "width": 200,
+            "height": 200
         },{
             "name": "cqdam.xmp.xml",
             "url": "https://some-presigned-put-url-for-cqdam.xmp.xml",
@@ -287,7 +281,7 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
 |        |        |
 |--------|--------|
 | Mime type | `application/json` |
-| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and/or support requests. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
 
 This request will return immediately with success or failure based on basic request validation. Actual asset processing will happen asynchronously.
 
@@ -344,20 +338,17 @@ For backwards compatibility with the beta API, an `activationId` is returned. It
 
 ## Rendition instructions {#rendition-instructions}
 
-These are the available instructions for the `renditions` array in [/process](#process-request). Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use, for example, `width` and `height`.
+These are the available instructions for the `renditions` array in [/process](#process-request).
 
-<!-- Attention: Remove reference to git.corp.
--->
-
-| Name | Type | Description | Example | Change note |
-|------|------|-------------|---------|-------------|
-| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` | Changes to `type` specifying a MIME types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
+| Name | Type | Description | Example | 
+|------|------|-------------|---------|
+| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` |
 | `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` | |
 | `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` | |
-| `wid` | `number` | Width in pixels. only for image renditions. | `200` | It will change to `width`. |
-| `hei` | `number` | Height in pixels. only for image renditions. | `200` | It will change to `height`. |
-| | |  - if only `wid` or `hei` is specified, the resulting image will use that and keep the aspect ratio<br> - without `wid` and `hei`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | | |
-| `qlt` | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` | It will change to `quality` soon. |
+| `width` | `number` | Width in pixels. only for image renditions. | `200` |  |
+| `height` | `number` | Height in pixels. only for image renditions. | `200` |  |
+| | |  - if only `width` or `height` is specified, the resulting image will use that and keep the aspect ratio<br> - without `width` and `height`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | | |
+| `quality` | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` |  |
 | `xmp`| `string` | Used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | |  |
 | `interlace` | `bool` | Create interlaced PNG or GIF or progressive JPEG by setting it to true. It has no effect on other file formats. | | |
 | `jpegSize` | `number` | approximate size of JPEG file in bytes. note this overrides any `qlt` setting. has no effect on other formats | | |
