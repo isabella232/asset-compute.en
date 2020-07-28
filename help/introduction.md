@@ -5,11 +5,11 @@ description: Asset Compute Service is a cloud-native asset processing service th
 
 # Overview of Asset Compute Service {#overview}
 
-Asset Compute Service is a scalable, lightweight, and extensible platform service to process assets. Asset Compute Service provides scalable and resilient processing of assets using cloud services. Adobe manages the cloud services for optimal handling of different asset types and processing options.
+Asset Compute Service is a scalable and extensible service of Adobe Experience Cloud to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text & metadata and archives.
 
-Also, it provides design and framework for a developer to create a custom asset compute worker that extends the default asset processing service. Extending Asset Compute Service provides a way to easily integration [!DNL Adobe Sensei] services for digital assets. The service works on the [!DNL Adobe I/O] runtime. It is extendable by creating custom workers using [!DNL Project Firefly]. These custom workers are (usually headless) [!DNL Project Firefly] apps and do tasks such as add custom conversion tools or call external APIs to perform image operations.
+Developers can plugin custom asset workers to address custom use cases. The service works on the [!DNL Adobe I/O] runtime. It is extendable through [!DNL Project Firefly] headless apps written in Node.js. These can do custom operations such as calling external APIs to perform image operations or leverage [!DNL Adobe Sensei] support.
 
-[!DNL Project Firefly] is a framework to build and deploy custom web applications on [!DNL Adobe I/O] runtime. To create custom applications, the developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
+[!DNL Project Firefly] is a framework to build and deploy custom web applications on [!DNL Adobe I/O] runtime to extend Adobe Experience Cloud solutions. To create custom applications, the developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 
 **TBD:**
 
@@ -23,7 +23,7 @@ You can use [!DNL Asset Compute] web service to generate thumbnails for differen
 
 You can easily add custom conversion tools, say create composition workflows that combine [!DNL Adobe Sensei] results with image operations.
 
-The service does not do the following on its own, by default.
+Note that the service does not provide any form of asset storage, which must be provided by consumers that provide references to source and rendition file locations in cloud storage. Furthermore, the service does not do the following on its own, by default.
 
 |Asset Compute Service does not do this|Expectations from implementing client|
 |---|---|
