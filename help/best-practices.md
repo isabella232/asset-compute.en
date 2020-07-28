@@ -24,7 +24,7 @@ Add possible troubleshooting steps to this section:
 
 ## Single focused {#single-focused}
 
-Workers should only wdo a single action. Warm containers in OpenWhisk are never reused for another action, so there is no benefit of having workers doing multiple actions. 
+Workers should only do a single action. Warm containers in OpenWhisk are never reused for another action, so there is no benefit of having workers doing multiple actions. 
 
 ## Startup time {#startup-time}
 
