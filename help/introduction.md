@@ -36,7 +36,6 @@ Note that the service does not provide any form of asset storage, which must be 
 
 This section can be updated with the following information:
 
-* Some info about the benefits is at https://git.corp.adobe.com/nui/nui/blob/master/whitepaper/Project-Nui-Asset-Compute-Service.md#benefits-for-aem-assets. See what's worth including.
 * Explain extensibility and top-level functional use cases.
 * Explain a few specific functional use cases as one-liners to illustrate a functional needs that Asset Compute Service can fulfill.
 

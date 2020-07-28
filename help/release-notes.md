@@ -39,7 +39,6 @@ After checking all the prerequisites, you are ready to [set up your environment]
 
 This section can be updated with the following information:
 
-* Also, see https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#technical-requirements
 * Anything more? Separate storage, AIO access, what technical know-how/skills are required/assumed for the developer persona.
 
 ## Contribute to open-source Asset Compute Service project {#contribute-open-source}
