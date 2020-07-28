@@ -14,8 +14,34 @@ aio app test
 ## Adding Worker Tests
 
 ### Adding tests
-To add additional worker tests, follow the guidlines.
- <!-- either add this information here or link it: https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/AddWorkerTests.md -->
+Tests are expected inside the `test` folder at the root level of the aio project. The test cases for each worker should be in the path `test/asset-compute/<worker-name>`, with one folder for each test case:
+
+```
+action/
+manifest.yml
+package.json
+...
+test/
+  asset-compute/
+    <worker-name>/
+        <testcase1>/
+            file.jpg
+            params.json
+            rendition.png
+        <testcase2>/
+            file.jpg
+            params.json
+            rendition.gif
+            validate
+        <testcase3>/
+            file.jpg
+            params.json
+            rendition.png
+            mock-adobe.com.json
+            mock-console.adobe.io.json
+```
+
+Have a look at [example custom workers](https://github.com/adobe/asset-compute-example-workers/) for some examples. Below is a detailed reference.
 
 ### Test output
 The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app.
@@ -86,3 +112,24 @@ See the [worker-animal-pictures](https://github.com/adobe/asset-compute-example-
 ## Error reporting {#error-reporting}
 
 The type of errors that Asset Compute Service reports to the client are available [here](https://github.com/adobe/asset-compute-commons/blob/master/lib/errors.js). For a custom worker to report an unsupported file, use `SourceFormatUnsupported`. if it a file format that it doesn't support or `SourceUnsupported` if it is a format it supports, but for some reason this particular file is not supported, or `SourceCorruptError` if the source is determined to be corrupt.  An example, would be a worker that handles TIFF files that is given a TIFF file with a particular compression type that the worker does not support.
+
+### Testing expected errors
+
+Error tests cases should not contain an expected `rendition.*` file and should define the expected `errorReason` inside the `params.json` file.
+
+#### Error Test Case Structure
+```
+<error_test_case>/
+    file.jpg
+    params.json
+```
+
+#### Parameter file with error reason
+```js
+{
+    "errorReason": "SourceUnsupported",
+    // ... other params
+}
+```
+
+See full list and description of Asset Compute error reasons [here](https://github.com/adobe/asset-compute-commons#error-reasons)
