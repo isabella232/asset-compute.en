@@ -368,9 +368,7 @@ These are the available instructions for the `renditions` array in [/process](#p
 
 ## Asynchronous events {#asynchronous-events}
 
-When processing is finished or when an error occurs, the events are sent through [Adobe I/O Events](https://www.adobe.io/apis/experienceplatform/events/documentation.html#!adobedocs/adobeio-events/master/intro/journaling_api.md). Clients must listen to the journal provided through [/register](#register). The events are JSON objects in the `event` field of the objects in the `events` array of the journal response.
-
-![Illustration to explain the polling logic](assets/adobeio-journal-v2.png).
+Once processing of a rendition is finished or when an error occurs, an event is sent to an [Adobe I/O Events Journal](https://www.adobe.io/apis/experienceplatform/events/documentation.html#!adobedocs/adobeio-events/master/intro/journaling_api.md). Clients must listen to the journal URL provided through [/register](#register). The journal response includes an `event` array consisting of one object for each event, of which the `event` field includes the actual event payload.
 
 The Adobe I/O Event type for all events of the Asset Compute service is `asset_compute`. The journal is automatically subscribed to this event type only and there is no further requirement to filter based on the Adobe I/O Event type. The service specific event types are available in the `type` property of the event.
 
