@@ -10,10 +10,13 @@ It is simple to get started with serverless and OpenWhisk. Create a single NodeJ
 <!-- Attention: Is it possible to provide a public-facing example of a basic Shell script as a worker. An internal sample is at https://git.corp.adobe.com/aklimets/project-nui/blob/master/actions/tika/worker.sh
 -->
 
+Note: Project Firefly provides command line tooling to help deploy and run custom workers. If working on a Project Firefly app, you would type `aio app deploy` to deploy the custom worker.
+
 ## Prerequisites and provisioning requirements {#provisioning}
 
 Ensure you meet the following prerequisites:
 
+* Project Firefly tools are installed on your machine.
 * An Experience Cloud Organization. More information [here](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials).
 * The Experience Organization must have AEM as a Cloud Service enabled.
 * The Experience Organization must be added to Project Firefly developer preview program. If you do not have access to Project Firefly, read [here](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md) how you can apply for access.
@@ -93,7 +96,7 @@ A sample custom worker processing request is below.
 }
 ```
 
-The Asset Compute Service sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly.
+The Asset Compute Service sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly. Note that all requests use the HTTPS protocol to maximize data security.
 
 The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) used by a custom worker handles the HTTP POST request. It also handles downloading of the source, uploading renditions, sending I/O events and error handling.
 
@@ -135,7 +138,7 @@ For more information about the rendition callback parameters, see the Asset Comp
 
 #### Upload renditions {#upload-rendition}
 
-After each rendition is created and stored locally in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to the cloud.
+After each rendition is created and stored locally in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used).
 
 ### Adobe I/O Events {#aio-events}
 
