@@ -13,13 +13,13 @@ The article describes the HTTP API. A high-level flow for clients of the service
    >
    >In Adobe Experience Manager as a Cloud Service, it happens automatically, except for the stage environments.
 
-1. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
+2. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
 
-1. Client calls [`/register`](#register) first to retrieve the journal URL.
+3. Client calls [`/register`](#register) first to retrieve the journal URL. [`/register`](#register) needs to be called only once.
 
-1. Client calls [`/process`](#process-request) for each asset for which it wants to generate N renditions. This is asynchronous.
+4. Client calls [`/process`](#process-request) for each asset for which it wants to generate N renditions. This is asynchronous.
 
-1. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed or if there was an error.
+5. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed (`rendition_created` event type) or if there was an error (`rendition_failed` event type).
 
 ## Authentication and authorization {#authentication-and-authorization}
 
@@ -92,7 +92,7 @@ MIME type is `application/json`. Header `X-Request-Id` is either the same as the
 
 The status codes are:
 
-* **200 Success**: If the request is successful. It contains the `journal` URL that is to be notified about any results of the asynchronous processing triggered via `/process`.
+* **200 Success**: If the request is successful. It contains the `journal` URL that is to be notified about any results of the asynchronous processing triggered via `/process` (as events type `rendition_created` when successful, or `rendition_failed` when failing).
 
   ```json
   {
@@ -188,7 +188,7 @@ The status codes are:
 
 For a list of the supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
 
-The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion or any errors are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
+The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
 
 ### Process request {#process-request}
 
@@ -253,14 +253,14 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
             "name": "image.48x48.png",
             "url": "https://some-presigned-put-url-for-image.48x48.png",
             "fmt": "png",
-            "wid": 48,
-            "hei": 48
+            "width": 48,
+            "height": 48
         },{
             "name": "image.200x200.jpg",
             "url": "https://some-presigned-put-url-for-image.200x200.jpg",
             "fmt": "jpg",
-            "wid": 200,
-            "hei": 200
+            "width": 200,
+            "height": 200
         },{
             "name": "cqdam.xmp.xml",
             "url": "https://some-presigned-put-url-for-cqdam.xmp.xml",
@@ -345,10 +345,10 @@ These are the available instructions for the `renditions` array in [/process](#p
 | `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` |
 | `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` | |
 | `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` | |
-| `width` | `number` | Width in pixels. only for image renditions. | `200` | 
-| `height` | `number` | Height in pixels. only for image renditions. | `200` | 
-| | |  - if only `wid` or `hei` is specified, the resulting image will use that and keep the aspect ratio<br> - without `wid` and `hei`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | | |
-| `qlt` | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` | It will change to `quality` soon. |
+| `width` | `number` | Width in pixels. only for image renditions. | `200` |  |
+| `height` | `number` | Height in pixels. only for image renditions. | `200` |  |
+| | |  - if only `width` or `height` is specified, the resulting image will use that and keep the aspect ratio<br> - without `width` and `height`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | | |
+| `quality` | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` |  |
 | `xmp`| `string` | Used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | |  |
 | `interlace` | `bool` | Create interlaced PNG or GIF or progressive JPEG by setting it to true. It has no effect on other file formats. | | |
 | `jpegSize` | `number` | approximate size of JPEG file in bytes. note this overrides any `qlt` setting. has no effect on other formats | | |
