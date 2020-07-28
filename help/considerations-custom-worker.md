@@ -130,7 +130,7 @@ A custom worker only deals with local files. Downloading the source file is hand
 
 The SDK invokes an asynchronous [rendition callback function](https://github.com/adobe/asset-compute-sdk#rendition-callback-for-worker-required) for each rendition.
 
-The callback function has access to the [source](https://github.com/adobe/asset-compute-sdk#source) and [rendition](https://github.com/adobe/asset-compute-sdk#rendition) objects. The `source.path` already exists and is the path to local copy of source file. The `rendition.path` is the path where the processed rendition must be stored. The worker must use exactly the `rendition.path`, otherwise the SDK cannot locate or identify the rendition file.
+The callback function has access to the [source](https://github.com/adobe/asset-compute-sdk#source) and [rendition](https://github.com/adobe/asset-compute-sdk#rendition) objects. The `source.path` already exists and is the path to local copy of source file. The `rendition.path` is the path where the processed rendition must be stored. Unless the [disableSourceDownload flag](https://github.com/adobe/asset-compute-sdk#worker-options-optional) is set, the worker must use exactly the `rendition.path`. Otherwise, the SDK cannot locate or identify the rendition file and will fail.
 
 The example above is an overly simplified worker that just copies the source file to the rendition destination.
 
@@ -138,7 +138,9 @@ For more information about the rendition callback parameters, see the Asset Comp
 
 #### Upload renditions {#upload-rendition}
 
-After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used).
+After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used). A custom worker will get multiple renditions at the same time if, and only if, the incoming request has multiple renditions pointing to the same worker url. The upload to cloud storage is done after each rendition, and before running the callback for the next rendition. 
+
+Note that `batchWorker()` has a different behavior, as this will actually process all renditions and only after all have been processed, will upload them.
 
 ### Adobe I/O Events {#aio-events}
 
