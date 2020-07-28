@@ -21,12 +21,9 @@ To create a setup that allows you to develop for Compute Service, follow these r
    * [Docker Compose](https://docs.docker.com/compose/) (part of Docker for Mac, used for docker builds) (`docker-compose`).
    * [NodeJS](https://nodejs.org) and [NPM](https://www.npmjs.com). User of OSX HomeBrew can do `brew install node` to install both. Otherwise, download it from the [NodeJS download page](https://nodejs.org/en/). Use version: `10.x` or later for the `nui` CLI.
    * An IDE that is good for NodeJS, such as [VS Code](https://code.visualstudio.com) or [Webstorm](https://www.jetbrains.com/webstorm/).
-   * [AIO CLI](https://github.com/adobe/aio-cli) (`aio`) - install using `npm install -g @adobe/aio-cli`
-   * [Project Nui CLI](https://git.corp.adobe.com/nui/cli/blob/master/README.md#installation) (`nui`). Ensure you have the latest version as it is frequently updates .
+   * [AIO CLI](https://github.com/adobe/aio-cli) (`aio`) - install using `npm install -g @adobe/aio-cli`.
    * [OpenWhisk CLI](https://github.com/apache/incubator-openwhisk-cli) (`wsk`). [Download here](https://github.com/apache/incubator-openwhisk-cli/releases) or `brew install wsk`.
-   * [Meahana](http://meahana.corp.adobe.com), our web-based developer user interface for Compute Service. To use Meahana, S3 is required. Including access to S3 buckets.
-   * [nui-mehana](https://s3.console.aws.amazon.com/s3/buckets/nui-meahana): Used as [shared file store for Meahana](https://git.corp.adobe.com/nui/meahana#setup-s3-bucket)
-   * [adobe-sample-asset-repository](https://s3.console.aws.amazon.com/s3/buckets/adobe-sample-asset-repository). Sample assets used for all manual and automated tests.
+   * [Adobe Asset Compute devtool](https://github.com/adobe/asset-compute-devtool), our web-based developer user interface for Compute Service. To use Adobe Asset Compute devtool, S3 is required. Including access to S3 buckets.
    * (Optional) [ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/). Required to validate test results in `worker-cameraraw`. [Download here](https://www.sno.phy.queensu.ca/~phil/exiftool/install.html) or `brew install exiftool`.
    * (Optional) [I/O Runtime Shell UI](https://git.corp.adobe.com/cloudshell/experimental-shell). [Download here](https://git.corp.adobe.com/cloudshell/experimental-shell/releases), OSX only right now.
 

@@ -82,17 +82,13 @@ For an existing technical account (Adobe Developer Console integration) that was
 | Method                   | `POST`                                               |
 | Path                     | `/register`                                          |
 | Header `<authorization>` | All [authorization related headers](#authentication-and-authorization). |
-| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems.|
 
 Ensure that the body of the request is empty.
 
 ### Register response {#register-response}
 
-MIME type is `application/json`. Header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and for support requests. See also API Gateway documentation.
-
-<!--
-Attention: Add publicly available version of the page as a link. https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation
--->
+MIME type is `application/json`. Header `X-Request-Id` is either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and for support requests. 
 
 The status codes are:
 
@@ -101,7 +97,7 @@ The status codes are:
   ```json
   {
       "ok": true,
-      "journal": "https://api.adobe.io/events/organizations/105979/integrations/47334/f761f39a-469a-4c36-b91b-8de033912393",
+      "journal": "https://api.adobe.io/events/organizations/xxxxx/integrations/xxxx/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       "requestId": "1234567890
   }
   ```
@@ -202,13 +198,11 @@ The `process` operation submits a job that will transform a source asset into mu
 | Path   | `/process` |
 | Mime type | `application/json` |
 | Header &lt;authorization&gt; | All [authorization related headers](#authentication-and-authorization). |
-| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+| Header `x-request-id` | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
 
 The request body must be in JSON format. It provides instructions on what asset to compute and what renditions to generate.
 
-Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs).
-
-To generate pre-signed S3 URLs, these scripts might help, because the standard AWS CLI only supports pre-sign of GET: [s3-presign-put](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-put), [s3-presign-get](https://git.corp.adobe.com/aklimets/scripts/blob/master/cloud/s3-presign-get).
+Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs). The client is responsible for generating these pre-signed URLs.
 
 #### Process request JSON Fields {#process-request-json-fields}
 
@@ -287,7 +281,7 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
 |        |        |
 |--------|--------|
 | Mime type | `application/json` |
-| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and/or support requests. See also [API Gateway documentation](https://wiki.corp.adobe.com/display/API/API+Gateway+Header+Fields+Documentation). |
+| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
 
 This request will return immediately with success or failure based on basic request validation. Actual asset processing will happen asynchronously.
 
@@ -344,14 +338,11 @@ For backwards compatibility with the beta API, an `activationId` is returned. It
 
 ## Rendition instructions {#rendition-instructions}
 
-These are the available instructions for the `renditions` array in [/process](#process-request). Most rendition fields currently follow the [Scene7 ImageServing command format](https://marketing.adobe.com/resources/help/en_US/s7/is_ir_api/is_api/http_ref/c_command_reference.html). However, this will change to align with the [Platform API](https://git.corp.adobe.com/pages/AdobeCloudPlatform/api-spec/) and [XDM](https://github.com/adobe/xdm) and use, for example, `width` and `height`.
+These are the available instructions for the `renditions` array in [/process](#process-request).
 
-<!-- Attention: Remove reference to git.corp.
--->
-
-| Name | Type | Description | Example | Change note |
-|------|------|-------------|---------|-------------|
-| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` | Changes to `type` specifying a MIME types or [UTI](https://git.corp.adobe.com/nui/nui/issues/142) |
+| Name | Type | Description | Example | 
+|------|------|-------------|---------|
+| `fmt`  | `string` | The target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. see [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` |
 | `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` | |
 | `target` | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` | |
 | `width` | `number` | Width in pixels. only for image renditions. | `200` |  |
