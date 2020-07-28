@@ -58,7 +58,7 @@ curl -X POST \
   -H "x-api-key: $API_KEY"
 ```
 
-The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-client#usage) JavaScript library can be used in NodeJS applications to handle all the necessary steps from registration, processing to asynchronous event handling. For more information on the required headers, see [Authentication and Authorization](https://git.corp.adobe.com/nui/nui/blob/master/doc/api.md#authentication-and-authorization).
+The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-client#usage) JavaScript library can be used in NodeJS applications to handle all the necessary steps from registration, processing to asynchronous event handling. For more information on the required headers, see [Authentication and Authorization](./api.md).
 
 ### Processing {#processing}
 
@@ -171,4 +171,5 @@ For details on how to get journal events, see [Adobe I/O Events API](https://www
 **TBD:**
 
 * Illustration of the controls/data flow.
-* Basic overview, in text and not code, of how a workers works. See Alex's note at [https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460](https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460).
+* Basic overview, in text and not code, of how a workers works.
+<!-- * See Alex's note at [https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460](https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460). -->

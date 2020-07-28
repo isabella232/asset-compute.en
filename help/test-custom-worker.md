@@ -5,6 +5,8 @@ description: Test and debug Asset Compute Service custom worker.
 
 # Test a custom application {#test-custom-worker}
 
+Make sure to have [Docker Desktop](https://www.docker.com/get-started) installing and running on your machine.
+
 To test a custom worker, run the following command in the root of the application:
 
 ```

@@ -45,6 +45,6 @@ Update this section with the following information:
   * naming conventions to follow
   * Retrieve and format credentials (YAML file details)
 
-## Test your setup {#test-setup}
+## Next Step {#next-step}
 
-You can test the setup by [creating a custom worker](./develop-custom-worker.md) or using a [sample custom worker](https://github.com/adobe/asset-compute-example-workers).
+Now that your environment is set up, you are ready to [create a custom worker](./develop-custom-worker.md).

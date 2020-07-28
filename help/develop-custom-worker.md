@@ -5,47 +5,247 @@ description: Create customization using Asset Compute Service.
 
 # Develop a custom applications {#develop}
 
-**TBD**:
-
-Seed content available at:
-
-* https://git.corp.adobe.com/nui/nui/blob/master/dev/develop.md
-* https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md
-
-## Tools required {#tools-required}
-
-## Try the sample worker provided by Adobe {#try-sample}
-
-**TBD**:
-
-* See https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#example-custom-workers
-
-### Node.js worker
-
-<!-- TBD: Some content indicates that it will change in the future. Has it changed already? If yes, then update it in the doc.
--->
-
-To be specified. For now, see the [JavaScript code here](https://github.com/adobe/asset-compute-sdk), especially the exports at the bottom. This will change.
-
-<!-- Attention: What should be the public-facing link to the JS files of various workers?
--->
-
-To see an example of a simple JavaScript worker which uses our standard Docker image, see [dcx worker](https://git.corp.adobe.com/nui/worker-dcx/blob/master/worker.js). This is a worker that also takes advantage of GraphicsMagick which is included as part of our standard docker image. Workers can use GraphicsMagick both to produce a format that the worker itself may not support and to resize an image.
-
-To see an example of a JavaScript worker that makes use of a custom Docker image see [Flite worker](https://git.corp.adobe.com/nui/worker-flite/blob/master/action/worker.js). This worker uses a custom docker image [Flite Dockerfile](https://git.corp.adobe.com/nui/worker-flite/blob/master/docker/Dockerfile) which includes the Adobe Switch Engine to create image renditions.
-
-The most complex worker available is the [PIE (Photoshop Imaging Engine) worker](https://git.corp.adobe.com/nui/worker-pie/blob/master/action/worker.js). This worker creates an image's renditions with one invocation of the program. It uses instead of using the library function [forEachRendition](https://git.corp.adobe.com/nui/asset-compute-sdk/blob/master/library.js#L634-L636) to create one rendition at a time.  It also uses a custom docker image [PIE Dockerfile](https://git.corp.adobe.com/nui/worker-pie/blob/master/docker/Dockerfile) to bring in the PIE based renderer. This docker image itself makes use of a special docker image [Compiler Dockerfile](https://git.corp.adobe.com/nui/worker-pie/blob/master/compiler/Dockerfile) to build the executable that is bundled.
-
-### Shell script worker
-
-If your logic to create renditions is simple, and depends upon native code you can create your worker as a simple Shell script. An example is [Tika worker.sh](https://git.corp.adobe.com/nui/worker-tika/blob/master/action/worker.sh) script with some of the environment variables described. The Docker image is available [here](https://git.corp.adobe.com/nui/worker-tika/blob/master/docker/Dockerfile).
+Make sure you meet all of the [pre-requisites](.release-notes.md) and install the proper tooling. See [set up your environment](./setup-environment.md) to make sure you are ready to create a custom worker.
 
 ## Create a custom worker {#create-custom-worker}
+Make sure to have the [Adobe I/O CLI](https://github.com/adobe/aio-cli) installed locally.
 
-See https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#4-bootstrapping-new-app-using-the-cli
+1. To create a custom worker, start by [creating a new Firefly App](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#4-bootstrapping-new-app-using-the-cli).
+    by running the following command in your terminal:
+    ```sh
+    $ aio app init <app-name>
+    ```
+    
+    If you have not logged in already, this command will prompt a browser asking you to sign into the [Adobe Developer Console](https://console.adobe.io/) with your Adobe ID. See [here](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#3-signing-in-from-cli) for more information on signing in from the cli.
 
-## Execute the worker app {#run-custom-worker}
+    _We recomend you login, but if you are having issues follow these instructions about [how to create an app without logging in](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#42-developer-is-not-logged-in-as-enterprise-organization-user)._
 
-**TBD**:
+2. After logging in, follow the prompts in the CLI and select the `Organization`, `Project`, and `Workspace` to use for the application. Choose the project and workspace you created when you [set up your environment](./setup-environment.md).
+    ```sh
+    $ aio app init <app-name> --asset-compute
+    Retrieving information from Adobe I/O Console..
+    ? Select Org My Adobe Org
+    ? Select Project MyFireflyProject
+    ? Select Workspace myworkspace
+    create console.json
+    ```
 
-* See https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#running-the-application
+3. When prompted with `Which Adobe I/O App features do you want to enable for this project?`, make sure to select at least `Actions`:
+    ```bash
+    ? Which Adobe I/O App features do you want to enable for this project?
+    select components to include (Press <space> to select, <a> to toggle all, <i> to invert selection)
+    ❯◉ Actions: Deploy Runtime actions
+    ◯ Events: Publish to Adobe I/O Events
+    ◯ Web Assets: Deploy hosted static assets
+    ◯ CI/CD: Include GitHub Actions based workflows for Build, Test and Deploy
+    ```
+
+4. When prompted `Which type of sample actions do you want to create?`, make sure to select `Adobe Asset Compute Worker`:
+    ```bash
+    ? Which type of sample actions do you want to create?
+    Select type of actions to generate
+    ❯◉ Adobe Asset Compute Worker
+    ◯ Generic
+    ```
+5. Follow the rest of the prompts and open up the new application in VSCode (or your favorite code editor). This will contain the scaffolding and sample code for a custom worker.
+
+    Read here about the [main components of a Firefly app](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#5-anatomy-of-a-project-firefly-application).
+
+    The template worker leverages our [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#asset-compute-sdk) for the uploading, downloading, and orchestration of worker renditions so developers only need to implement the custom worker logic. Inside the `worker.js` file is where to add the custom worker code.
+
+See [example custom workers](#try-the-sample-worker-provided-by-adobe-try-sample) for examples and ideas for custom workers.
+
+### Adding Credentials
+
+Since you logged in during app creation, most of the credentials are already collected in your `.env` file. You only need to add a few credentials required for the using the [developer tool](#developer-tool-credentials).
+
+<!-- _If you did not log in, refer to our troubleshooting guide to [set up credentials manually](SettingUpCredentialsManually.md)._ -->
+
+### Developer Tool Credentials
+Make sure to have access to a [cloud storage container]((https://github.com/adobe/asset-compute-devtool#prerequisites) ). Currently, we only support Azure Blob Storage and AWS S3.
+
+_Note: This can be a shared container used by multiple developers across different projects._
+
+Add the following credentials to the `.env` file in the root of your Firefly project:
+
+1. Add the absolute path to the private key file created while adding services to your Firefly Project:
+    ```
+    ASSET_COMPUTE_PRIVATE_KEY_FILE_PATH=
+    ```
+
+2. Add either S3 or Azure Storage credentials. (You only need access to one cloud storage solution):
+    ```
+    # S3 credentials
+    S3_BUCKET=
+    AWS_ACCESS_KEY_ID=
+    AWS_SECRET_ACCESS_KEY=
+    AWS_REGION=
+
+    # Azure Storage credentials
+    AZURE_STORAGE_ACCOUNT=
+    AZURE_STORAGE_KEY=
+    AZURE_STORAGE_CONTAINER_NAME=
+    ```
+
+
+
+## Run the worker app {#run-custom-worker}
+
+Before running the application with the Asset Compute Developer Tool, make sure you properly configure the [credentials](#developer-tool-credentials).
+
+To run the application in the developer tool, use the following command:
+```bash
+aio app run
+```
+This will deploy the action to Adobe I/O Runtime and start the development tool on your local machine. This tool is used for testing worker requests during development. Here is an example rendition request:
+
+```json
+"renditions": [
+    {
+        "worker": "https://1234_my_namespace.adobeioruntime.net/api/v1/web/example-custom-worker-master/worker",
+        "name": "image.jpg"
+    }
+]
+```
+
+_Note: Do not use the `--local` flag with the run command. It does not work with Asset Compute custom workers and the Asset Compute Developer Tool. Custom workers are invoked by the Asset Compute Service which cannot access actions running on developer's local machines._
+
+See [here](test-custom-worker.md) how to test and debug your application. When you are finished developing your custom worker, [deploy your custom worker](./deploy-custom-worker.md).
+
+## Try the sample worker provided by Adobe {#try-sample}
+The following are example custom workers:
+- [worker-basic](https://github.com/adobe/asset-compute-example-workers/tree/master/projects/worker-basic)
+- [worker-animal-pictures](https://github.com/adobe/asset-compute-example-workers/tree/master/projects/worker-animal-pictures)
+
+### Template Custom Worker
+
+The [worker-basic](https://github.com/adobe/asset-compute-example-workers/tree/master/projects/worker-basic) is a template worker. It generates a rendition by simply copying the source file.
+
+The content of this worker is the template received when choosing `Adobe Asset Compute` in the [creation of the aio app](#initialize-firefly-app-with-asset-compute-template).
+
+The worker file, [`worker-basic.js`](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-basic/worker-basic.js) uses the [`asset-compute-sdk`](https://github.com/adobe/asset-compute-sdk#overview) to download the source file, orchestrate each rendition processing, and upload the resulting renditions back to cloud storage. 
+
+The [`renditionCallback`](https://github.com/adobe/asset-compute-sdk#rendition-callback-for-worker-required) defined inside the worker code, is where to perform all the worker processing logic. The rendition callback in `worker-basic` simply copies the source file contents to the rendition file.
+```js
+const { worker } = require('@adobe/asset-compute-sdk');
+const fs = require('fs').promises;
+
+exports.main = worker(async (source, rendition) => {
+    // copy source to rendition to transfer 1:1
+    await fs.copyFile(source.path, rendition.path);
+});
+```
+
+### Calling an external API
+
+In the worker code, you can make external API calls to help with worker processing.
+
+Example worker file calling external API:
+```js
+exports.main = worker(async function (source, rendition) {
+
+    const response = await fetch('https://adobe.com', {
+        method: 'GET',
+        Authorization: params.AUTH_KEY
+    })
+});
+```
+
+For example, the [`worker-animal-pictures`](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-animal-pictures/worker-animal-pictures.js#L46) makes a fetch request to a static url from Wikimedia using the [`node-httptransfer`](https://github.com/adobe/node-httptransfer#node-httptransfer) library.
+
+_If you need extra authorization for these API calls, read the section below on [custom authorization checks](#custom-authorization-checks)_
+
+
+### Passing custom parameters
+
+You can pass custom defined parameters through the rendition objects. They can be referenced inside the worker in [`rendition` instructions](https://github.com/adobe/asset-compute-sdk#rendition).
+
+Example rendition object:
+```json
+"renditions": [
+    {
+        "worker": "https://1234_my_namespace.adobeioruntime.net/api/v1/web/example-custom-worker-master/worker",
+        "name": "image.jpg",
+        "my-custom-parameter": "my-custom-parameter-value"
+    }
+]
+```
+
+Example worker file acessing custom parameter:
+```js
+exports.main = worker(async function (source, rendition) {
+
+    const customParam = rendition.instructions['my-custom-parameter'];
+    console.log('Custom paramter:', customParam);
+    // should print out `Custom parameter: "my-custom-parameter-value"`
+});
+```
+The `example-worker-animal-pictures` passes a custom parameter [`animal`](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-animal-pictures/worker-animal-pictures.js#L39) to determine which file to fetch from Wikimedia.
+
+
+
+### Authentication and Authorization Support
+
+By default, Asset Compute custom workers come with Authorization and Authentication checks for Firefly Applications. This is enabled by setting the `require-adobe-auth` annotation to `true` in the `manifest.yml`. 
+<!-- link firefly documents when they are publicly released -->
+
+#### Accessing other Adobe APIs
+
+Add the API services to the Asset Compute Console Workspace created in [set up](#set-up) step 5. These services will be part of the JWT access token generated by Asset Compute Service. The token and other credentials will be accessible inside the worker action `params` object.
+
+```js
+const accessToken = params.auth.accessToken; // JWT token for Technical Account with entitlements from the console workspace to the API service
+const clientId = params.auth.clientId; // Technical Account client Id
+const orgId = params.auth.orgId; // Experience Cloud Organization
+```
+
+#### Passing Credentials for Third Party Systems
+
+To pass credentials for other external services, pass these credentials as default parameters on the actions. These parameters can be accessed in the `params` object inside the action.
+
+Set the default parameters inside the `inputs` in the `manifest.yml`:
+
+```yaml
+packages:
+  __APP_PACKAGE__:
+    actions:
+      worker:
+        function: 'worker.js'
+        runtime: 'nodejs:10'
+        web: true
+        inputs: 
+           accessKey:$ACCESSKEY
+        annotations:
+          require-adobe-auth: true
+```
+
+Access the default parameters inside the worker as such:
+```js
+const key = params.accessKey;
+```
+
+### Sizing workers
+
+A worker runs in a container in Adobe I/O Runtime with [limits](https://www.adobe.io/apis/experienceplatform/runtime/docs.html#!adobedocs/adobeio-runtime/master/guides/system_settings.md) that can be configured through the `manifest.yml`:
+
+```
+    actions:
+      myworker:
+        function: /actions/myworker/index.js
+        limits:
+          timeout: 300000
+          memorySize: 512
+          concurrency: 1
+```
+
+Due to the more extensive processing typically done by Asset Compute workers, it is more likely one has to adjust these limits for optimal performance (large enough to handle binary assets) and efficiency (not wasting resources due to unused container memory).
+
+The default timeout for actions in Runtime is 1 minute, but can be increased by setting the `timeout` limit (in milliseconds). If you expect to process larger files, increase this time. Take into account the total time it takes to download the source, process the file and upload the rendition. If an action times out, i.e. does not return the activation before the specified timeout limit, Runtime will discard the container and not reuse it.
+
+Asset compute workers by nature tend to be network and disk IO bound. The source file has to be downloaded first, processing is often IO heavy and then resulting renditions will be uploaded again.
+
+The memory available to an action container is specified by `memorySize` in MB. Currently this also defines how much CPU access the container gets, and most importantly it is a key element of the cost of using Runtime (larger containers cost more). Use a larger value here when your processing requires more memory or CPU, but be careful to not waste resources as the larger the containers are, the lower the overall throughput will be.
+
+Furthermore it is possible to control action concurrency within a container using the `concurrency` setting. This is the number of concurrent activations a single container (of the same action) will get. In this model, the action container is similar to a nodejs server receiving multiple concurrent requests, up to that limit. If not set, the default in Runtime is 200, which is great for smaller Firefly actions, but usually too large for Asset Compute workers given their more intensive local processing and disk activity. Some workers, depending on their implementation, might also not work well with concurrent activity. Note that the Asset Compute SDK ensures activations are separated by writing files to different unique folders.
+
+Test workers to find the optimal numbers for `concurrency` and `memorySize`. Larger containers = higher memory limit could allow for more concurrency but could also be wasteful for lower traffic.
