@@ -62,12 +62,15 @@ test/
 Have a look at [example custom workers](https://github.com/adobe/asset-compute-example-workers/) for some examples. Below is a detailed reference.
 
 ### Test output
-The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app.
+The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app as shown in the `aio app test` output.
 
 ### Mocking external services
 It is possible to mock external service calls in your actions by defining `mock-<HOST_NAME>.json` files in your test cases, where HOST_NAME is the host you would like to mock. An example use case is a worker that makes a separate call to S3. The new test structure would look like this:
 
 ```
+test/
+  asset-compute/
+    <worker-name>/
       <testcase3>/
         file.jpg
         params.json
