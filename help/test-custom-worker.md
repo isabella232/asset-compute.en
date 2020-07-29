@@ -12,6 +12,15 @@ To test a custom worker, run the following command in the root of the applicatio
 ```
 aio app test
 ```
+<!-- To run tests for a custom worker, run the following command in the root of the custom worker application application:
+ ```
+ adobe-asset-compute test-worker 
+ ``` -->
+<!--
+TBD document interactively running `adobe-asset-compute` commands `test-worker` and `run-worker`
+-->
+
+When developing a custom worker, the [aio-cli-plugin-asset-compute](https://github.com/adobe/aio-cli-plugin-asset-compute#install-as-local-devdependency) plugin is embedded as development dependency in the custom worker app so that it doesn't need to be installed on build/test systems.
 
 # Debug a custom application {#debug-custom-worker}
 
