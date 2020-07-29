@@ -9,6 +9,9 @@ description: Asset Compute Service is a cloud-native asset processing service th
 
 This article can cover the following topics:
 
+* minimize description to custom workers
+* remove all internal stuff (e.g. Photoshop worker, API Gateway) from text and diagram
+* update diagram to focus on 3rd party custom workers ONLY
 * Explain important transactions/handshakes?
 * Flow of assets/control? See the illustration on the Nui diagrams wiki.
 * Illustrations. See the SVG shared by Alex.
