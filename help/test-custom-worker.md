@@ -3,7 +3,9 @@ title: Test and debug Asset Compute Service custom worker.
 description: Test and debug Asset Compute Service custom worker.
 ---
 
-# Test a custom application {#test-custom-worker}
+# Test and debug a custom worker
+
+## Running unit tests for a custom worker {#test-custom-worker}
 
 Make sure to have [Docker Desktop](https://www.docker.com/get-started) installing and running on your machine.
 
@@ -20,9 +22,134 @@ aio app test
 TBD document interactively running `adobe-asset-compute` commands `test-worker` and `run-worker`
 -->
 
-When developing a custom worker, the [aio-cli-plugin-asset-compute](https://github.com/adobe/aio-cli-plugin-asset-compute#install-as-local-devdependency) plugin is embedded as development dependency in the custom worker app so that it doesn't need to be installed on build/test systems.
+This runs a custom unit test framework for Asset Compute worker actions in the project as described below. It is hooked up through a configuration in the `package.json` file. It is also possible to have Javascript unit tests such as Jest. `aio app test` will run both.
 
-# Debug a custom application {#debug-custom-worker}
+The [aio-cli-plugin-asset-compute](https://github.com/adobe/aio-cli-plugin-asset-compute#install-as-local-devdependency) plugin is embedded as development dependency in the custom worker app so that it doesn't need to be installed on build/test systems.
+
+### Worker unit test framework
+
+The Asset Compute worker unit test framework allows to test workers without writing any code. It relies on the source to rendition file principle of workers. A certain file and folder structure has to be setup to define test cases with test source files, optional parameters, expected renditions and custom validation scripts. By default renditions will be compared for byte equality. Furthermore, external HTTP services can be easily mocked using simple JSON files.
+
+### Adding tests
+
+Tests are expected inside the `test` folder at the root level of the aio project. The test cases for each worker should be in the path `test/asset-compute/<worker-name>`, with one folder for each test case:
+
+```
+action/
+manifest.yml
+package.json
+...
+test/
+  asset-compute/
+    <worker-name>/
+        <testcase1>/
+            file.jpg
+            params.json
+            rendition.png
+        <testcase2>/
+            file.jpg
+            params.json
+            rendition.gif
+            validate
+        <testcase3>/
+            file.jpg
+            params.json
+            rendition.png
+            mock-adobe.com.json
+            mock-console.adobe.io.json
+```
+
+Have a look at [example custom workers](https://github.com/adobe/asset-compute-example-workers/) for some examples. Below is a detailed reference.
+
+### Test output
+The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app.
+
+### Mocking external services
+It is possible to mock external service calls in your actions by defining `mock-<HOST_NAME>.json` files in your test cases, where HOST_NAME is the host you would like to mock. An example use case is a worker that makes a separate call to S3. The new test structure would look like this:
+
+```
+      <testcase3>/
+        file.jpg
+        params.json
+        rendition.png
+        mock-<HOST_NAME1>.json
+        mock-<HOST_NAME2>.json
+```
+
+The mock file must be a JSON formatted http response using the documentation [here](https://www.mock-server.com/mock_server/creating_expectations.html). If there are multiple host names to mock, define multiple `mock-<mocked-host>.json` files.
+
+Here is an exaample mock file for `google.com` named `mock-google.com.json`:
+
+```
+[{
+    "httpRequest": {
+        "path": "/images/hello.txt"
+        "method": "GET"
+    },
+    "httpResponse": {
+        "statusCode": 200,
+        "body": {
+          "message": "hello world!"
+        }
+    }
+}]
+```
+
+The example `worker-animal-pictures` contains a [mock file](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-animal-pictures/test/asset-compute/worker-animal-pictures/simple-test/mock-upload.wikimedia.org.json) for the Wikimedia service it interacts with.
+
+#### Sharing files across test cases
+
+It is recommended to use relative symlinks if you share `file.*`, `params.json` or `validate` scripts across multiple tests. They are supported with git. Make sure to give your shared files a unique name, since you might have different ones. In the example below the tests are mixing and matching a few shared files, and their own:
+
+```
+tests/
+    file-one.jpg
+    params-resize.json
+    params-crop.json
+    validate-image-compare
+    
+    jpg-png-resize/
+        file.jpg    - symlink: ../file-one.jpg
+        params.json - symlink: ../params-resize.json
+        rendition.png
+        validate    - symlink: ../validate-image-compare
+
+    jpg2-png-crop/
+        file.jpg
+        params.json - symlink: ../params-crop.json
+        rendition.gif
+        validate    - symlink: ../validate-image-compare
+
+    jpg-gif-crop/
+        file.jpg    - symlink: ../file-one.jpg
+        params.json - symlink: ../params-crop.json
+        rendition.gif
+        validate
+```
+
+### Testing expected errors
+
+Error tests cases should not contain an expected `rendition.*` file and should define the expected `errorReason` inside the `params.json` file.
+
+Error Test Case Structure:
+```
+<error_test_case>/
+    file.jpg
+    params.json
+```
+
+Parameter file with error reason:
+
+```js
+{
+    "errorReason": "SourceUnsupported",
+    // ... other params
+}
+```
+
+See full list and description of Asset Compute error reasons [here](https://github.com/adobe/asset-compute-commons#error-reasons).
+
+## Debug a custom application {#debug-custom-worker}
 
 The following steps show how you can debug your custom worker using Visual Studio Code. It allows for seeing live logs, hit breakpoints and step through code as well as live reloading of local code changes upon every activation.
 
@@ -90,125 +217,4 @@ _Please note that many of these steps are usually automated by `aio` out of the 
 
 Note: You will always see 2 activations for each request in custom workers. This is because the first is a web action that will simply invoke itself asynchronously (this all happens in the SDK code). The second activation is then the one that will hit your code.
 
-## Adding Worker Tests
 
-### Adding tests
-Tests are expected inside the `test` folder at the root level of the aio project. The test cases for each worker should be in the path `test/asset-compute/<worker-name>`, with one folder for each test case:
-
-```
-action/
-manifest.yml
-package.json
-...
-test/
-  asset-compute/
-    <worker-name>/
-        <testcase1>/
-            file.jpg
-            params.json
-            rendition.png
-        <testcase2>/
-            file.jpg
-            params.json
-            rendition.gif
-            validate
-        <testcase3>/
-            file.jpg
-            params.json
-            rendition.png
-            mock-adobe.com.json
-            mock-console.adobe.io.json
-```
-
-Have a look at [example custom workers](https://github.com/adobe/asset-compute-example-workers/) for some examples. Below is a detailed reference.
-
-### Test output
-The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app.
-
-### Mocking external services
-It is possible to mock external service calls in your actions by defining `mock-<HOST_NAME>.json` files in your test cases, where HOST_NAME is the host you would like to mock. An example use case is a worker that makes a separate call to S3. The new test structure would look like this:
-
-```
-      <testcase3>/
-        file.jpg
-        params.json
-        rendition.png
-        mock-<HOST_NAME1>.json
-        mock-<HOST_NAME2>.json
-```
-
-The mock file must be a JSON formatted http response using the documentation [here](https://www.mock-server.com/mock_server/creating_expectations.html). If there are multiple host names to mock, define multiple mock-<mocked-host>.json files. 
-Here is an exaample mock file for `google.com` named `mock-google.com.json`:
-
-```
-[{
-    "httpRequest": {
-		"path": "/images/hello.txt"
-		"method": "GET"
-    },
-    "httpResponse": {
-        "statusCode": 200,
-        "body": {
-          "message": "hello world!"
-        }
-    }
-}]
-```
-
-#### Sharing files across test cases
-
-It is recommended to use relative **symlinks** if you share `file.*`, `params.json` or `validate` scripts across multiple tests. They are supported with git. Make sure to give your shared files a unique name, since you might have different ones. In the example below the tests are mixing and matching a few shared files, and their own:
-
-```
-tests/
-    file-one.jpg
-    params-resize.json
-    params-crop.json
-    validate-image-compare
-    
-    jpg-png-resize/
-        file.jpg    - symlink: ../file-one.jpg
-        params.json - symlink: ../params-resize.json
-        rendition.png
-        validate    - symlink: ../validate-image-compare
-
-    jpg2-png-crop/
-        file.jpg
-        params.json - symlink: ../params-crop.json
-        rendition.gif
-        validate    - symlink: ../validate-image-compare
-
-    jpg-gif-crop/
-        file.jpg    - symlink: ../file-one.jpg
-        params.json - symlink: ../params-crop.json
-        rendition.gif
-        validate
-```
-
-### Examples
-See the [worker-animal-pictures](https://github.com/adobe/asset-compute-example-workers/tree/master/projects/worker-animal-pictures/test/asset-compute/worker-animal-pictures) for an example.
-
-## Error reporting {#error-reporting}
-
-The type of errors that Asset Compute Service reports to the client are available [here](https://github.com/adobe/asset-compute-commons/blob/master/lib/errors.js). For a custom worker to report an unsupported file, use `SourceFormatUnsupported`. if it a file format that it doesn't support or `SourceUnsupported` if it is a format it supports, but for some reason this particular file is not supported, or `SourceCorruptError` if the source is determined to be corrupt.  An example, would be a worker that handles TIFF files that is given a TIFF file with a particular compression type that the worker does not support.
-
-### Testing expected errors
-
-Error tests cases should not contain an expected `rendition.*` file and should define the expected `errorReason` inside the `params.json` file.
-
-#### Error Test Case Structure
-```
-<error_test_case>/
-    file.jpg
-    params.json
-```
-
-#### Parameter file with error reason
-```js
-{
-    "errorReason": "SourceUnsupported",
-    // ... other params
-}
-```
-
-See full list and description of Asset Compute error reasons [here](https://github.com/adobe/asset-compute-commons#error-reasons)
