@@ -210,7 +210,7 @@ Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azu
 {
     "source": "", // source url
     "renditions" : [], // array with 1..N requested renditions, including target locations
-    "userData": {} // custom user data for events
+    "userData": {} // custom user data from the client for events
 }
 ```
 
@@ -234,6 +234,8 @@ Note that `source` can either be a `<string>`, which is seen as URL, or an `<obj
     "url": "http://example.com/image.jpg"
 }
 ```
+
+Note that `userData` is controlled by the client, and should not be modifed or used in the workers.
 
 #### Source object fields {#source-object-fields}
 

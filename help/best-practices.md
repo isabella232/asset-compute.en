@@ -5,6 +5,26 @@ description: Best practices, limitations, and tips to create custom workers usin
 
 # Best practices and troubleshooting {#best-practices}
 
+* If you had issues logging in to the Adobe Developer Console [through the Adobe I/O CLI](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#3-signing-in-from-cli), you will need to manually add some credentials needed for developing, testing, and deploying your custom worker:
+    1. Navigate to your Firefly Project and Workspace on the [Adobe Developer Console](https://console.adobe.io/) and and press `"Download"` in the top right corner. Open this file and save this JSON to a safe place on your machine.
+    2. Navigate to the `.env` file in your Firefly Application
+    3. Add the Adobe I/O Runtime Credentials
+        - Get the AIO Runtime credentials from the downloaded JSON. They will be under `project.workspace.services.runtime`.
+        - Add the I/O Runtime credentials in the `AIO_runtime_XXX` variables:
+        ```
+        AIO_runtime_auth=
+        AIO_runtime_namespace=
+        ```
+    4. Add the absolute path to the downloaded JSON in Step 1:
+        ```
+        ASSET_COMPUTE_INTEGRATION_FILE_PATH=
+        ```
+    Make sure to set up the rest of the [necessary credentials](.develop-custom-worker.md#developer-tool-credentials) needed for the developer tool.
+    
+* When running the developer tool for the first time with a new Asset Compute Integration, it may fail the first processing request because the Asset Compute Events Journal is not fully set up. Wait some time for the journal to set up before sending another request.
+* If you run into errors sending Asset Compute `/register` or `/process` requests, check to make sure all the necessary APIs are added to the Adobe I/O Project and Workspace:
+    -  `"Asset Compute"`, `"IO Events"`, `"IO Events Management"`, and `"Runtime"`
+
 **TBD**:
 
 Add any best practices for developers in this section:
@@ -17,10 +37,8 @@ Add any best practices for developers in this section:
 
 Add possible troubleshooting steps to this section:
 
-* APIs are not added to the Adobe I/O project.
 * File permissions issues on the local file system.
-* Indentation of YAML file is incorrect. Link to the sample YAML file.
-* When setting the Journal for the first time, it may fail with a 500 error code. Re-run the Journal setup to complete the setup.
+
 
 ## Single focused {#single-focused}
 

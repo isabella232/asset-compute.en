@@ -59,9 +59,9 @@ See [example custom workers](#try-the-sample-worker-provided-by-adobe-try-sample
 
 Since you logged in during app creation, most of the credentials are already collected in your `.env` file. You only need to add a few credentials required for the using the [developer tool](#developer-tool-credentials).
 
-<!-- _If you did not log in, refer to our troubleshooting guide to [set up credentials manually](SettingUpCredentialsManually.md)._ -->
+_If you did not log in, refer to our troubleshooting guide to [set up credentials manually](./best-practices.md#best-practices)._
 
-### Developer Tool Credentials
+### Developer Tool Credentials {#developer-tool-credentials}
 Make sure to have access to a [cloud storage container]((https://github.com/adobe/asset-compute-devtool#prerequisites) ). Currently, we only support Azure Blob Storage and AWS S3.
 
 _Note: This can be a shared container used by multiple developers across different projects._
