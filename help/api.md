@@ -7,7 +7,7 @@ description: Best practices, limitations, and tips to create custom workers usin
 
 The article describes the HTTP API. A high-level flow for clients of the service is below:
 
-1. Client is provisioned as Adobe Developer Console integration in an IMS organization. Each separate system or environment has its own separate integration, in order to isolate the journal.
+1. Client is provisioned as Adobe Developer Console project in an IMS organization. Each separate system or environment has its own separate project, in order to isolate the journal.
 
    >[!NOTE]
    >
@@ -25,7 +25,7 @@ The article describes the HTTP API. A high-level flow for clients of the service
 
 All APIs require access token authentication. The requests must set the following headers:
 
-1. `Authorization` header with bearer token, which is the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html) from Adobe Developer Console integration. The [scopes](#scopes) are documented below.
+1. `Authorization` header with bearer token, which is the technical account token, received via [JWT exchange](https://www.adobe.io/authentication/auth-methods.html) from Adobe Developer Console project. The [scopes](#scopes) are documented below.
 
 <!-- TBD: Change the existing URL to a new path when a new path for docs is available. The current path contains master word that is not an inclusive term. Logged ticket in AIO's GitHub repo to get a new URL.
 -->
@@ -36,7 +36,7 @@ All APIs require access token authentication. The requests must set the followin
   >
   >Currently, set the `x-ims-org-id` header with the same org ID value.
 
-3. `x-api-key` with the client ID from the Adobe Developers Console integration.
+3. `x-api-key` with the client ID from the Adobe Developers Console project.
 
 ### Scopes {#scopes}
 
@@ -52,7 +52,7 @@ Ensure the following scopes for the access token:
 * `additional_info.roles`
 * `additional_info.projectedProductContext`
 
-These require the Adobe Developer Console integration to be subscribed to `Asset Compute`, `I/O Events`, and `I/O Management API` services. The breakdown of individual scopes is:
+These require the Adobe Developer Console project to be subscribed to `Asset Compute`, `I/O Events`, and `I/O Management API` services. The breakdown of individual scopes is:
 
 * Basic
   * scopes: `openid,AdobeID`
@@ -71,11 +71,13 @@ These require the Adobe Developer Console integration to be subscribed to `Asset
 
 ## Registration {#register}
 
-For an existing technical account (Adobe Developer Console integration), create an Asset Compute service registration. This is required before the first request to `/process`. It returns the Event journal URL to receive asynchronous events.
+Each client of the Asset Compute service - a unique Adobe Developer console project subscribed to the service - must [register](#register-request) first before being able to make processing requests. The registration step returns the unique event journal which is required to retrieve the asynchronous events from rendition processing.
 
-For an existing technical account (Adobe Developer Console integration) that was setup for Asset Compute with `/register`, you can remove the setup and journal.
+At the end of its lifecycle, a client can [unregister](#unregister-request).
 
 ### Register request {#register-request}
+
+This API call sets up an Asset Compute client and provides the event journal URL. This is an idempotent operation and only needs to be called once for each client. It can be called again to retrieve the journal URL again.
 
 | Parameter                | Value                                                |
 |--------------------------|------------------------------------------------------|
@@ -83,12 +85,15 @@ For an existing technical account (Adobe Developer Console integration) that was
 | Path                     | `/register`                                          |
 | Header `Authorization`   | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id`    | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
-
-Ensure that the body of the request is empty.
+| Request body | Must be empty. |
 
 ### Register response {#register-response}
 
-Response MIME type is `application/json`. Response header `X-Request-Id` is either the same as the `X-Request-Id` set in the request header or a uniquely generated one. Use for identifying requests across systems and for support requests.
+| Parameter             | Value                                                |
+|-----------------------|------------------------------------------------------|
+| Mime type             | `application/json`                                   |
+| Header `X-Request-Id` | Either the same as the `X-Request-Id` request header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
+| Response body         | A JSON object with `journal`, `ok` and/or `requestId` fields. |
 
 The HTTP status codes are:
 
@@ -103,7 +108,7 @@ The HTTP status codes are:
   ```
 
 * **401 Unauthorized**: When the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
-* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console integration (technical account) is not subscribed to all required services.
+* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
 * **429 Too many requests**: When the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
 * **4xx error**: When there was any other client error and registration failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
@@ -127,18 +132,23 @@ The HTTP status codes are:
 
 ### Unregister request {#unregister-request}
 
+This API call unregisters an Asset Compute client. After this it is no longer possible to invoke `/process`. Note that calling it for an already or yet unregistered client will return a 404.
+
 | Parameter                | Value                                                |
 |--------------------------|------------------------------------------------------|
 | Method | `POST`          |
 | Path   | `/unregister`   |
 | Header `Authorization`   | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id`    | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
-
-The request body is empty.
+| Request body | Must be empty. |
 
 ### Unregister response {#unregister-response}
 
-Response MIME type is `application/json`. Response header `X-Request-Id` is either the same as the `X-Request-Id` set in the request header or a uniquely generated one. Use for identifying requests across systems and for support requests.
+| Parameter             | Value                                                |
+|-----------------------|------------------------------------------------------|
+| Mime type             | `application/json`                                   |
+| Header `X-Request-Id` | Either the same as the `X-Request-Id` request header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
+| Response body         | A JSON object with `ok` and `requestId` fields. |
 
 The status codes are:
 
@@ -152,7 +162,7 @@ The status codes are:
   ```
 
 * **401 Unauthorized**: When the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
-* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console integration (technical account) is not subscribed to all required services.
+* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
 * **404 Not found**: When there is no current registration for the given credentials.
 
   ```json
@@ -188,9 +198,11 @@ The status codes are:
 
 For a list of currently supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
 
+### Process request {#process-request}
+
 The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
 
-### Process request {#process-request}
+Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs). The client is responsible for generating these pre-signed URLs.
 
 | Parameter                | Value                                                |
 |--------------------------|------------------------------------------------------|
@@ -199,12 +211,11 @@ The `process` operation submits a job that will transform a source asset into mu
 | Mime type | `application/json` |
 | Header `Authorization`   | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id`    | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
+| Request body | Must be in the process request JSON format as described below. It provides instructions on what asset to process and what renditions to generate. |
 
-The request body must be in JSON format. It provides instructions on what asset to process and what renditions to generate.
+#### Process request JSON {#process-request-json}
 
-Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs). The client is responsible for generating these pre-signed URLs.
-
-#### Process request JSON fields {#process-request-json-fields}
+The request body of `/process` must be a JSON object with this high-level schema:
 
 ```json
 {
@@ -280,12 +291,13 @@ Note that `userData` is controlled by the client, and should not be modifed or u
 
 ### Process response {#process-response}
 
+The `/process` request will return immediately with success or failure based on basic request validation. Actual asset processing will happen asynchronously.
+
 | Parameter             | Value                                                |
 |-----------------------|------------------------------------------------------|
 | Mime type             | `application/json`                                   |
-| Header `X-Request-Id` | Either the same as the `X-Request-Id` set in the header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
-
-This request will return immediately with success or failure based on basic request validation. Actual asset processing will happen asynchronously.
+| Header `X-Request-Id` | Either the same as the `X-Request-Id` request header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
+| Response body         | A JSON object with `ok` and `requestId` fields. |
 
 Status codes:
 
@@ -294,8 +306,7 @@ Status codes:
   ```json
   {
       "ok": true,
-      "requestId": "1234567890",
-      "activationId": "legacy-id"
+      "requestId": "1234567890"
   }
   ```
 
@@ -310,7 +321,7 @@ Status codes:
   ```
 
 * **401 Unauthorized**: When the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
-* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console integration (technical account) is not subscribed to all required services.
+* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
 * **429 Too many requests**: When the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
 * **4xx error**: When there was any other client error. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
