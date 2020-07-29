@@ -216,8 +216,7 @@ The request body of `/process` must be a JSON object with this high-level schema
 ```json
 {
     "source": "",
-    "renditions" : [],
-    "userData": {}
+    "renditions" : []
 }
 ```
 
@@ -228,7 +227,6 @@ The available fields are:
 | `source`     | `string` | URL of the source asset to process. Optional based on requested rendition format (e.g. `fmt=zip`). | `"http://example.com/image.jpg"` |
 | `source`     | `object` | Describing the source asset to process. See description of [Source object fields](#source-object-fields) below. Optional based on requested rendition format (e.g. `fmt=zip`). | `{"url": "http://example.com/image.jpg", "mimeType": "image/jpeg" }` |
 | `renditions` | `array`  | Renditions to generate from the source file. Each rendition object supports [rendition instruction](#rendition-instructions). Required. | `[{ "target": "https://....", "fmt": "png" }]` |
-| `userData`   | `string` | Object for passing custom client information that is sent to all events. For example, this allows for passing a custom asset ID to identify assets in events if that is not possible with the `source` URL itself. Optional. | `{ "my-asset-id": "0123456789" }` |
 
 Note that `source` can either be a `<string>`, which is seen as a URL, or an `<object>` with additional field. The following variants are identical:
 
@@ -241,8 +239,6 @@ Note that `source` can either be a `<string>`, which is seen as a URL, or an `<o
     "url": "http://example.com/image.jpg"
 }
 ```
-
-Note that `userData` is controlled by the client, and should not be modifed or used in the workers.
 
 #### Source object fields {#source-object-fields}
 
@@ -278,10 +274,7 @@ Note that `userData` is controlled by the client, and should not be modifed or u
             "name": "cqdam.text.txt",
             "target": "https://some-presigned-put-url-for-cqdam.text.txt",
             "fmt": "text"
-    }],
-    "userData": {
-        "my-asset-id": "1234567890"
-    }
+    }]
 }
 ```
 
@@ -397,7 +390,7 @@ The Adobe I/O Event type for all events of the Asset Compute service is `asset_c
 | `date`      | `string` | `*`           | Timestamp when event was sent in simplified extended [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format (as defined by [Javascript Date.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)). |
 | `requestId` | `string` | `*`           | The request id of the original request to `/process`, same as `X-Request-Id` header. |
 | `source`    | `object` | `*`           | The `source` of the `/process` request. |
-| `userData`  | `object` | `*`           | The `userData` of the `/process` request if set. |
+| `userData`  | `object` | `*`           | The `userData` of the rendition from the `/process` request if set. |
 | `rendition` | `object` | `rendition_*` | The corresponding rendition object passed in `/process`. |
 | `metadata`  | `object` | `rendition_created` | The [metadata](#metadata) properties of the rendition. |
 | `errorReason`  | `string` | `rendition_failed` | Rendition failure [reason](#error-reasons) if any. |
