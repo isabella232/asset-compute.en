@@ -41,6 +41,6 @@ This section can be updated with the following information:
 
 * Anything more? Separate storage, AIO access, what technical know-how/skills are required/assumed for the developer persona.
 
-## Contribute to open-source Asset Compute Service project {#contribute-open-source}
+## Contribute {#contribute-open-source}
 
-Asset Compute Service is developed under an open development model that welcomes contributions from everyone who is interested in asset and rendition processing. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
+Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
