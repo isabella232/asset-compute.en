@@ -5,10 +5,7 @@ description: Considerations when creating and using Asset Compute Service custom
 
 # Considerations to create and use a custom worker {#considerations-custom-worker}
 
-It is simple to get started with serverless and OpenWhisk. Create a single NodeJS file, one `main` function accepting a `params` object, deploy with one `wsk` command and you can go live with it! In Asset Compute Service, it is kept this way. There are not additional complexities when creating a custom worker using Asset Compute Service. Extending Asset Compute Service with new workers is made simple through libraries, APIs, and build tooling. The simplification addresses the mundane work so that developers can focus on value-added tasks. An overly simplified way to create a worker is by creating a simple Shell script to integrate command line apps as workers.
-
-
-Note: Project Firefly provides command line tooling to help deploy and run custom workers. If working on a Project Firefly app, you would type `aio app deploy` to deploy the custom worker.
+Extending Asset Compute Service with custom workers is made simple through the [worker SDK](https://github.com/adobe/asset-compute-sdk) and Project Firefly developer tooling. This allows developers to focus on business logic. Writing custom workers is not more complex than writing a plain serverless Adobe I/O Runtime action, which itself is nothing more than a single Node.js Javascript function. The [basic worker example](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-basic/worker-basic.js) showcases that.
 
 ## Prerequisites and provisioning requirements {#provisioning}
 
