@@ -13,6 +13,11 @@ Developers can plugin custom asset workers to address custom use cases. The serv
 
 **TBD:**
 
+* Clarify the service can only be used within AEM as Cloud Service at this point
+  - "can do for you" title below is misleading
+  - docs provided as context for custom worker developers
+  - and API as that will play a role in custom workers (accepting standard params, invoking Nui itself in the future, etc. (this is an outlook))
+* link to aem as cloud service docs on asset ingestion & customization with processing profiles
 * Add an introduction, PM overview.
 
 ## What Compute Service can do for you {#possible-use-cases-benefits}
