@@ -13,6 +13,74 @@ To test a custom worker, run the following command in the root of the applicatio
 aio app test
 ```
 
+# Debug a custom application {#debug-custom-worker}
+
+The following steps show how you can debug your custom worker using Visual Studio Code. It allows for seeing live logs, hit breakpoints and step through code as well as live reloading of local code changes upon every activation.
+
+_Please note that many of these steps are usually automated by `aio` out of the box, see section "Debugging the Application" in the [Firefly documentation](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). Due to some issues below steps include a workaround for some temporary issues that will be addressed soon._
+
+1. install latest [wskdebug](https://github.com/apache/openwhisk-wskdebug) from github, plus the optional [ngrok](https://www.npmjs.com/package/ngrok)
+
+   ```
+   npm install -g @openwhisk/wskdebug
+   npm install -g ngrok --unsafe-perm=true
+   ```
+
+2. add this to your User settings.json (keeps using the old VS Code debugger, the new one has [some issues](https://github.com/apache/openwhisk-wskdebug/issues/74) with wskdebug):
+   ```
+   "debug.javascript.usePreview": false
+   ```
+
+3. make sure you have NO `aio app run` running
+
+4. deploy latest code
+
+   ```
+   aio app deploy
+   ```
+  
+5. run just the Asset compute devtool (and keep it running)
+
+   ```
+   npx adobe-asset-compute devtool
+   ```
+
+6. in VS Code, add this debug/run configuration to your launch.json:
+
+    ```
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wskdebug worker",
+      "runtimeExecutable": "wskdebug",
+      "args": [
+        "PROJECT-0.0.1/__secured_worker",           // <--- replace this with your ACTION NAME
+        "${workspaceFolder}/actions/worker/index.js",
+        "-l",
+        "--ngrok"
+      ],
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/code",
+      "outputCapture": "std",
+      "timeout": 30000
+    }
+    ```
+  
+   To get the ACTION NAME, look at the output of `aio app deploy`:
+  
+    ```
+    Your deployed actions:
+      -> TypicalCoffeeCat-0.0.1/__secured_worker 
+    ```
+7. select `wskdebug worker` from the run/debug configuration and hit run (play icon)
+8. wait for it to start, should say "🚀 Ready for activations" in the "Debug Console" window at the bottom when ready
+9. click run in the devtool
+10. after a moment, you should see the action executing in VS Code, see the logs appearing
+11. set a breakpoint in your code, run again and it should hit
+12. if you make code changes, they are hot reloaded and effective as soon as the next activation happens
+
+Note: You will always see 2 activations for each request in custom workers. This is because the first is a web action that will simply invoke itself asynchronously (this all happens in the SDK code). The second activation is then the one that will hit your code.
+
 ## Adding Worker Tests
 
 ### Adding tests
