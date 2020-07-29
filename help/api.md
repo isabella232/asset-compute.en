@@ -5,13 +5,13 @@ description: Best practices, limitations, and tips to create custom workers usin
 
 # Asset Compute Service HTTP API {#asset-compute-http-api}
 
+   >[!NOTE]
+   >
+   >Use of the API is limited to development purposes. The API is provided as context when developing custom workers. In Adobe Experience Manager as a Cloud Service, the API is solely used by AEM. 
+
 The article describes the HTTP API. A high-level flow for clients of the service is below:
 
 1. Client is provisioned as Adobe Developer Console project in an IMS organization. Each separate system or environment has its own separate project, in order to isolate the journal.
-
-   >[!NOTE]
-   >
-   >In Adobe Experience Manager as a Cloud Service, it happens automatically, except for the stage environments.
 
 2. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
 
@@ -31,10 +31,6 @@ All APIs require access token authentication. The requests must set the followin
 -->
 
 2. `x-gw-ims-org-id` header with the IMS organization ID.
-
-  >[!NOTE]
-  >
-  >Currently, set the `x-ims-org-id` header with the same org ID value.
 
 3. `x-api-key` with the client ID from the Adobe Developers Console project.
 
@@ -264,23 +260,23 @@ Note that `userData` is controlled by the client, and should not be modifed or u
     "source": "https://www.adobe.com/content/dam/acom/en/lobby/lobby-bg-bts2017-logged-out-1440x860.jpg",
     "renditions" : [{
             "name": "image.48x48.png",
-            "url": "https://some-presigned-put-url-for-image.48x48.png",
+            "target": "https://some-presigned-put-url-for-image.48x48.png",
             "fmt": "png",
             "width": 48,
             "height": 48
         },{
             "name": "image.200x200.jpg",
-            "url": "https://some-presigned-put-url-for-image.200x200.jpg",
+            "target": "https://some-presigned-put-url-for-image.200x200.jpg",
             "fmt": "jpg",
             "width": 200,
             "height": 200
         },{
             "name": "cqdam.xmp.xml",
-            "url": "https://some-presigned-put-url-for-cqdam.xmp.xml",
+            "target": "https://some-presigned-put-url-for-cqdam.xmp.xml",
             "fmt": "xmp"
         },{
             "name": "cqdam.text.txt",
-            "url": "https://some-presigned-put-url-for-cqdam.text.txt",
+            "target": "https://some-presigned-put-url-for-cqdam.text.txt",
             "fmt": "text"
     }],
     "userData": {
@@ -345,9 +341,7 @@ Status codes:
 
 Most clients are likely inclined to retry the exact same request with [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) on any error *except* configuration issues such as 401 or 403, or invalid requests like 400. Apart from regular rate limiting via 429 responses, a temporary service outage or limitation might result in 5xx errors. It would then be advisable to retry after a period of time.
 
-All JSON responses (if present) include the `requestId` which is the same value as the `X-Request-Id` header. It is recommended to read from the header, since it is always present. The `requestId` is also returned in all I/O events related to processing requests as `requestId`. Clients must not make any assumption about the format of this string, it is an opaque string identifier.
-
-For backwards compatibility with the beta API, an `activationId` is returned. It is deprecated and will be removed in the future. New clients instead use `requestId`/`X-Request-Id`.
+All JSON responses (if present) include the `requestId` which is the same value as the `X-Request-Id` header. It is recommended to read from the header, since it is always present. The `requestId` is also returned in all events related to processing requests as `requestId`. Clients must not make any assumption about the format of this string, it is an opaque string identifier.
 
 ## Rendition instructions {#rendition-instructions}
 
@@ -359,7 +353,7 @@ These are the available options for the `renditions` array in [/process](#proces
 | Name              | Type     | Description | Example |
 |-------------------|----------|-------------|---------|
 | `fmt`             | `string` | The renditions target format, can also be `text` for text extraction and `xmp` for extracting XMP metadata as xml. See [supported formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html) | `png` |
-| `target` or `url` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` |
+| `target` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` |
 | `target`          | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` |
 | `width`           | `number` | Width in pixels. only for image renditions. | `200` |
 | `height`          | `number` | Height in pixels. only for image renditions. | `200` |
@@ -405,10 +399,12 @@ The Adobe I/O Event type for all events of the Asset Compute service is `asset_c
 
 | Property  | Description |
 |--------|-------------|
-| `tiff:ImageWidth`  | The width of the rendition in pixels.  Will not be present if the rendition is not an image. |
-| `tiff:ImageLength` | The length of the rendition in pixels.  Will not be present if the rendition is not an image. |
 | `repo:size` | The size of the rendition in bytes. |
 | `repo:sha1` | The sha1 digest of the rendition. |
+| `dc:format` | The mime type of the rendition. |
+| `repo:encoding` | The charset encoding of the rendition in case it is a text-based format. |
+| `tiff:ImageWidth`  | The width of the rendition in pixels. Only present for image renditions. |
+| `tiff:ImageLength` | The length of the rendition in pixels. Only present for image renditions. |
 
 ### Error reasons {#error-reasons}
 
