@@ -1,11 +1,11 @@
 ---
-title: Release notes of Asset Compute Service.
-description: New features, enhancements, and known issues of Asset Compute Service.
+title: Contribute
+description: Contribute to open source components of Asset Compute Service.
 ---
 
-# Contribute to open-source Asset Compute Service project {#contribute-to-compute-service-project}
+# Contribute {#contribute}
 
-Asset Compute Service is developed under an open development model that welcomes contributions from everyone who is interested in asset and rendition processing. A few ways in which you can contribute are:
+Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. A few ways in which you can contribute are:
 
 * Share feedback: If you see a product or documentation issue or have a new feature idea or improvement request, create a GitHub issue in the relevant repository. 
 
