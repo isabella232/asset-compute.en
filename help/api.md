@@ -194,8 +194,6 @@ The status codes are:
 
 ## Asset processing {#asset-processing}
 
-For a list of currently supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
-
 ### Process request {#process-request}
 
 The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
@@ -349,7 +347,7 @@ All JSON responses (if present) include the `requestId` which is the same value 
 
 These are the available options for the `renditions` array in [/process](#process-request).
 
-Common fields:
+### Common fields
 
 | Name              | Type     | Description | Example |
 |-------------------|----------|-------------|---------|
@@ -359,8 +357,9 @@ Common fields:
 | `target`          | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` |
 | `userData`        | `object` | Optional reserved space controlled by the client and passed through as is to rendition events. Allows clients to add custom information to identify rendition events. Must not be modifed or relied upon in custom workers, as clients are free to change this any time. | `{ ... }` |
 
+### Rendition specific fields
 
-Specific fields:
+For a list of currently supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
 
 | Name              | Type     | Description | Example |
 |-------------------|----------|-------------|---------|
