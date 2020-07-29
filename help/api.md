@@ -400,8 +400,8 @@ The Adobe I/O Event type for all events of the Asset Compute service is `asset_c
 | `userData`  | `object` | `*`           | The `userData` of the `/process` request if set. |
 | `rendition` | `object` | `rendition_*` | The corresponding rendition object passed in `/process`. |
 | `metadata`  | `object` | `rendition_created` | The [metadata](#metadata) properties of the rendition. |
-| `errorReason`  | `string` | `rendition_*` | Rendition failure [reason](#error-reasons) if any. |
-| `errorMessage` | `string` | `rendition_*` | Text giving more detail about the rendition failure if any. |
+| `errorReason`  | `string` | `rendition_failed` | Rendition failure [reason](#error-reasons) if any. |
+| `errorMessage` | `string` | `rendition_failed` | Text giving more detail about the rendition failure if any. |
 
 ### Metadata {#metadata}
 
@@ -418,9 +418,8 @@ The Adobe I/O Event type for all events of the Asset Compute service is `asset_c
 
 | Reason  | Description |
 |---------|-------------|
-| `SourceFormatUnsupported`    | The source is of an unsupported type. |
-| `RenditionFormatUnsupported` | The requested format is unsupported. |
+| `RenditionFormatUnsupported` | The requested rendition format is unsupported for the given source. |
 | `SourceUnsupported` | The specific source is unsupported even though the type is supported. |
-| `SourceCorrupt`     | The source data is corrupt.  Includes empty files. |
+| `SourceCorrupt`     | The source data is corrupt. Includes empty files. |
 | `RenditionTooLarge` | The rendition could not be uploaded using the pre-signed URL(s) provided in `target`. The actual rendition size is available as metadata in `repo:size` and can be used by the client to re-process this rendition with the right number of pre-signed URLs. |
-| `GenericError`      | Any other error. |
+| `GenericError`      | Any other unexpected error. |
