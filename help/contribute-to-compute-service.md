@@ -3,6 +3,12 @@ title: Contribute
 description: Contribute to open source components of Asset Compute Service.
 ---
 
+**TBD**
+
+- link to Firefly open soruce components as well
+   - e.g. bug in `aio` can be reported in firefly repos
+   - while bug in asset-compute-sdk or devtool goes into the relevant repos from Nui
+
 # Contribute {#contribute}
 
 Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. A few ways in which you can contribute are:
