@@ -3,7 +3,12 @@ title: Best practices to use Asset Compute Service.
 description: Best practices, limitations, and tips to create custom workers using Asset Compute Service.
 ---
 
-# Best practices and troubleshooting {#best-practices}
+**TBD**
+
+- limitations for custom workers
+- best practices => future (do NOT copy any content from https://git.corp.adobe.com/nui/nui/blob/master/doc/worker_api.md which is out of date and mostly not relevant for 3rd party custom workers)
+
+# Troubleshooting {#troubleshooting}
 
 * If you had issues logging in to the Adobe Developer Console [through the Adobe I/O CLI](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#3-signing-in-from-cli), you will need to manually add some credentials needed for developing, testing, and deploying your custom worker:
     1. Navigate to your Firefly Project and Workspace on the [Adobe Developer Console](https://console.adobe.io/) and and press `"Download"` in the top right corner. Open this file and save this JSON to a safe place on your machine.
@@ -25,6 +30,12 @@ description: Best practices, limitations, and tips to create custom workers usin
 * If you run into errors sending Asset Compute `/register` or `/process` requests, check to make sure all the necessary APIs are added to the Adobe I/O Project and Workspace:
     -  `"Asset Compute"`, `"IO Events"`, `"IO Events Management"`, and `"Runtime"`
 
+## General troubleshooting tips
+
+- Make sure your Javascript worker doesn't crash on startup. If this happens, it is usually related to a missing library or dependency.
+- Make sure that all dependencies that need installation are referenced in the worker's `package.json` file.
+- Make sure any errors that may come from cleanup on failure don't generate their own errors that hide the original problem.
+
 **TBD**:
 
 Add any best practices for developers in this section:
@@ -38,27 +49,6 @@ Add any best practices for developers in this section:
 Add possible troubleshooting steps to this section:
 
 * File permissions issues on the local file system.
-
-
-## Single focused {#single-focused}
-
-Workers should only do a single action. Warm containers in OpenWhisk are never reused for another action, so there is no benefit of having workers doing multiple actions. 
-
-## Startup time {#startup-time}
-
-Costs for worker startup can be pretty high, for example if the app needs to initialize libraries or some database. But even if it's a small amount, it affects the overall throughput and the performance of a hot container.
-
-In this case it is useful to have a web server or daemon approach, communicating through HTTP, TCP or sockets with a service that runs in the background and only starts once, when the container starts.
-
-## Security {#security}
-
-After every invocation, a worker (as in hot container) needs to erase any data of the previous invocation. This is because the next invocation can come from a different customer who should under no circumstances be able to get access to other customer's data. The worker library takes care of that for the source file and renditions on disk. The action itself and any CLI app, server or daemon used must ensure it removes any data from memory about the source or rendition files. This is especially required if the container can be used with custom actions that could try and get to the data, even if the standard worker action that might be used for this container isn't allowing such an option.
-
-## Show errors {#show-errors}
-
-- Make sure your Javascript worker doesn't crash on startup. If this happens, it is usually related to a missing library or dependency.
-- Make sure that all dependencies that need installation are referenced in the worker's `package.json` file.
-- Make sure any errors that may come from cleanup on failure don't generate their own errors that hide the original problem.
 
 ## Use custom application in Experience Manager {#use-in-aem}
 
