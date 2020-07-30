@@ -5,7 +5,7 @@ description: Create customization using Asset Compute Service.
 
 # Develop a custom applications {#develop}
 
-Make sure you meet all of the [prerequisites](release-notes.md) and install the proper tooling. See [set up your environment](./setup-environment.md) to make sure you are ready to create a custom worker.
+Make sure you meet all of the [prerequisites](release-notes.md) and install the proper tooling. See [set up your environment](setup-environment.md) to make sure you are ready to create a custom worker.
 
 ## Create a custom worker {#create-custom-worker}
 
@@ -17,7 +17,7 @@ Make sure to have the [Adobe I/O CLI](https://github.com/adobe/aio-cli) installe
 
     Adobe recommends that you login. If you are having issues then follow the instructions [to create an app without logging in](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#42-developer-is-not-logged-in-as-enterprise-organization-user).
 
-1. After logging in, follow the prompts in the CLI and select the `Organization`, `Project`, and `Workspace` to use for the application. Choose the project and workspace you created when you [set up your environment](./setup-environment.md).
+1. After logging in, follow the prompts in the CLI and select the `Organization`, `Project`, and `Workspace` to use for the application. Choose the project and workspace you created when you [set up your environment](setup-environment.md).
 
     ```sh
     $ aio app init <app-name> --asset-compute
@@ -122,7 +122,7 @@ This deploys the action to Adobe I/O Runtime and start the development tool on y
 >
 >Do not use the `--local` flag with the run command. It does not work with Asset Compute custom workers and the Asset Compute Developer Tool. Custom workers are invoked by the Asset Compute Service which cannot access actions running on developer's local machines.
 
-See [here](test-custom-worker.md) how to test and debug your application. When you are finished developing your custom worker, [deploy your custom worker](./deploy-custom-worker.md).
+See [here](test-custom-worker.md) how to test and debug your application. When you are finished developing your custom worker, [deploy your custom worker](deploy-custom-worker.md).
 
 ## Try the sample worker provided by Adobe {#try-sample}
 
