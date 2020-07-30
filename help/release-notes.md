@@ -7,11 +7,7 @@ description: New features, enhancements, and known issues of Asset Compute Servi
 
 The latest release of Asset Compute Service is released on Jul 30, 2020.
 
-**TBD:**
-
-* Are we versioning the releases?
-* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or other offerings/integrations such as InDesign Server?
-
+<!--
 ## Prerequisites {#prerequisites}
 
 To create and deploy and custom worker, fulfill the following requirements:
@@ -21,26 +17,31 @@ To create and deploy and custom worker, fulfill the following requirements:
 * Ensure a developer role or administrator permissions in the organization.
 * Ensure that [Adobe I/O CLI](https://github.com/adobe/aio-cli) is installed locally.
 
-For testing your custom worker with the [developer tool](https://github.com/adobe/asset-compute-devtool), the following is also required:
-- Access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites). Currently, we support Azure Blob Storage and AWS S3.
+To test your custom worker with the [developer tool](https://github.com/adobe/asset-compute-devtool), you need access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites). Currently, Adobe supports Azure Blob Storage and AWS S3.
 
-    _Cloud storage access is only required for using the developer tool. You can still create, test and deploy custom workers with out using the developer tool._
+>[!NOTE]
+>
+>Cloud storage access is only required for using the developer tool. You can still create, test and deploy custom workers with out using the developer tool.
+-->
 
-After checking all the prerequisites, you are ready to [set up your environment](setup-environment.md).
+## What is new {#what-is-new}
 
-## Known issues {#known-limitations}
+This is the first release of Asset Compute Service. It is a scalable and extensible service of Adobe Experience Cloud to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text & metadata and archives. 
 
-- Access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites) is **required** for using the [developer tool](https://github.com/adobe/asset-compute-devtool).
-    - The cloud storage access is only needed for the developer tool. You can still create, test, and deploy custom workers without developer tool.
-    - This can be a shared container used by mutliple developers across different projects.
-    - This cloud storage is different than the AEM blob store.
+Currently, the Asset Compute Service can only be used in Experience Manager as a Cloud Service.
 
-**TBD:**
+## Limitations and known issues {#known-limitations}
 
-This section can be updated with the following information:
+Access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites) is mandatory for using the [developer tool](https://github.com/adobe/asset-compute-devtool).
 
-* Anything more? Separate storage, AIO access, what technical know-how/skills are required/assumed for the developer persona.
+* The cloud storage (different than the Experience Manager blob store) access is needed only for the developer tool. You can still create, test, and deploy custom workers without the developer tool.
+* It can be a shared container used by multiple developers across different projects.
 
 ## Contribute {#contribute-open-source}
 
 Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
+
+<!-- **TBD:**
+* Are we versioning the releases?
+* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or other offerings/integrations such as InDesign Server?
+-->

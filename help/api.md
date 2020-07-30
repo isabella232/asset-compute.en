@@ -5,23 +5,21 @@ description: Best practices, limitations, and tips to create custom workers usin
 
 # Asset Compute Service HTTP API {#asset-compute-http-api}
 
-   >[!NOTE]
-   >
-   >Use of the API is limited to development purposes. The API is provided as context when developing custom workers. In Adobe Experience Manager as a Cloud Service, the API is solely used by AEM.
+The use of the API is limited to development purposes. The API is provided as a context when developing custom workers. [!DNL Adobe Experience Manager] as a Cloud Service uses the API solely to pass the processing information to a custom worker.
 
-Any client of the Asset Compute service HTTP API must follow this high-level flow:
+Any client of the [!DNL Asset Compute Service] HTTP API must follow this high-level flow:
 
-1. Client is provisioned as Adobe Developer Console project in an IMS organization. Each separate client (system or environment) requires its own separate project, in order to separate the event data flow.
+1. A client is provisioned as [!DNL Adobe Developer Console] project in an IMS organization. Each separate client (system or environment) requires its own separate project in order to separate the event data flow.
 
-2. Client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
+1. A client generates an access token for the technical account using the [JWT (Service Account) Authentication](https://www.adobe.io/authentication/auth-methods.html).
 
-3. Client calls [`/register`](#register) first to retrieve the journal URL. [`/register`](#register) needs to be called only once.
+1. A client calls [`/register`](#register) only once to retrieve the journal URL.
 
-4. Client calls [`/process`](#process-request) for each asset for which it wants to generate N renditions. This is asynchronous.
+1. A client calls [`/process`](#process-request) for each asset for which it wants to generate renditions. The call is asynchronous.
 
-5. Client regularly polls the journal to [receive events](#asynchronous-events) for each requested rendition when it has been successfully processed (`rendition_created` event type) or if there was an error (`rendition_failed` event type).
+1. A client regularly polls the journal to [receive events](#asynchronous-events). It receives events for each requested rendition when the rendition is successfully processed (`rendition_created` event type) or if there is an error (`rendition_failed` event type).
 
-The [@adobe/asset-compute-client](https://github.com/adobe/asset-compute-client) module makes it easy to consume the API in Node.js code.
+The [@adobe/asset-compute-client](https://github.com/adobe/asset-compute-client) module makes it easy to use the API in Node.js code.
 
 ## Authentication and authorization {#authentication-and-authorization}
 
@@ -32,9 +30,9 @@ All APIs require access token authentication. The requests must set the followin
 <!-- TBD: Change the existing URL to a new path when a new path for docs is available. The current path contains master word that is not an inclusive term. Logged ticket in AIO's GitHub repo to get a new URL.
 -->
 
-2. `x-gw-ims-org-id` header with the IMS organization ID.
+1. `x-gw-ims-org-id` header with the IMS organization ID.
 
-3. `x-api-key` with the client ID from the Adobe Developers Console project.
+1. `x-api-key` with the client ID from the [!DNL Adobe Developers Console] project.
 
 ### Scopes {#scopes}
 
@@ -50,7 +48,7 @@ Ensure the following scopes for the access token:
 * `additional_info.roles`
 * `additional_info.projectedProductContext`
 
-These require the Adobe Developer Console project to be subscribed to `Asset Compute`, `I/O Events`, and `I/O Management API` services. The breakdown of individual scopes is:
+These require the [!DNL Adobe Developer Console] project to be subscribed to `Asset Compute`, `I/O Events`, and `I/O Management API` services. The breakdown of individual scopes is:
 
 * Basic
   * scopes: `openid,AdobeID`
@@ -69,13 +67,13 @@ These require the Adobe Developer Console project to be subscribed to `Asset Com
 
 ## Registration {#register}
 
-Each client of the Asset Compute service - a unique Adobe Developer console project subscribed to the service - must [register](#register-request) first before being able to make processing requests. The registration step returns the unique event journal which is required to retrieve the asynchronous events from rendition processing.
+Each client of the [!DNL Asset Compute service] - a unique [!DNL Adobe Developer Console] project subscribed to the service - must [register](#register-request) before making processing requests. The registration step returns the unique event journal which is required to retrieve the asynchronous events from rendition processing.
 
 At the end of its lifecycle, a client can [unregister](#unregister-request).
 
 ### Register request {#register-request}
 
-This API call sets up an Asset Compute client and provides the event journal URL. This is an idempotent operation and only needs to be called once for each client. It can be called again to retrieve the journal URL again.
+This API call sets up an [!DNL Asset Compute] client and provides the event journal URL. This is an idempotent operation and only needs to be called once for each client. It can be called again to retrieve the journal URL.
 
 | Parameter                | Value                                                |
 |--------------------------|------------------------------------------------------|
@@ -89,7 +87,7 @@ This API call sets up an Asset Compute client and provides the event journal URL
 
 | Parameter             | Value                                                |
 |-----------------------|------------------------------------------------------|
-| Mime type             | `application/json`                                   |
+| MIME type             | `application/json`                                   |
 | Header `X-Request-Id` | Either the same as the `X-Request-Id` request header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
 | Response body         | A JSON object with `journal`, `ok` and/or `requestId` fields. |
 
@@ -144,7 +142,7 @@ This API call unregisters an Asset Compute client. After this it is no longer po
 
 | Parameter             | Value                                                |
 |-----------------------|------------------------------------------------------|
-| Mime type             | `application/json`                                   |
+| MIME type             | `application/json`                                   |
 | Header `X-Request-Id` | Either the same as the `X-Request-Id` request header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
 | Response body         | A JSON object with `ok` and `requestId` fields. |
 
@@ -204,7 +202,7 @@ Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azu
 |--------------------------|------------------------------------------------------|
 | Method    | `POST`       |
 | Path      | `/process`   |
-| Mime type | `application/json` |
+| MIME type | `application/json` |
 | Header `Authorization`   | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id`    | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
 | Request body | Must be in the process request JSON format as described below. It provides instructions on what asset to process and what renditions to generate. |
@@ -284,7 +282,7 @@ The `/process` request will return immediately with success or failure based on 
 
 | Parameter             | Value                                                |
 |-----------------------|------------------------------------------------------|
-| Mime type             | `application/json`                                   |
+| MIME type             | `application/json`                                   |
 | Header `X-Request-Id` | Either the same as the `X-Request-Id` request header or a uniquely generated one. Use for identifying requests across systems and/or support requests. |
 | Response body         | A JSON object with `ok` and `requestId` fields. |
 
@@ -365,10 +363,9 @@ For a list of currently supported file formats, see [supported file formats](htt
 | `interlace`       | `bool`   | Create interlaced PNG or GIF or progressive JPEG by setting it to true. It has no effect on other file formats. | |
 | `jpegSize`        | `number` | Approximate size of JPEG file in bytes. Note this overrides any `quality` setting. Has no effect on other formats. | |
 | `dpi`             | `number` or `object` | Set x and y dpi. For simplicity, it can also be set to a single number which will be used for both x and y. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` |
-| `convertToDpi`    | `number` or `object` | x and y dpi resample values while maintaining physical size. For simplicity, it can also be set to a single number which will be used for both x and y. | `96` or `{ xdpi: 96, ydpi: 96 }` |
+| `convertToDpi`    | `number` or `object` | x and y dpi resample values while maintaining physical size. For simplicity, it can also be set to a single number which is used for both x and y. | `96` or `{ xdpi: 96, ydpi: 96 }` |
 | `files`           | `array`  | List of files to include in the ZIP archive (`fmt=zip`). Each entry can either be a URL string or an object with the fields:<ul><li>`url`: URL to download file</li><li>`path`: Store file under this path in the ZIP</li></ul> | `[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]` |
 | `duplicate`       | `string` | Duplicate handling for ZIP archives (`fmt=zip`). By default multiple files stored under the same path in the ZIP will generate an error. Setting `duplicate` to `ignore` will result in only the first asset to be stored and the rest to be ignored. | `ignore` |
-
 
 ## Asynchronous events {#asynchronous-events}
 
@@ -402,7 +399,7 @@ The Adobe I/O Event type for all events of the Asset Compute service is `asset_c
 |--------|-------------|
 | `repo:size` | The size of the rendition in bytes. |
 | `repo:sha1` | The sha1 digest of the rendition. |
-| `dc:format` | The mime type of the rendition. |
+| `dc:format` | The MIME type of the rendition. |
 | `repo:encoding` | The charset encoding of the rendition in case it is a text-based format. |
 | `tiff:ImageWidth`  | The width of the rendition in pixels. Only present for image renditions. |
 | `tiff:ImageLength` | The length of the rendition in pixels. Only present for image renditions. |
