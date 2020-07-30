@@ -7,9 +7,6 @@ description: Developer environment setup for Asset Compute Service to start crea
 
 To create a setup that allows you to develop for Compute Service, follow these requirements and instructions.
 
-<!-- Attention: Add public-facing multiple links.
--->
-
 1. [Acquire access and credentials](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials) for Project Firefly.
 
 1. [Set up the local environment](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#local-environment-set-up) and the required tools.
@@ -17,35 +14,35 @@ To create a setup that allows you to develop for Compute Service, follow these r
 1. Some more tools that help you get started developing smoothly are:
 
    * [Git](https://git-scm.com/).
-   * [Docker](https://www.docker.com) on Mac. Use [Docker for Mac](https://docs.docker.com/docker-for-mac/install/).
-   * [Docker Compose](https://docs.docker.com/compose/) (part of Docker for Mac, used for docker builds) (`docker-compose`).
-   * [NodeJS](https://nodejs.org) and [NPM](https://www.npmjs.com). User of OSX HomeBrew can do `brew install node` to install both. Otherwise, download it from the [NodeJS download page](https://nodejs.org/en/). Use version: `10.x` or later for the `nui` CLI.
-   * An IDE that is good for NodeJS, such as [VS Code](https://code.visualstudio.com) or [Webstorm](https://www.jetbrains.com/webstorm/).
-   * [AIO CLI](https://github.com/adobe/aio-cli) (`aio`) - install using `npm install -g @adobe/aio-cli`
-   * [Project Nui CLI](https://git.corp.adobe.com/nui/cli/blob/master/README.md#installation) (`nui`). Ensure you have the latest version as it is frequently updates .
-   * [OpenWhisk CLI](https://github.com/apache/incubator-openwhisk-cli) (`wsk`). [Download here](https://github.com/apache/incubator-openwhisk-cli/releases) or `brew install wsk`.
-   * [Meahana](http://meahana.corp.adobe.com), our web-based developer user interface for Compute Service. To use Meahana, S3 is required. Including access to S3 buckets.
-   * [nui-mehana](https://s3.console.aws.amazon.com/s3/buckets/nui-meahana): Used as [shared file store for Meahana](https://git.corp.adobe.com/nui/meahana#setup-s3-bucket)
-   * [adobe-sample-asset-repository](https://s3.console.aws.amazon.com/s3/buckets/adobe-sample-asset-repository). Sample assets used for all manual and automated tests.
-   * (Optional) [ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/). Required to validate test results in `worker-cameraraw`. [Download here](https://www.sno.phy.queensu.ca/~phil/exiftool/install.html) or `brew install exiftool`.
-   * (Optional) [I/O Runtime Shell UI](https://git.corp.adobe.com/cloudshell/experimental-shell). [Download here](https://git.corp.adobe.com/cloudshell/experimental-shell/releases), OSX only right now.
+   * [Docker Desktop](https://www.docker.com/get-started).
+   * [NodeJS](https://nodejs.org) (v10 to v12 LTS, odd versions are not recommended) and [NPM](https://www.npmjs.com). User of OSX HomeBrew can do `brew install node` to install both. Otherwise, download it from the [NodeJS download page](https://nodejs.org/en/).
+   * An IDE that is good for NodeJS, we recommend [Visual Studio Code (VS Code)](https://code.visualstudio.com) as it is the supported IDE for the debugger. You can use any other IDE as a code editor, but advanced usage (e.g. debugger) is not yet supported.
+   * [AIO CLI](https://github.com/adobe/aio-cli) (`aio`) - install using `npm install -g @adobe/aio-cli`.
 
 1. Ensure to meet the [prerequisites](release-notes.md#prerequisites).
 
-**TBD**:
+## Setup a Firefly project {#create-firefly-project}
 
-Update this section with the following information:
+1. Be granted System Admin or Developer Role access in the Experience Organization. This can be set by a System Admin in the [Admin Console](https://adminconsole.adobe.com/overview).
 
+1. Log onto the [Adobe Developer Console](https://console.adobe.io/). Ensure you are part of the same Adobe Experience Cloud Organization as the AEM as a Cloud Service integration. For more information about Adobe Developer Console, see [Console Documentation](https://www.adobe.io/apis/experienceplatform/console/docs.html).
+
+1. Create a new Project Firefly project (_Full instructions [here](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md)_)
+
+   * Click `"Create new project" => "Project from template"` and choose `"Firefly"`
+   * It creates a new Firefly Project with two workspaces: `Production` and `Stage`. Feel free to add additional workspaces (e.g. `Development`)
+
+1. Inside the Firefly Project, choose a workspace and subscribe to the services needed for Asset Compute. Click **Add to Project** > **API** and add `Asset Compute`, `IO Events`, and `IO Events Management` services. When adding the first API, it prompts to create a private key. Save this information on your machine as you will need this key to test your custom worker with the developer tool.
+
+## Next Step {#next-step}
+
+Now that your environment is set up, you are ready to [create a custom worker](./develop-custom-worker.md).
+
+<!-- TBD items for later:
+ 
 * Any steps in the beginning that lead to gotchas later should be called out for caution? For example,
   * don't change some defaults initially
   * know risks when deviating from standard path
   * naming conventions to follow
   * Retrieve and format credentials (YAML file details)
-
-## Test your setup {#test-setup}
-
-You can test the setup by testing a custom worker. See https://git.corp.adobe.com/nui/example-custom-worker
-
-**TBD**:
-
-Bring over that information to this article.
+-->

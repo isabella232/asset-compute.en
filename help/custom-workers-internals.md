@@ -1,38 +1,9 @@
 ---
-title: Considerations when creating and using Asset Compute Service custom worker.
-description: Considerations when creating and using Asset Compute Service custom worker.
+title: Understand the working of a custom worker.
+description: Internal working of Asset Compute Service custom worker to help understand how it works.
 ---
 
-# Considerations to create and use a custom worker {#considerations-custom-worker}
-
-It is simple to get started with serverless and OpenWhisk. Create a single NodeJS file, one `main` function accepting a `params` object, deploy with one `wsk` command and you can go live with it! In Asset Compute Service, it is kept this way. There are not additional complexities when creating a custom worker using Asset Compute Service. Extending Asset Compute Service with new workers is made simple through libraries, APIs, and build tooling. The simplification addresses the mundane work so that developers can focus on value-added tasks. An overly simplified way to create a worker is by creating a simple Shell script to integrate command line apps as workers.
-
-<!-- Attention: Is it possible to provide a public-facing example of a basic Shell script as a worker. An internal sample is at https://git.corp.adobe.com/aklimets/project-nui/blob/master/actions/tika/worker.sh
--->
-
-## Prerequisites and provisioning requirements {#provisioning}
-
-Ensure you meet the following prerequisites:
-
-* An Experience Cloud Organization. More information [here](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials).
-* The Experience Organization must have AEM as a Cloud Service enabled.
-* The Experience Organization must be added to Project Firefly developer preview program. If you do not have access to Project Firefly, read [here](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md) how you can apply for access.
-
-**TBD:**
-
-* What all accesses and licenses are required?
-* What all permissions are required to create, debug, and deploy custom workers?
-* How do developers get access and provision the required apps?
-* Repository management
-
-## Other considerations {#others}
-
-**TBD**:
-
-* Anything on security and data transfer?
-* What about handling personal or sensitive information?
-* Custom worker SLA is dependent on SLAs of various services it depends on.
-* Document how the devs can get to know the KPIs of their custom workers. The KPIs are dependent on the performance at Adobe's side, amongst other things.
+# Internals of a custom worker {#how-customer-workers-work}
 
 ## Understand the workflow of a custom worker {#understand-the-working}
 
@@ -55,7 +26,7 @@ curl -X POST \
   -H "x-api-key: $API_KEY"
 ```
 
-The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-client#usage) JavaScript library can be used in NodeJS applications to handle all the necessary steps from registration, processing to asynchronous event handling. For more information on the required headers, see [Authentication and Authorization](https://git.corp.adobe.com/nui/nui/blob/master/doc/api.md#authentication-and-authorization).
+The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-client#usage) JavaScript library can be used in NodeJS applications to handle all the necessary steps from registration, processing to asynchronous event handling. For more information on the required headers, see [Authentication and Authorization](./api.md).
 
 ### Processing {#processing}
 
@@ -93,7 +64,7 @@ A sample custom worker processing request is below.
 }
 ```
 
-The Asset Compute Service sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly.
+The Asset Compute Service sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly. Note that all requests use the HTTPS protocol to maximize data security.
 
 The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) used by a custom worker handles the HTTP POST request. It also handles downloading of the source, uploading renditions, sending I/O events and error handling.
 
@@ -101,7 +72,7 @@ The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-c
 
 #### Worker code {#worker-code}
 
-Custom code only needs to provide a callback that takes the locally available source file (`source.path`) and turns it into a rendition file using the name passed in (`rendition.path`):
+Custom code only needs to provide a callback that takes the locally available source file (`source.path`). The `rendition.path` is the location to place the final result of an asset processing request. The custom worker uses the callback to turn the locally available source files into a rendition file using the name passed in (`rendition.path`). A custom worker must write to `rendition.path` to create a rendition:
 
 ```js
 const { worker } = require('@adobe/asset-compute-sdk');
@@ -127,7 +98,7 @@ A custom worker only deals with local files. Downloading the source file is hand
 
 The SDK invokes an asynchronous [rendition callback function](https://github.com/adobe/asset-compute-sdk#rendition-callback-for-worker-required) for each rendition.
 
-The callback function has access to the [source](https://github.com/adobe/asset-compute-sdk#source) and [rendition](https://github.com/adobe/asset-compute-sdk#rendition) objects. The `source.path` already exists and is the path to local copy of source file. The `rendition.path` is the path to store the rendition locally. The `rendition.path` does not exist yet and will have to be created by the callback. The worker must use exactly the `rendition.path`, otherwise the SDK cannot locate or identify the rendition file.
+The callback function has access to the [source](https://github.com/adobe/asset-compute-sdk#source) and [rendition](https://github.com/adobe/asset-compute-sdk#rendition) objects. The `source.path` already exists and is the path to local copy of source file. The `rendition.path` is the path where the processed rendition must be stored. Unless the [disableSourceDownload flag](https://github.com/adobe/asset-compute-sdk#worker-options-optional) is set, the worker must use exactly the `rendition.path`. Otherwise, the SDK cannot locate or identify the rendition file and will fail.
 
 The example above is an overly simplified worker that just copies the source file to the rendition destination.
 
@@ -135,7 +106,9 @@ For more information about the rendition callback parameters, see the Asset Comp
 
 #### Upload renditions {#upload-rendition}
 
-After each rendition is created and stored locally in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to the cloud.
+After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used). A custom worker will get multiple renditions at the same time if, and only if, the incoming request has multiple renditions pointing to the same worker url. The upload to cloud storage is done after each rendition, and before running the callback for the next rendition. 
+
+Note that `batchWorker()` has a different behavior, as this will actually process all renditions and only after all have been processed, will upload them.
 
 ### Adobe I/O Events {#aio-events}
 
@@ -168,4 +141,4 @@ For details on how to get journal events, see [Adobe I/O Events API](https://www
 **TBD:**
 
 * Illustration of the controls/data flow.
-* Basic overview, in text and not code, of how a workers works. See Alex's note at [https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460](https://git.corp.adobe.com/nui/nui/pull/290#discussion_r2875460).
+* Basic overview, in text and not code, of how a workers works.

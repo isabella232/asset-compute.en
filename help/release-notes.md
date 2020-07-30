@@ -7,33 +7,41 @@ description: New features, enhancements, and known issues of Asset Compute Servi
 
 The latest release of Asset Compute Service is released on Jul 30, 2020.
 
-**TBD:**
-
-* Are we versioning the releases?
-* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or other offerings/integrations such as InDesign Server?
-
+<!--
 ## Prerequisites {#prerequisites}
-
-Prerequisites only for Compute Service:
-
-* Bring the provisioning requirements here.
-* Account access, permissions...
 
 To create and deploy and custom worker, fulfill the following requirements:
 
 * Ensure that the [!DNL Adobe Experience Cloud] organization is part of the [!DNL Project Firefly] developer preview program. See [how to apply for access](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md).
+* Ensure that the [!DNL Adobe Experience Cloud] organization has AEM as a Cloud Service enabled
 * Ensure a developer role or administrator permissions in the organization.
-* Ensure that [!DNL Adobe I/O CLI] is installed locally. <!-- TBD: Link to CLI GitHub for more info. -->
+* Ensure that [Adobe I/O CLI](https://github.com/adobe/aio-cli) is installed locally.
 
-## Known issues {#known-limitations}
+To test your custom worker with the [developer tool](https://github.com/adobe/asset-compute-devtool), you need access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites). Currently, Adobe supports Azure Blob Storage and AWS S3.
 
-**TBD:**
+>[!NOTE]
+>
+>Cloud storage access is only required for using the developer tool. You can still create, test and deploy custom workers with out using the developer tool.
+-->
 
-This section can be updated with the following information:
+## What is new {#what-is-new}
 
-* Also, see https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/CustomWorkerDeveloperGuide.md#technical-requirements
-* Anything more? Separate storage, AIO access, what technical know-how/skills are required/assumed for the developer persona.
+This is the first release of Asset Compute Service. It is a scalable and extensible service of Adobe Experience Cloud to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text & metadata and archives. 
 
-## Contribute to open-source Asset Compute Service project {#contribute-open-source}
+Currently, the Asset Compute Service can only be used in Experience Manager as a Cloud Service.
 
-Asset Compute Service is developed under an open development model that welcomes contributions from everyone who is interested in asset and rendition processing. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
+## Limitations and known issues {#known-limitations}
+
+Access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites) is mandatory for using the [developer tool](https://github.com/adobe/asset-compute-devtool).
+
+* The cloud storage (different than the Experience Manager blob store) access is needed only for the developer tool. You can still create, test, and deploy custom workers without the developer tool.
+* It can be a shared container used by multiple developers across different projects.
+
+## Contribute {#contribute-open-source}
+
+Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
+
+<!-- **TBD:**
+* Are we versioning the releases?
+* Is there any compatibility information to be added? With Project Firefly versions, or AEMaaCS releases, or other offerings/integrations such as InDesign Server?
+-->

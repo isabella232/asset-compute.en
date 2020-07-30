@@ -3,21 +3,203 @@ title: Test and debug Asset Compute Service custom worker.
 description: Test and debug Asset Compute Service custom worker.
 ---
 
-# Test a custom application {#test-custom-worker}
+# Test and debug a custom worker
 
-To test a custom worker, run the following command in the root of the application:
+## Execute unit tests for a custom worker {#test-custom-worker}
 
+Install [Docker Desktop](https://www.docker.com/get-started) on your machine. To test a custom worker, execute `aio app test` command at the root of the application.
+
+<!-- To run tests for a custom worker, run the following command in the root of the custom worker application application:
+ ```
+ adobe-asset-compute test-worker 
+ ``` -->
+<!--
+TBD document interactively running `adobe-asset-compute` commands `test-worker` and `run-worker`
+-->
+
+This runs a custom unit test framework for Asset Compute worker actions in the project as described below. It is hooked up through a configuration in the `package.json` file. It is also possible to have JavaScript unit tests such as Jest. `aio app test` will run both.
+
+The [aio-cli-plugin-asset-compute](https://github.com/adobe/aio-cli-plugin-asset-compute#install-as-local-devdependency) plugin is embedded as development dependency in the custom worker app so that it doesn't need to be installed on build/test systems.
+
+### Worker unit test framework
+
+The Asset Compute worker unit test framework allows to test workers without writing any code. It relies on the source to rendition file principle of workers. A certain file and folder structure has to be setup to define test cases with test source files, optional parameters, expected renditions and custom validation scripts. By default renditions will be compared for byte equality. Furthermore, external HTTP services can be easily mocked using simple JSON files.
+
+### Add tests {#add-tests}
+
+Tests are expected inside the `test` folder at the root level of the AIO project. The test cases for each worker should be in the path `test/asset-compute/<worker-name>`, with one folder for each test case:
+
+```yaml
+action/
+manifest.yml
+package.json
+...
+test/
+  asset-compute/
+    <worker-name>/
+        <testcase1>/
+            file.jpg
+            params.json
+            rendition.png
+        <testcase2>/
+            file.jpg
+            params.json
+            rendition.gif
+            validate
+        <testcase3>/
+            file.jpg
+            params.json
+            rendition.png
+            mock-adobe.com.json
+            mock-console.adobe.io.json
 ```
-aio app test
+
+Have a look at [example custom workers](https://github.com/adobe/asset-compute-example-workers/) for some examples. Below is a detailed reference.
+
+### Test output {#test-output}
+
+The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app as shown in the `aio app test` output.
+
+### Mock external services {#mock-external-services}
+
+It is possible to mock external service calls in your actions by defining `mock-<HOST_NAME>.json` files in your test cases, where HOST_NAME is the host you would like to mock. An example use case is a worker that makes a separate call to S3. The new test structure would look like this:
+
+```json
+test/
+  asset-compute/
+    <worker-name>/
+      <testcase3>/
+        file.jpg
+        params.json
+        rendition.png
+        mock-<HOST_NAME1>.json
+        mock-<HOST_NAME2>.json
 ```
 
-## Adding Worker Tests
+The mock file is a JSON formatted http response. For more information, see [this documentation](https://www.mock-server.com/mock_server/creating_expectations.html). If there are multiple host names to mock, define multiple `mock-<mocked-host>.json` files. Below is a sample mock file for `google.com` named `mock-google.com.json`:
 
-To add additional worker tests, follow the guidlines.
- <!-- either add this information here or link it: https://git.corp.adobe.com/nui/nui/blob/master/doc/developer/AddWorkerTests.md -->
- 
-See the [worker-animal-pictures](https://github.com/adobe/asset-compute-example-workers/tree/master/projects/worker-animal-pictures/test/asset-compute/worker-animal-pictures) for an example.
+```json
+[{
+    "httpRequest": {
+        "path": "/images/hello.txt"
+        "method": "GET"
+    },
+    "httpResponse": {
+        "statusCode": 200,
+        "body": {
+          "message": "hello world!"
+        }
+    }
+}]
+```
 
-## Error reporting {#error-reporting}
+The example `worker-animal-pictures` contains a [mock file](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-animal-pictures/test/asset-compute/worker-animal-pictures/simple-test/mock-upload.wikimedia.org.json) for the Wikimedia service it interacts with.
 
-The type of errors that Asset Compute Service reports to the client are available [here](https://github.com/adobe/asset-compute-commons/blob/master/lib/errors.js). For a custom worker to report an unsupported file, use `SourceFormatUnsupported`. if it a file format that it doesn't support or `SourceUnsupported` if it is a format it supports, but for some reason this particular file is not supported, or `SourceCorruptError` if the source is determined to be corrupt.  An example, would be a worker that handles TIFF files that is given a TIFF file with a particular compression type that the worker does not support.
+#### Share files across test cases {#share-files-across-test-cases}
+
+It is recommended to use relative symlinks if you share `file.*`, `params.json` or `validate` scripts across multiple tests. They are supported with git. Make sure to give your shared files a unique name, since you might have different ones. In the example below the tests are mixing and matching a few shared files, and their own:
+
+```json
+tests/
+    file-one.jpg
+    params-resize.json
+    params-crop.json
+    validate-image-compare
+
+    jpg-png-resize/
+        file.jpg    - symlink: ../file-one.jpg
+        params.json - symlink: ../params-resize.json
+        rendition.png
+        validate    - symlink: ../validate-image-compare
+
+    jpg2-png-crop/
+        file.jpg
+        params.json - symlink: ../params-crop.json
+        rendition.gif
+        validate    - symlink: ../validate-image-compare
+
+    jpg-gif-crop/
+        file.jpg    - symlink: ../file-one.jpg
+        params.json - symlink: ../params-crop.json
+        rendition.gif
+        validate
+```
+
+### Test expected errors {#test-unexpected-errors}
+
+Error tests cases should not contain an expected `rendition.*` file and should define the expected `errorReason` inside the `params.json` file.
+
+Error Test Case Structure:
+
+```json
+<error_test_case>/
+    file.jpg
+    params.json
+```
+
+Parameter file with error reason:
+
+```js
+{
+    "errorReason": "SourceUnsupported",
+    // ... other params
+}
+```
+
+See complete list and description of [Asset Compute error reasons](https://github.com/adobe/asset-compute-commons#error-reasons).
+
+## Debug a custom application {#debug-custom-worker}
+
+The following steps show how you can debug your custom worker using Visual Studio Code. It allows for seeing live logs, hit breakpoints and step through code as well as live reloading of local code changes upon every activation.
+
+Many of these steps are usually automated by `aio` out of the box, see section "Debugging the Application" in the [Firefly documentation](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). For now, the below steps include a workaround that will be addressed in the future.
+
+1. Install latest [wskdebug](https://github.com/apache/openwhisk-wskdebug) from github, plus the optional [ngrok](https://www.npmjs.com/package/ngrok)
+
+   ```shell
+   npm install -g @openwhisk/wskdebug
+   npm install -g ngrok --unsafe-perm=true
+   ```
+
+1. Add to your user settings JSON file. It keeps using the old VS Code debugger, the new one has [some issues](https://github.com/apache/openwhisk-wskdebug/issues/74) with wskdebug: `"debug.javascript.usePreview": false`
+
+1. Close any instances of apps open via `aio app run`.
+
+1. Deploy the latest code using `aio app deploy`.
+
+1. Execute only the Asset compute devtool using `npx adobe-asset-compute devtool`. Keep it open.
+
+1. In VS Code editor, add the below debug configuration to your `launch.json`:
+
+    ```json
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wskdebug worker",
+      "runtimeExecutable": "wskdebug",
+      "args": [
+        "PROJECT-0.0.1/__secured_worker",           // Replace this with your ACTION NAME
+        "${workspaceFolder}/actions/worker/index.js",
+        "-l",
+        "--ngrok"
+      ],
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/code",
+      "outputCapture": "std",
+      "timeout": 30000
+    }
+    ```
+  
+   Fetch the ACTION NAME from the output of `aio app deploy`. It looks similar to `Your deployed actions -> TypicalCoffeeCat-0.0.1/__secured_worker`.
+
+1. Select `wskdebug worker` from the run/debug configuration and press the play icon. Wait for it to start till it displays **Ready for activations** in the **Debug Console** window.
+
+1. Click **run** in the Devtool. You can see the actions executing in VS Code editor and the logs start displaying.
+
+1. Set a breakpoint in your code, run again and it should hit.
+
+Any code changes are loaded in real-time and are effective as soon as the next activation happens.
+
+>[!NOTE]
+>
+>Two activations are present for each request in custom workers. The first request is a web action that invokes itself asynchronously in the SDK code. The second activation is the one that will hit your code.
