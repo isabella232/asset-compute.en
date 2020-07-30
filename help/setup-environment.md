@@ -15,13 +15,13 @@ To create a setup that allows you to develop for Compute Service, follow these r
 
    * [Git](https://git-scm.com/).
    * [Docker Desktop](https://www.docker.com/get-started).
-   * [NodeJS](https://nodejs.org) (v10 to v12 LTS, odd versions are not recommended) and [NPM](https://www.npmjs.com). User of OSX HomeBrew can do `brew install node` to install both. Otherwise, download it from the [NodeJS download page](https://nodejs.org/en/). 
+   * [NodeJS](https://nodejs.org) (v10 to v12 LTS, odd versions are not recommended) and [NPM](https://www.npmjs.com). User of OSX HomeBrew can do `brew install node` to install both. Otherwise, download it from the [NodeJS download page](https://nodejs.org/en/).
    * An IDE that is good for NodeJS, we recommend [Visual Studio Code (VS Code)](https://code.visualstudio.com) as it is the supported IDE for the debugger. You can use any other IDE as a code editor, but advanced usage (e.g. debugger) is not yet supported.
    * [AIO CLI](https://github.com/adobe/aio-cli) (`aio`) - install using `npm install -g @adobe/aio-cli`.
 
 1. Ensure to meet the [prerequisites](release-notes.md#prerequisites).
 
-# Setup a Firefly project {#create-firefly-project}
+## Setup a Firefly project {#create-firefly-project}
 
 1. Be granted System Admin or Developer Role access in the Experience Organization. This can be set by a System Admin in the [Admin Console](https://adminconsole.adobe.com/overview).
 
