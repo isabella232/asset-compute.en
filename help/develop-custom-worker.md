@@ -216,9 +216,9 @@ const clientId = params.auth.clientId; // Technical Account client Id
 const orgId = params.auth.orgId; // Experience Cloud Organization
 ```
 
-#### Pass credentials for third-party systems
+#### Pass credentials for third-party systems {#pass-credentials-for-tp}
 
-To handle credentials for other external services, pass these as default parameters on the actions, which will be automatically [encrypted in transit](https://www.adobe.io/apis/experienceplatform/runtime/docs.html#!adobedocs/adobeio-runtime/master/guides/creating_actions.md#setting-default-parameters). Then set them using environment variables during deployment. These parameters can be accessed in the `params` object inside the action.
+To handle credentials for other external services, pass these as default parameters on the actions, which will be automatically encrypted in transit. For more information, see creating actions topic in [Runtime developer guide](https://www.adobe.io/apis/experienceplatform/runtime/docs.html). Then set them using environment variables during deployment. These parameters can be accessed in the `params` object inside the action.
 
 Set the default parameters inside the `inputs` in the `manifest.yml`:
 
