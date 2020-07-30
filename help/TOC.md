@@ -20,8 +20,9 @@ tutorials-url: hhttps://docs.adobe.com/content/help/en/experience-manager-learn/
 + [API references](api.md)
 + [Use Asset Compute Service](use-compute-service.md)
 + Extend Asset Compute Service {#extend}
-  + [Considerations before developing custom workers](considerations-custom-worker.md)
+  + [About extending Compute Service](understand-extensibility.md)
   + [Set up the environment](setup-environment.md)
+  + [Understand the internal concepts of a worker](custom-workers-internals.md)
   + [Develop a custom application](develop-custom-worker.md)
   + [Test a custom application](test-custom-worker.md)
   + [Deploy and publish a custom application](deploy-custom-worker.md)

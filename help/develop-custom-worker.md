@@ -5,7 +5,7 @@ description: Create customization using Asset Compute Service.
 
 # Develop a custom applications {#develop}
 
-Make sure you meet all of the [pre-requisites](.release-notes.md) and install the proper tooling. See [set up your environment](./setup-environment.md) to make sure you are ready to create a custom worker.
+Make sure you meet all of the [prerequisites](release-notes.md) and install the proper tooling. See [set up your environment](./setup-environment.md) to make sure you are ready to create a custom worker.
 
 ## Create a custom worker {#create-custom-worker}
 
