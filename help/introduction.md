@@ -1,11 +1,11 @@
 ---
-title: Introduction to the Asset Compute Service.
-description: Asset Compute Service is a cloud-native asset processing service that reduces complexity and improves scalability.
+title: Introduction to the [!DNL Asset Compute Service].
+description: [!DNL Asset Compute Service] is a cloud-native asset processing service that reduces complexity and improves scalability.
 ---
 
-# Overview of Asset Compute Service {#overview}
+# Overview of [!DNL Asset Compute Service] {#overview}
 
-Asset Compute Service is a scalable and extensible service of Adobe Experience Cloud to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text & metadata and archives.
+[!DNL Asset Compute Service] is a scalable and extensible service of [!DNL Adobe Experience Cloud] to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text and metadata, and archives.
 
 Developers can plugin custom asset workers to address custom use cases. The service works on the [!DNL Adobe I/O] runtime. It is extendable through [!DNL Project Firefly] headless apps written in Node.js. These can do custom operations such as calling external APIs to perform image operations or leverage [!DNL Adobe Sensei] support.
 
@@ -13,11 +13,11 @@ Developers can plugin custom asset workers to address custom use cases. The serv
 
 >[!NOTE]
 >
->Currently, the Asset Compute Service can only be used in Experience Manager as a Cloud Service. Administrators create processing profiles that can invoke the Compute Service to pass assets for processing. See [use asset microservices and processing profiles](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
+>Currently, the [!DNL Asset Compute Service] can only be used in [!DNL Experience Manager] as a Cloud Service. Administrators create processing profiles that can invoke the [!DNL Asset Compute Service] to pass assets for processing. See [use asset microservices and processing profiles](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
 
-## Supported use cases of Asset Compute Service {#possible-use-cases-benefits}
+## Supported use cases of [!DNL Asset Compute Service] {#possible-use-cases-benefits}
 
-The Asset Compute Service supports a few common business use cases like basic image processing; Adobe application specific conversions; and custom workers creation that orchestrate complex business requirements. 
+[!DNL Asset Compute Service] supports a few common business use cases like basic image processing; Adobe application specific conversions; and custom workers creation that orchestrate complex business requirements. 
 
 You can use [!DNL Asset Compute] web service to generate thumbnails for different file types, high-quality image renderings for the [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html). See [use cases supported via custom configuration](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html#custom-config).
 
@@ -44,13 +44,8 @@ You can use [!DNL Asset Compute] web service to generate thumbnails for differen
 >* [Release notes of the Asset Compute Service](release-notes.md)
 
 <!-- **TBD:**
-* Explain extensibility and top-level functional use cases.
-* Explain a few specific functional use cases as one-liners to illustrate a functional needs that Asset Compute Service can fulfill.
-* Clarify the service can only be used within AEM as Cloud Service at this point
-
-  ** "can do for you" title below is misleading
-  ** docs provided as context for custom worker developers
+* Clarify the service can only be used within AEM as Cloud Service. The docs provided as context for custom worker developers. Not to be used as a standalone service.
   ** and API as that will play a role in custom workers (accepting standard params, invoking Nui itself in the future, etc. (this is an outlook))
 
-* link to aem as cloud service docs on asset ingestion & customization with processing profiles.
+* link to aem as cloud service docs on asset ingestion and customization with processing profiles.
 -->

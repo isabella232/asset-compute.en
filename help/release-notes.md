@@ -1,11 +1,11 @@
 ---
-title: Release notes of Asset Compute Service.
-description: New features, enhancements, and known issues of Asset Compute Service.
+title: Release notes of [!DNL Asset Compute Service].
+description: New features, enhancements, and known issues of [!DNL Asset Compute Service].
 ---
 
-# Release notes of Asset Compute Service {#release-notes}
+# Release notes of [!DNL Asset Compute Service] {#release-notes}
 
-The latest release of Asset Compute Service is released on Jul 30, 2020.
+The latest release of [!DNL Asset Compute Service] is released on Jul 30, 2020.
 
 <!--
 ## Prerequisites {#prerequisites}
@@ -26,20 +26,20 @@ To test your custom worker with the [developer tool](https://github.com/adobe/as
 
 ## What is new {#what-is-new}
 
-This is the first release of Asset Compute Service. It is a scalable and extensible service of Adobe Experience Cloud to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text & metadata and archives. 
+This is the first release of [!DNL Asset Compute Service]. It is a scalable and extensible service of [!DNL Adobe Experience Cloud] to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text and metadata, and archives.
 
-Currently, the Asset Compute Service can only be used in Experience Manager as a Cloud Service.
+Currently, the [!DNL Asset Compute Service] can only be used in [!DNL Experience Manager] as a Cloud Service.
 
 ## Limitations and known issues {#known-limitations}
 
 Access to a [cloud storage container](https://github.com/adobe/asset-compute-devtool#prerequisites) is mandatory for using the [developer tool](https://github.com/adobe/asset-compute-devtool).
 
-* The cloud storage (different than the Experience Manager blob store) access is needed only for the developer tool. You can still create, test, and deploy custom workers without the developer tool.
+* The cloud storage (different than the [!DNL Experience Manager] blob store) access is needed only for the developer tool. You can still create, test, and deploy custom workers without the developer tool.
 * It can be a shared container used by multiple developers across different projects.
 
 ## Contribute {#contribute-open-source}
 
-Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
+[!DNL Asset Compute Service] extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe) that welcomes contributions from extension developers. All components relevant to developing, building and testing custom workers are open source. See [how and where to contribute to Compute Service](contribute-to-compute-service.md).
 
 <!-- **TBD:**
 * Are we versioning the releases?

@@ -1,6 +1,6 @@
 ---
 title: Understand the working of a custom worker.
-description: Internal working of Asset Compute Service custom worker to help understand how it works.
+description: Internal working of [!DNL Asset Compute Service] custom worker to help understand how it works.
 ---
 
 # Internals of a custom worker {#how-customer-workers-work}
@@ -9,9 +9,9 @@ description: Internal working of Asset Compute Service custom worker to help und
 
 Understand the end-to-end workflow of a digital asset that is processed by Adobe Asset Compute using a custom worker and a generic client.
 
-![Custom worker workflow](assets/customworker.svg)
+![Custom worker workflow](assets/customworker.png)
 
-*Figure: Steps involved for processing an Asset using Adobe Asset Compute Service.*
+*Figure: Steps involved for processing an Asset using [!DNL Asset Compute Service].*
 
 ### Registration {#registration}
 
@@ -30,7 +30,7 @@ The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-clien
 
 ### Processing {#processing}
 
-The client sends a [processing](api.md#asset-processing) request.
+The client sends a [processing](api.md#process-request) request.
 
 ```sh
 curl -X POST \
@@ -64,7 +64,7 @@ A sample custom worker processing request is below.
 }
 ```
 
-The Asset Compute Service sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly. Note that all requests use the HTTPS protocol to maximize data security.
+The [!DNL Asset Compute Service] sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly. Note that all requests use the HTTPS protocol to maximize data security.
 
 The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) used by a custom worker handles the HTTP POST request. It also handles downloading of the source, uploading renditions, sending I/O events and error handling.
 
@@ -106,7 +106,7 @@ For more information about the rendition callback parameters, see the Asset Comp
 
 #### Upload renditions {#upload-rendition}
 
-After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud (either AWS or Azure, depending of which one was requested to be used). A custom worker will get multiple renditions at the same time if, and only if, the incoming request has multiple renditions pointing to the same worker url. The upload to cloud storage is done after each rendition, and before running the callback for the next rendition. 
+After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud storage (either AWS or Azure). A custom worker gets multiple renditions at the same time if, and only if, the incoming request has multiple renditions pointing to the same worker URL. The upload to cloud storage is done after each rendition and before running the callback for the next rendition.
 
 Note that `batchWorker()` has a different behavior, as this will actually process all renditions and only after all have been processed, will upload them.
 

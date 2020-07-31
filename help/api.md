@@ -93,7 +93,7 @@ This API call sets up an [!DNL Asset Compute] client and provides the event jour
 
 The HTTP status codes are:
 
-* **200 Success**: When the request is successful. It contains the `journal` URL that will be notified about any results of the asynchronous processing triggered via `/process` (as events type `rendition_created` when successful, or `rendition_failed` when failing).
+* **200 Success**: When the request is successful. It contains the `journal` URL that is be notified about any results of the asynchronous processing triggered via `/process` (as events type `rendition_created` when successful, or `rendition_failed` when failing).
 
   ```json
   {
@@ -103,9 +103,11 @@ The HTTP status codes are:
   }
   ```
 
-* **401 Unauthorized**: When the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
-* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
-* **429 Too many requests**: When the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
+* **401 Unauthorized**: occurs when the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
+
+* **403 Forbidden**: occurs when the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
+
+* **429 Too many requests**: occurs when the system is overloaded by this client or otherwise. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body is empty.
 * **4xx error**: When there was any other client error and registration failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
   ```json
@@ -116,7 +118,7 @@ The HTTP status codes are:
   }
   ```
 
-* **5xx error**: When there was any other server side error and registration failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
+* **5xx error**: occurs when there was any other server side error and registration failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
   ```json
   {
@@ -128,7 +130,7 @@ The HTTP status codes are:
 
 ### Unregister request {#unregister-request}
 
-This API call unregisters an Asset Compute client. After this it is no longer possible to invoke `/process`. Note that calling it for an already or yet unregistered client will return a 404.
+This API call deregisters an [!DNL Asset Compute] client. After this it is no longer possible to invoke `/process`. Using the API call for an unregistered client or a yet-to-be registered client returns a `404` error.
 
 | Parameter                | Value                                                |
 |--------------------------|------------------------------------------------------|
@@ -136,7 +138,7 @@ This API call unregisters an Asset Compute client. After this it is no longer po
 | Path   | `/unregister`   |
 | Header `Authorization`   | All [authorization related headers](#authentication-and-authorization). |
 | Header `x-request-id`    | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
-| Request body | Must be empty. |
+| Request body | Empty. |
 
 ### Unregister response {#unregister-response}
 
@@ -148,7 +150,7 @@ This API call unregisters an Asset Compute client. After this it is no longer po
 
 The status codes are:
 
-* **200 Success**: When the registration and journal is found and removed.
+* **200 Success**: occurs when the registration and journal is found and removed.
 
   ```json
   {
@@ -157,9 +159,11 @@ The status codes are:
   }
   ```
 
-* **401 Unauthorized**: When the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
-* **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
-* **404 Not found**: When there is no current registration for the given credentials.
+* **401 Unauthorized**: occurs when the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
+
+* **403 Forbidden**: occurs when the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
+
+* **404 Not found**: occurs when there is no current registration for the given credentials.
 
   ```json
   {
@@ -168,9 +172,9 @@ The status codes are:
   }
   ```
 
-* **429 Too many requests**: When the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
+* **429 Too many requests**: occurs when the system is overloaded. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body is empty.
 
-* **4xx error**: When there was any other client error and unregister failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
+* **4xx error**: occurs when there was any other client error and unregister failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
   ```json
   {
@@ -180,7 +184,7 @@ The status codes are:
   }
   ```
 
-* **5xx error**: When there was any other server side error and registration failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
+* **5xx error**: occurs when there was any other server side error and registration failed. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
   ```json
   {
@@ -190,9 +194,7 @@ The status codes are:
   }
   ```
 
-## Asset processing {#asset-processing}
-
-### Process request {#process-request}
+## Process request {#process-request}
 
 The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
 
@@ -207,9 +209,9 @@ Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azu
 | Header `x-request-id`    | Optional, can be set by clients for a unique end-to-end identifier of the processing requests across systems. |
 | Request body | Must be in the process request JSON format as described below. It provides instructions on what asset to process and what renditions to generate. |
 
-#### Process request JSON {#process-request-json}
+### Process request JSON {#process-request-json}
 
-The request body of `/process` must be a JSON object with this high-level schema:
+The request body of `/process` is a JSON object with this high-level schema:
 
 ```json
 {
@@ -238,7 +240,7 @@ Note that `source` can either be a `<string>`, which is seen as a URL, or an `<o
 }
 ```
 
-#### Source object fields {#source-object-fields}
+### Source object fields {#source-object-fields}
 
 | Name      | Type     | Description | Example |
 |-----------|----------|-------------|---------|
@@ -247,7 +249,7 @@ Note that `source` can either be a `<string>`, which is seen as a URL, or an `<o
 | `size`    | `number` | Source asset file size in bytes. Takes precedence over `content-length` header of the binary resource. | `10234` |
 | `mimetype`| `string` | Source asset file MIME type. Takes precedence over the `content-type` header of the binary resource. | `"image/jpeg"` |
 
-#### A complete `process` request example {#complete-process-request-example}
+### A complete `process` request example {#complete-process-request-example}
 
 ```json
 {
@@ -276,7 +278,7 @@ Note that `source` can either be a `<string>`, which is seen as a URL, or an `<o
 }
 ```
 
-### Process response {#process-response}
+## Process response {#process-response}
 
 The `/process` request will return immediately with success or failure based on basic request validation. Actual asset processing will happen asynchronously.
 
@@ -360,10 +362,10 @@ For a list of currently supported file formats, see [supported file formats](htt
 |                   |          |  - if only `width` or `height` is specified, the resulting image will use that and keep the aspect ratio<br> - without `width` and `height`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | |
 | `quality`         | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` |
 | `xmp`             | `string` | Used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | |
-| `interlace`       | `bool`   | Create interlaced PNG or GIF or progressive JPEG by setting it to true. It has no effect on other file formats. | |
+| `interlace`       | `bool`   | Create interlaced PNG or GIF or progressive JPEG by setting it to `true`. It has no effect on other file formats. | |
 | `jpegSize`        | `number` | Approximate size of JPEG file in bytes. Note this overrides any `quality` setting. Has no effect on other formats. | |
-| `dpi`             | `number` or `object` | Set x and y dpi. For simplicity, it can also be set to a single number which will be used for both x and y. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` |
-| `convertToDpi`    | `number` or `object` | x and y dpi resample values while maintaining physical size. For simplicity, it can also be set to a single number which is used for both x and y. | `96` or `{ xdpi: 96, ydpi: 96 }` |
+| `dpi`             | `number` or `object` | Set x and y DPI. For simplicity, it can also be set to a single number which will be used for both x and y. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` |
+| `convertToDpi`    | `number` or `object` | x and y DPI re-sample values while maintaining physical size. For simplicity, it can also be set to a single number which is used for both x and y. | `96` or `{ xdpi: 96, ydpi: 96 }` |
 | `files`           | `array`  | List of files to include in the ZIP archive (`fmt=zip`). Each entry can either be a URL string or an object with the fields:<ul><li>`url`: URL to download file</li><li>`path`: Store file under this path in the ZIP</li></ul> | `[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]` |
 | `duplicate`       | `string` | Duplicate handling for ZIP archives (`fmt=zip`). By default multiple files stored under the same path in the ZIP will generate an error. Setting `duplicate` to `ignore` will result in only the first asset to be stored and the rest to be ignored. | `ignore` |
 
