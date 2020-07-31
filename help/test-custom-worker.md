@@ -9,11 +9,8 @@ description: Test and debug Asset Compute Service custom worker.
 
 Install [Docker Desktop](https://www.docker.com/get-started) on your machine. To test a custom worker, execute `aio app test` command at the root of the application.
 
-<!-- To run tests for a custom worker, run the following command in the root of the custom worker application application:
- ```
- adobe-asset-compute test-worker 
- ``` -->
-<!--
+<!-- To run tests for a custom worker, run `adobe-asset-compute test-worker` command in the root of the custom worker application application.
+
 TBD document interactively running `adobe-asset-compute` commands `test-worker` and `run-worker`
 -->
 

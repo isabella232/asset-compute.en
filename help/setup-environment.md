@@ -27,16 +27,13 @@ To create a setup that allows you to develop for Compute Service, follow these r
 
 1. Log onto the [Adobe Developer Console](https://console.adobe.io/). Ensure you are part of the same Adobe Experience Cloud Organization as the AEM as a Cloud Service integration. For more information about Adobe Developer Console, see [Console Documentation](https://www.adobe.io/apis/experienceplatform/console/docs.html).
 
-1. Create a new Project Firefly project (_Full instructions [here](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md)_)
+1. [Create a Firefly project](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). Click **Create new project** > **Project from template**. Choose Firefly. It creates a new Firefly Project with two workspaces: `Production` and `Stage`. Add additional workspaces, for example `Development`, as required.
 
-   * Click `"Create new project" => "Project from template"` and choose `"Firefly"`
-   * It creates a new Firefly Project with two workspaces: `Production` and `Stage`. Feel free to add additional workspaces (e.g. `Development`)
+1. In the Firefly Project, choose a workspace and subscribe to the services needed for Asset Compute. Click **Add to Project** > **API** and add `Asset Compute`, `IO Events`, and `IO Events Management` services. When adding the first API, it prompts to create a private key. Save this information on your machine as you will need this key to test your custom worker with the developer tool.
 
-1. Inside the Firefly Project, choose a workspace and subscribe to the services needed for Asset Compute. Click **Add to Project** > **API** and add `Asset Compute`, `IO Events`, and `IO Events Management` services. When adding the first API, it prompts to create a private key. Save this information on your machine as you will need this key to test your custom worker with the developer tool.
+## Next step {#next-step}
 
-## Next Step {#next-step}
-
-Now that your environment is set up, you are ready to [create a custom worker](./develop-custom-worker.md).
+Now that your environment is set up, you are ready to [create a custom worker](develop-custom-worker.md).
 
 <!-- TBD items for later:
  

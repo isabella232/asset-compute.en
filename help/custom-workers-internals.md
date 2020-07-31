@@ -26,7 +26,7 @@ curl -X POST \
   -H "x-api-key: $API_KEY"
 ```
 
-The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-client#usage) JavaScript library can be used in NodeJS applications to handle all the necessary steps from registration, processing to asynchronous event handling. For more information on the required headers, see [Authentication and Authorization](./api.md).
+The [`@adobe/asset-compute-client`](https://github.com/adobe/asset-compute-client#usage) JavaScript library can be used in NodeJS applications to handle all the necessary steps from registration, processing to asynchronous event handling. For more information on the required headers, see [Authentication and Authorization](api.md).
 
 ### Processing {#processing}
 
@@ -138,7 +138,7 @@ await Promise.all(events.map(event => {
 
 For details on how to get journal events, see [Adobe I/O Events API](https://www.adobe.io/apis/experienceplatform/events/ioeventsapi.html#!adobedocs/adobeio-events/master/events-api-reference.yaml).
 
-**TBD:**
-
+<!-- TBD:
 * Illustration of the controls/data flow.
 * Basic overview, in text and not code, of how a workers works.
+-->
