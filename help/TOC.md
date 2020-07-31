@@ -18,7 +18,6 @@ tutorials-url: hhttps://docs.adobe.com/content/help/en/experience-manager-learn/
 + [Supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html)
 + [Architecture](architecture.md)
 + [API references](api.md)
-+ [Use Asset Compute Service](use-compute-service.md)
 + Extend Asset Compute Service {#extend}
   + [About extending Compute Service](understand-extensibility.md)
   + [Set up the environment](setup-environment.md)

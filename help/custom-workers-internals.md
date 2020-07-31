@@ -138,7 +138,7 @@ await Promise.all(events.map(event => {
 
 For details on how to get journal events, see [Adobe I/O Events API](https://www.adobe.io/apis/experienceplatform/events/ioeventsapi.html#!adobedocs/adobeio-events/master/events-api-reference.yaml).
 
-**TBD:**
-
+<!-- TBD:
 * Illustration of the controls/data flow.
 * Basic overview, in text and not code, of how a workers works.
+-->

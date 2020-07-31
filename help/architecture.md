@@ -1,23 +1,9 @@
 ---
-title: Introduction to the Asset Compute Service.
-description: Asset Compute Service is a cloud-native asset processing service that helps reduce complexity and improves scalability.
+title: Introduction to the [!DNL Asset Compute Service].
+description: [!DNL Asset Compute Service] is a cloud-native asset processing service that helps reduce complexity and improves scalability.
 ---
 
-# Architecture of Asset Compute Service {#overview}
-
-**TBD:**
-
-This article can cover the following topics:
-
-* minimize description to custom workers
-* remove all internal stuff (e.g. Photoshop worker, API Gateway) from text and diagram
-* update diagram to focus on 3rd party custom workers ONLY
-* Explain important transactions/handshakes?
-* Flow of assets/control? See the illustration on the Nui diagrams wiki.
-* Illustrations. See the SVG shared by Alex.
-* Exceptions? Limitations? Call-outs? Gotchas?
-  * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).
-  * Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
+# Architecture of [!DNL Asset Compute Service] {#overview}
 
 The Asset Compute Service is built on top of serverless Adobe I/O Runtime platform. It provides Adobe Sensei content services support for assets, where a JSON file is returned with one or more client-chosen, Adobe Sensei-generated describing a single asset.
 
@@ -29,7 +15,7 @@ The foundation on which the architecture is based includes:
 
 * The modularity of workers – only containing what is needed for a given task – allows to decouple workers from each other and keep them lightweight. 
 
-* The serverless concept of Adobe I/O Runtime yields numerous benefits: asynchronous, highly-scalable, isolated, job-based processing, which is a perfect fit for asset processing. 
+* The serverless concept of Adobe I/O Runtime yields numerous benefits: asynchronous, highly-scalable, isolated, job-based processing, which is a perfect fit for asset processing.
 
 * Binary cloud storage provides the necessary features for storing and accessing asset files and renditions individually, without requiring full access permissions to the storage, using pre-signed URL references. Transfer acceleration, CDN caching, and co-locating compute workers with cloud storage allow for optimal low latency content access. Both AWS and Azure clouds are supported.
 
@@ -47,37 +33,18 @@ The architecture consists of the following parts:
 
 * **A [common worker library](https://github.com/adobe/asset-compute-sdk)** handles common tasks like downloading the source file, uploading the renditions, error reporting, event sending and monitoring . This is designed so that developing a worker stays as simple as possible, following the serverless idea, and can be restricted to local filesystem interactions.
 
-<!--
-An example of the JSON file is:
-
-```json
-{
-    "xmp:machineKeywords": [
-        {
-            "value": "tree",
-            "confidence": 0.8567
-        },
-        {
-            "value": "brown",
-            "confidence": 0.752
-        }
-    ]
-}
-```
-
--->
-
-## Know the basic terminology {#glossary}
-
-**TBD:**
-
-* What do we want to populate here?
-* Project Firefly and its term.
-* AEMaaCS: See [https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/overview/introduction.html).
-
-## Understand the required files and folders {#understand-purpose-of-files-folders}
-
-**TBD:**
+<!-- TBD:
 
 * About the YAML file?
 * See [https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#5-anatomy-of-a-project-firefly-application](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#5-anatomy-of-a-project-firefly-application).
+
+* minimize description to custom workers
+* remove all internal stuff (e.g. Photoshop worker, API Gateway) from text and diagram
+* update diagram to focus on 3rd party custom workers ONLY
+* Explain important transactions/handshakes?
+* Flow of assets/control? See the illustration on the Nui diagrams wiki.
+* Illustrations. See the SVG shared by Alex.
+* Exceptions? Limitations? Call-outs? Gotchas?
+  * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).
+  * Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
+-->

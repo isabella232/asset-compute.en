@@ -7,7 +7,11 @@ description: Considerations when creating and using Asset Compute Service custom
 
 Many rendition requirements like changing formats and size of images are addressed by [Processing Profiles in Experience Manager as a Cloud Service](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html). More complex business requirements may need a custom-created solution that suits an organizations needs. Asset Compute Service can be extended by creating custom workers that are invoked from Processing Profiles in Experience Manager and that address the need for these [supported use cases](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
 
-Extending Asset Compute Service with custom workers is made simple through the [worker SDK](https://github.com/adobe/asset-compute-sdk) and Project Firefly developer tooling. This allows developers to focus on business logic. Writing custom workers is not more complex than writing a plain serverless Adobe I/O Runtime action, which itself is nothing more than a single Node.js JavaScript function. The [basic worker example](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-basic/worker-basic.js) showcases that.
+>[!NOTE]
+>
+>[!DNL Asset Compute Service] is available only for use with [!DNL Experience Manager as a Cloud Service].
+
+Extending [!DNL Asset Compute Service] with custom workers is made simple through the [worker SDK](https://github.com/adobe/asset-compute-sdk) and Project Firefly developer tooling. This allows developers to focus on business logic. Writing custom workers is not more complex than writing a plain serverless Adobe I/O Runtime action, which itself is nothing more than a single Node.js JavaScript function. The [basic worker example](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-basic/worker-basic.js) showcases that.
 
 ## Prerequisites and provisioning requirements {#provisioning}
 
