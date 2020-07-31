@@ -5,15 +5,15 @@ description: [!DNL Asset Compute Service] is a cloud-native asset processing ser
 
 # Architecture of [!DNL Asset Compute Service] {#overview}
 
-The Asset Compute Service is built on top of serverless Adobe I/O Runtime platform. It provides Adobe Sensei content services support for assets, where a JSON file is returned with one or more client-chosen, Adobe Sensei-generated describing a single asset.
+The [!DNL Asset Compute Service] is built on top of serverless Adobe I/O Runtime platform. It provides Adobe Sensei content services support for assets. The invoking client (only [!DNL Experience Manager] as a Cloud Service is supported) is provided with the Adobe Sensei-generated information that it sought for the asset. The information returned is in JSON format.
 
-Asset Compute Service is extendable by creating custom workers based on [!DNL Project Firefly]. These custom workers are [!DNL Project Firefly] headless apps and do tasks such as add custom conversion tools or call external APIs to perform image operations.
+[!DNL Asset Compute Service] is extendable by creating custom workers based on [!DNL Project Firefly]. These custom workers are [!DNL Project Firefly] headless apps and do tasks such as add custom conversion tools or call external APIs to perform image operations.
 
 [!DNL Project Firefly] is a framework to build and deploy custom web applications on [!DNL Adobe I/O] runtime. To create custom applications, the developers can leverage [!DNL React Spectrum] (Adobe’s UI toolkit), create microservices, create custom events, and orchestrate APIs. See [documentation of Project Firefly](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html).
 
 The foundation on which the architecture is based includes:
 
-* The modularity of workers – only containing what is needed for a given task – allows to decouple workers from each other and keep them lightweight. 
+* The modularity of workers – only containing what is needed for a given task – allows to decouple workers from each other and keep them lightweight.
 
 * The serverless concept of Adobe I/O Runtime yields numerous benefits: asynchronous, highly-scalable, isolated, job-based processing, which is a perfect fit for asset processing.
 
@@ -23,7 +23,7 @@ The architecture is compatible with Adobe Experience Data Model (XDM) Schema tha
 
 ![Architecture of Asset Compute Service](assets/architecture-diagram.png)
 
-*Figure: Architecture of Asset Compute Service and how it integrates with Experience Manager, storage, and processing workers.*
+*Figure: Architecture of [!DNL Asset Compute Service] and how it integrates with [!DNL Experience Manager], storage, and processing workers.*
 
 The architecture consists of the following parts:
 
@@ -45,6 +45,5 @@ The architecture consists of the following parts:
 * Flow of assets/control? See the illustration on the Nui diagrams wiki.
 * Illustrations. See the SVG shared by Alex.
 * Exceptions? Limitations? Call-outs? Gotchas?
-  * Added elsewhere what the service does not do [here](introduction.md#possible-use-cases-benefits).
-  * Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
+* Do we want to add what basic processing is not available currently, that is expected by existing AEM customers?
 -->

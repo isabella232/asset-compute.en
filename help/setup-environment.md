@@ -1,11 +1,11 @@
 ---
-title: Set the development environment required for Asset Compute Service.
-description: Developer environment setup for Asset Compute Service to start creating and testing custom code.
+title: Set the development environment required for [!DNL Asset Compute Service].
+description: Developer environment setup for [!DNL Asset Compute Service] to start creating and testing custom code.
 ---
 
 # Setup a developer environment {#create-dev-environment}
 
-To create a setup that allows you to develop for Compute Service, follow these requirements and instructions.
+To create a setup that allows you to develop for [!DNL Asset Compute Service], follow these requirements and instructions.
 
 1. [Acquire access and credentials](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials) for Project Firefly.
 

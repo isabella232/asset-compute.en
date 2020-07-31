@@ -1,6 +1,6 @@
 ---
-title: Best practices to use Asset Compute Service.
-description: Best practices, limitations, and tips to create custom workers using Asset Compute Service.
+title: Best practices to use [!DNL Asset Compute Service].
+description: Best practices, limitations, and tips to create custom workers using [!DNL Asset Compute Service].
 ---
 
 # Troubleshoot {#troubleshooting}
@@ -34,7 +34,7 @@ If you have issues logging in to the [!DNL Adobe Developer Console] [through the
 
 1. Set up the rest of the [required credentials](develop-custom-worker.md#developer-tool-credentials) needed for the developer tool.
 
-* When starting the developer tool for the first time with a new Asset Compute Service integration, it may fail the first processing request because the Asset Compute Events Journal may not be completely set up. Wait for some time for the journal to set up before sending another request.
+* When starting the developer tool for the first time with a new [!DNL Asset Compute Service] integration, it may fail the first processing request because the Asset Compute Events Journal may not be completely set up. Wait for some time for the journal to set up before sending another request.
 * If you run into errors sending Asset Compute `/register` or `/process` requests, make sure that all the necessary APIs are added to the Adobe I/O Project and Workspace&mdash;that is, Asset Compute, IO Events, IO Events Management, and Runtime.
 
 <!-- TBD for later:

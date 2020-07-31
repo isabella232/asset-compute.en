@@ -1,11 +1,11 @@
 ---
-title: Contribute to the open source components of Asset Compute Service.
-description: Contribute to the open source components of Asset Compute Service.
+title: Contribute to the open source components of [!DNL Asset Compute Service].
+description: Contribute to the open source components of [!DNL Asset Compute Service].
 ---
 
 # Contribute {#contribute}
 
-Asset Compute Service extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe). Adobe welcomes contributions from extension developers. All the components relevant to developing, building, and testing custom workers are open source. A few suggested ways in which you can contribute are:
+[!DNL Asset Compute Service] extensibility is developed under an open development model on [github.com/adobe](https://github.com/adobe). Adobe welcomes contributions from extension developers. All the components relevant to developing, building, and testing custom workers are open source. A few suggested ways in which you can contribute are:
 
 * Share feedback: Create a GitHub issue in the appropriate repository, to report bugs in product or documentation, to request enhancements, and to request new features. If you are not sure which repository to submit your issue in, then log an issue in [Asset Compute SDK repository](https://github.com/adobe/asset-compute-sdk) and we will route it appropriately.
 
@@ -15,7 +15,7 @@ For detailed guidelines, see the [contribution guidelines](https://github.com/ad
 
 ## Available resources and libraries {#available-resources}
 
-See this list of [open-sourced libraries](https://github.com/adobe/asset-compute-sdk#available-resources-and-libraries) for Asset Compute Service. In addition, the available Adobe I/O Runtime and OpenWhisk resources are:
+See this list of [open-sourced libraries](https://github.com/adobe/asset-compute-sdk#available-resources-and-libraries) for [!DNL Asset Compute Service]. In addition, the available Adobe I/O Runtime and OpenWhisk resources are:
 
 * [Get started with Apache OpenWhisk](https://github.com/apache/incubator-openwhisk/tree/master/docs#getting-started-with-openwhisk).
 * [Lab: Build composable AI with Adobe Sensei functions and Adobe I/O Runtime](https://opensource.adobe.com/adobe-sensei-ai-functions/index.html/).
