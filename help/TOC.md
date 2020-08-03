@@ -7,7 +7,7 @@ solution-title: AEM Assets
 solution-hub-url: https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/home.html
 getting-started-url: https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html
 tutorials-title: AEM Tutorials
-tutorials-url: hhttps://docs.adobe.com/content/help/en/experience-manager-learn/assets/overview.html
+tutorials-url: https://docs.adobe.com/content/help/en/experience-manager-learn/assets/overview.html
 ---
 
 # Asset Compute Service User Guide {#using}
