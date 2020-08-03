@@ -56,7 +56,7 @@ Have a look at [example custom workers](https://github.com/adobe/asset-compute-e
 
 ### Test output {#test-output}
 
-The detailed test output including the logs of the custom worker will be put in the `build` folder at the root of the Firefly app as shown in the `aio app test` output.
+The detailed test output including the logs of the custom worker are made available in the `build` folder at the root of the Firefly app as demonstrated in the `aio app test` output.
 
 ### Mock external services {#mock-external-services}
 
@@ -137,7 +137,7 @@ Error Test Case Structure:
 
 Parameter file with error reason:
 
-```js
+```javascript
 {
     "errorReason": "SourceUnsupported",
     // ... other params
@@ -150,7 +150,7 @@ See complete list and description of [Asset Compute error reasons](https://githu
 
 The following steps show how you can debug your custom worker using Visual Studio Code. It allows for seeing live logs, hit breakpoints and step through code as well as live reloading of local code changes upon every activation.
 
-Many of these steps are usually automated by `aio` out of the box, see section "Debugging the Application" in the [Firefly documentation](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). For now, the below steps include a workaround that will be addressed in the future.
+Many of these steps are usually automated by `aio` out of the box, see section "Debugging the Application" in the [Firefly documentation](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). For now, the below steps include a workaround.
 
 1. Install the latest [wskdebug](https://github.com/apache/openwhisk-wskdebug) from GitHub and the optional [ngrok](https://www.npmjs.com/package/ngrok).
 
@@ -196,4 +196,4 @@ Any code changes are loaded in real-time and are effective as soon as the next a
 
 >[!NOTE]
 >
->Two activations are present for each request in custom workers. The first request is a web action that invokes itself asynchronously in the SDK code. The second activation is the one that will hit your code.
+>Two activations are present for each request in custom workers. The first request is a web action that invokes itself asynchronously in the SDK code. The second activation is the one that hits your code.

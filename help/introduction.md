@@ -45,7 +45,7 @@ You can use [!DNL Asset Compute] web service to generate thumbnails for differen
 
 <!-- **TBD:**
 * Clarify the service can only be used within AEM as Cloud Service. The docs provided as context for custom worker developers. Not to be used as a standalone service.
-  ** and API as that will play a role in custom workers (accepting standard params, invoking Nui itself in the future, etc. (this is an outlook))
+  ** and API as that plays a role in custom workers (accepting standard params, invoking Nui itself in the future, etc. (this is an outlook))
 
 * link to aem as cloud service docs on asset ingestion and customization with processing profiles.
 -->
