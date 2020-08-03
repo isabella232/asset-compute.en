@@ -196,7 +196,7 @@ The status codes are:
 
 ## Process request {#process-request}
 
-The `process` operation submits a job that will transform a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
+The `process` operation submits a job that transforms a source asset into multiple renditions, based on the instructions in the request. Notifications about successful completion (event type `rendition_created`) or any errors (event type `rendition_failed`) are sent to an Event journal that must be retrieved using [/register](#register) once before making any number of `/process` requests. Incorrectly formed requests immediately fail with a 400 error code.
 
 Binaries are referenced using URLs, such as Amazon AWS S3 pre-signed URLs or Azure Blob Storage SAS URLs, for both reading the `source` asset (`GET` URLs) and writing the renditions (`PUT` URLs). The client is responsible for generating these pre-signed URLs.
 
@@ -280,7 +280,7 @@ The `source` can either be a `<string>` that is seen as a URL or it can be an `<
 
 ## Process response {#process-response}
 
-The `/process` request will return immediately with success or failure based on basic request validation. Actual asset processing will happen asynchronously.
+The `/process` request immediately returns with a success or a failure based on the basic request validation. Actual asset processing happens asynchronously.
 
 | Parameter             | Value                                                |
 |-----------------------|------------------------------------------------------|
@@ -311,7 +311,7 @@ Status codes:
 
 * **401 Unauthorized**: When the request does not have valid [authentication](#authentication-and-authorization). An example might be an invalid access token or invalid API key.
 * **403 Forbidden**: When the request does not have valid [authorization](#authentication-and-authorization). An example might be a valid access token, but the Adobe Developer Console project (technical account) is not subscribed to all required services.
-* **429 Too many requests**: When the system is overloaded by this client or in general. Clients should retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body will be empty.
+* **429 Too many requests**: When the system is overloaded by this client or in general. The clients can retry with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff). The body is empty.
 * **4xx error**: When there was any other client error. Usually a JSON response such as this is returned, although that is not guaranteed for all errors:
 
   ```json
@@ -359,15 +359,15 @@ For a list of currently supported file formats, see [supported file formats](htt
 | `*`               | `*`      | Advanced, custom fields can be added that a [custom worker](develop-custom-worker.md) understands. | |
 | `width`           | `number` | Width in pixels. only for image renditions. | `200` |
 | `height`          | `number` | Height in pixels. only for image renditions. | `200` |
-|                   |          |  - if only `width` or `height` is specified, the resulting image will use that and keep the aspect ratio<br> - without `width` and `height`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | |
+|                   |          |  - if only `width` or `height` is specified, the resulting image uses that and keep the aspect ratio<br> - without `width` and `height`, the original image pixel size is used. It depends on the source type. For some formats, such as PDF files, a default size is used. | |
 | `quality`         | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` |
 | `xmp`             | `string` | Used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | |
 | `interlace`       | `bool`   | Create interlaced PNG or GIF or progressive JPEG by setting it to `true`. It has no effect on other file formats. | |
 | `jpegSize`        | `number` | Approximate size of JPEG file in bytes. It overrides any `quality` setting. Has no effect on other formats. | |
-| `dpi`             | `number` or `object` | Set x and y DPI. For simplicity, it can also be set to a single number which will be used for both x and y. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` |
+| `dpi`             | `number` or `object` | Set x and y DPI. For simplicity, it can also be set to a single number which is used for both x and y. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` |
 | `convertToDpi`    | `number` or `object` | x and y DPI re-sample values while maintaining physical size. For simplicity, it can also be set to a single number which is used for both x and y. | `96` or `{ xdpi: 96, ydpi: 96 }` |
 | `files`           | `array`  | List of files to include in the ZIP archive (`fmt=zip`). Each entry can either be a URL string or an object with the fields:<ul><li>`url`: URL to download file</li><li>`path`: Store file under this path in the ZIP</li></ul> | `[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]` |
-| `duplicate`       | `string` | Duplicate handling for ZIP archives (`fmt=zip`). By default multiple files stored under the same path in the ZIP will generate an error. Setting `duplicate` to `ignore` will result in only the first asset to be stored and the rest to be ignored. | `ignore` |
+| `duplicate`       | `string` | Duplicate handling for ZIP archives (`fmt=zip`). By default multiple files stored under the same path in the ZIP generates an error. Setting `duplicate` to `ignore` results in only the first asset to be stored and the rest to be ignored. | `ignore` |
 
 ## Asynchronous events {#asynchronous-events}
 

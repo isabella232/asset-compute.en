@@ -29,7 +29,7 @@ To create a setup that allows you to develop for [!DNL Asset Compute Service], f
 
 1. [Create a Firefly project](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). Click **Create new project** > **Project from template**. Choose Firefly. It creates a new Firefly Project with two workspaces: `Production` and `Stage`. Add additional workspaces, for example `Development`, as required.
 
-1. In the Firefly Project, choose a workspace and subscribe to the services needed for Asset Compute. Click **Add to Project** > **API** and add `Asset Compute`, `IO Events`, and `IO Events Management` services. When adding the first API, it prompts to create a private key. Save this information on your machine as you will need this key to test your custom worker with the developer tool.
+1. In the Firefly Project, choose a workspace and subscribe to the services needed for Asset Compute. Click **Add to Project** > **API** and add `Asset Compute`, `IO Events`, and `IO Events Management` services. When adding the first API, it prompts to create a private key. Save this information on your machine as you need this key to test your custom worker with the developer tool.
 
 ## Next step {#next-step}
 
