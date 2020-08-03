@@ -3,24 +3,25 @@ title: Test and debug [!DNL Asset Compute Service] custom worker.
 description: Test and debug [!DNL Asset Compute Service] custom worker.
 ---
 
-# Test and debug a custom worker
+# Test and debug a custom worker {#test-debug-custom-worker}
 
 ## Execute unit tests for a custom worker {#test-custom-worker}
 
 Install [Docker Desktop](https://www.docker.com/get-started) on your machine. To test a custom worker, execute `aio app test` command at the root of the application.
 
-<!-- To run tests for a custom worker, run `adobe-asset-compute test-worker` command in the root of the custom worker application application.
+<!-- TBD
+To run tests for a custom worker, run `adobe-asset-compute test-worker` command in the root of the custom worker application application.
 
-TBD document interactively running `adobe-asset-compute` commands `test-worker` and `run-worker`
+Document interactively running `adobe-asset-compute` commands `test-worker` and `run-worker`.
 -->
 
-This runs a custom unit test framework for Asset Compute worker actions in the project as described below. It is hooked up through a configuration in the `package.json` file. It is also possible to have JavaScript unit tests such as Jest. `aio app test` will run both.
+This runs a custom unit test framework for Asset Compute worker actions in the project as described below. It is hooked up through a configuration in the `package.json` file. It is also possible to have JavaScript unit tests such as Jest. `aio app test` executes both.
 
 The [aio-cli-plugin-asset-compute](https://github.com/adobe/aio-cli-plugin-asset-compute#install-as-local-devdependency) plugin is embedded as development dependency in the custom worker app so that it doesn't need to be installed on build/test systems.
 
-### Worker unit test framework
+### Worker unit test framework {#unit-test-framework}
 
-The Asset Compute worker unit test framework allows to test workers without writing any code. It relies on the source to rendition file principle of workers. A certain file and folder structure has to be setup to define test cases with test source files, optional parameters, expected renditions and custom validation scripts. By default renditions will be compared for byte equality. Furthermore, external HTTP services can be easily mocked using simple JSON files.
+The Asset Compute worker unit test framework allows to test workers without writing any code. It relies on the source to rendition file principle of workers. A certain file and folder structure has to be setup to define test cases with test source files, optional parameters, expected renditions and custom validation scripts. By default, the renditions are compared for byte equality. Furthermore, external HTTP services can be easily mocked using simple JSON files.
 
 ### Add tests {#add-tests}
 
@@ -151,21 +152,17 @@ The following steps show how you can debug your custom worker using Visual Studi
 
 Many of these steps are usually automated by `aio` out of the box, see section "Debugging the Application" in the [Firefly documentation](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/first_app.md). For now, the below steps include a workaround that will be addressed in the future.
 
-1. Install latest [wskdebug](https://github.com/apache/openwhisk-wskdebug) from github, plus the optional [ngrok](https://www.npmjs.com/package/ngrok)
+1. Install the latest [wskdebug](https://github.com/apache/openwhisk-wskdebug) from GitHub and the optional [ngrok](https://www.npmjs.com/package/ngrok).
 
    ```shell
    npm install -g @openwhisk/wskdebug
    npm install -g ngrok --unsafe-perm=true
    ```
 
-1. Add to your user settings JSON file. It keeps using the old VS Code debugger, the new one has [some issues](https://github.com/apache/openwhisk-wskdebug/issues/74) with wskdebug: `"debug.javascript.usePreview": false`
-
+1. Add to your user settings JSON file. It keeps using the old VS Code debugger, the new one has [some issues](https://github.com/apache/openwhisk-wskdebug/issues/74) with wskdebug: `"debug.javascript.usePreview": false`.
 1. Close any instances of apps open via `aio app run`.
-
 1. Deploy the latest code using `aio app deploy`.
-
-1. Execute only the Asset compute devtool using `npx adobe-asset-compute devtool`. Keep it open.
-
+1. Execute only the Asset compute Devtool using `npx adobe-asset-compute devtool`. Keep it open.
 1. In VS Code editor, add the below debug configuration to your `launch.json`:
 
     ```json
@@ -187,11 +184,11 @@ Many of these steps are usually automated by `aio` out of the box, see section "
     }
     ```
   
-   Fetch the ACTION NAME from the output of `aio app deploy`. It looks similar to `Your deployed actions -> TypicalCoffeeCat-0.0.1/__secured_worker`.
+   Fetch the ACTION NAME from the output of `aio app deploy`. It looks like `Your deployed actions -> TypicalCoffeeCat-0.0.1/__secured_worker`.
 
-1. Select `wskdebug worker` from the run/debug configuration and press the play icon. Wait for it to start till it displays **Ready for activations** in the **Debug Console** window.
+1. Select `wskdebug worker` from the run/debug configuration and press the play icon. Wait for it to start till it displays **[!UICONTROL Ready for activations]** in the **[!UICONTROL Debug Console]** window.
 
-1. Click **run** in the Devtool. You can see the actions executing in VS Code editor and the logs start displaying.
+1. Click **[!UICONTROL run]** in the Devtool. You can see the actions executing in VS Code editor and the logs start displaying.
 
 1. Set a breakpoint in your code, run again and it should hit.
 

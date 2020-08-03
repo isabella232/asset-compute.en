@@ -19,7 +19,7 @@ To create a setup that allows you to develop for [!DNL Asset Compute Service], f
    * An IDE that is good for NodeJS, we recommend [Visual Studio Code (VS Code)](https://code.visualstudio.com) as it is the supported IDE for the debugger. You can use any other IDE as a code editor, but advanced usage (e.g. debugger) is not yet supported.
    * [AIO CLI](https://github.com/adobe/aio-cli) (`aio`) - install using `npm install -g @adobe/aio-cli`.
 
-1. Ensure to meet the [prerequisites](release-notes.md#prerequisites).
+1. Make sure to meet the [prerequisites](/help/understand-extensibility.md#prerequisites-and-provisioning).
 
 ## Setup a Firefly project {#create-firefly-project}
 

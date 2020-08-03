@@ -11,7 +11,7 @@ Understand the end-to-end workflow of a digital asset that is processed by Adobe
 
 ![Custom worker workflow](assets/customworker.png)
 
-*Figure: Steps involved for processing an Asset using [!DNL Asset Compute Service].*
+*Figure: Steps involved to process an Asset using [!DNL Asset Compute Service].*
 
 ### Registration {#registration}
 
@@ -64,7 +64,7 @@ A sample custom worker processing request is below.
 }
 ```
 
-The [!DNL Asset Compute Service] sends the custom worker rendition requests to the custom worker. It does so using an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly. Note that all requests use the HTTPS protocol to maximize data security.
+The [!DNL Asset Compute Service] sends the custom worker rendition requests to the custom worker. It uses an HTTP POST to the provided worker URL, which is the secured web action URL from Project Firefly. All requests use the HTTPS protocol to maximize data security.
 
 The [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) used by a custom worker handles the HTTP POST request. It also handles downloading of the source, uploading renditions, sending I/O events and error handling.
 
@@ -108,7 +108,7 @@ For more information about the rendition callback parameters, see the Asset Comp
 
 After each rendition is created and stored in a file with the path provided by `rendition.path`, the [Asset Compute SDK](https://github.com/adobe/asset-compute-sdk#adobe-asset-compute-worker-sdk) uploads each rendition to a cloud storage (either AWS or Azure). A custom worker gets multiple renditions at the same time if, and only if, the incoming request has multiple renditions pointing to the same worker URL. The upload to cloud storage is done after each rendition and before running the callback for the next rendition.
 
-Note that `batchWorker()` has a different behavior, as this will actually process all renditions and only after all have been processed, will upload them.
+The `batchWorker()` has a different behavior, as this will actually process all renditions and only after all have been processed, will upload them.
 
 ### Adobe I/O Events {#aio-events}
 

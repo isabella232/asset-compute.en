@@ -11,13 +11,16 @@ description: Best practices, limitations, and tips to create custom workers usin
 * Ensure that all dependencies to be installed are referenced in the worker's `package.json` file.
 * Ensure any errors that may come from cleanup on failure don't generate their own errors that hide the original problem.
 
+* When starting the developer tool for the first time with a new [!DNL Asset Compute Service] integration, it may fail the first processing request because the Asset Compute Events Journal may not be completely set up. Wait for some time for the journal to set up before sending another request.
+* If you run into errors sending Asset Compute `/register` or `/process` requests, make sure that all the necessary APIs are added to the Adobe I/O Project and Workspace&mdash;that is, Asset Compute, IO Events, IO Events Management, and Runtime.
+
 ## Log in issues via Adobe I/O CLI {#login-via-aio-cli}
 
 If you have issues logging in to the [!DNL Adobe Developer Console] [through the Adobe I/O CLI](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/first_app.md#3-signing-in-from-cli), then manually add the credentials required for developing, testing, and deploying your custom worker:
 
-1. Navigate to your Firefly project and workspace on the [Adobe Developer Console](https://console.adobe.io/) and and press [!UICONTROL Download] from the top-right corner. Open this file and save this JSON to a safe place on your machine.
+1. Navigate to your Firefly project and workspace on the [Adobe Developer Console](https://console.adobe.io/) and press **[!UICONTROL Download]** from the top-right corner. Open this file and save this JSON to a safe place on your machine.
 
-1. Navigate to the `.env` file in your Firefly Application.
+1. Navigate to the ENV file in your Firefly Application.
 
 1. Add the Adobe I/O Runtime Credentials. Get the Adobe I/O Runtime credentials from the downloaded JSON. The credentials are under `project.workspace.services.runtime`. Add the I/O Runtime credentials in the `AIO_runtime_XXX` variables:
 
@@ -32,10 +35,7 @@ If you have issues logging in to the [!DNL Adobe Developer Console] [through the
         ASSET_COMPUTE_INTEGRATION_FILE_PATH=
     ```
 
-1. Set up the rest of the [required credentials](develop-custom-worker.md#developer-tool-credentials) needed for the developer tool.
-
-* When starting the developer tool for the first time with a new [!DNL Asset Compute Service] integration, it may fail the first processing request because the Asset Compute Events Journal may not be completely set up. Wait for some time for the journal to set up before sending another request.
-* If you run into errors sending Asset Compute `/register` or `/process` requests, make sure that all the necessary APIs are added to the Adobe I/O Project and Workspace&mdash;that is, Asset Compute, IO Events, IO Events Management, and Runtime.
+1. Set up the rest of the [required credentials](develop-custom-worker.md) needed for the developer tool.
 
 <!-- TBD for later:
 Add any best practices for developers in this section:
