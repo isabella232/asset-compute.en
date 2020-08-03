@@ -11,7 +11,11 @@ To get the same URL without redeploying the worker, use [`aio app get-url`](http
 
 Use the URL in a [Processing Profile in Experience Manager as a Cloud Service](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html) to integrate your worker with [!DNL Experience Manager] as a Cloud Service.
 
-Ensure that your Firefly project and workspace correspond to the [!DNL Experience Manager] as a Cloud Service environment where you want to use your action. It has different environments for development, staging, and production. You can verify the environment by checking `AIO_runtime_*` credentials that are defined inside your ENV file in the root of your Firefly application. For example, to deploy to a `Stage` workspace, the `AIO_runtime_namespace` is of the format `xxxxxx_xxxxxxxxx_stage`. To integrate with Experience Manager as a Cloud Service Production environment, use worker URLs from your Firefly `Production` workspace. Do not use a personal workspace on critical [!DNL Experience Manager] environments.
+Ensure that your Firefly project and workspace correspond to the [!DNL Experience Manager] as a Cloud Service environment where you want to use your action. It has different environments for development, staging, and production. You can verify the environment by checking `AIO_runtime_*` credentials that are defined inside your ENV file in the root of your Firefly application. For example, to deploy to a `Stage` workspace, the `AIO_runtime_namespace` is of the format `xxxxxx_xxxxxxxxx_stage`. To integrate with [!DNL Experience Manager] as a Cloud Service Production environment, use worker URLs from your Firefly `Production` workspace.
+
+>[!CAUTION]
+>
+>Do not use a personal workspace on critical [!DNL Experience Manager] environments.
 
 >[!MORELIKETHIS]
 >

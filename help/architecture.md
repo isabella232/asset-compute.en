@@ -15,7 +15,7 @@ The foundation on which the architecture is based includes:
 
 * The modularity of workers – only containing what is needed for a given task – allows to decouple workers from each other and keep them lightweight.
 
-* The serverless concept of Adobe I/O Runtime yields numerous benefits: asynchronous, highly-scalable, isolated, job-based processing, which is a perfect fit for asset processing.
+* The serverless concept of Adobe I/O Runtime yields numerous benefits: asynchronous, highly scalable, isolated, job-based processing, which is a perfect fit for asset processing.
 
 * Binary cloud storage provides the necessary features for storing and accessing asset files and renditions individually, without requiring full access permissions to the storage, using pre-signed URL references. Transfer acceleration, CDN caching, and co-locating compute workers with cloud storage allow for optimal low latency content access. Both AWS and Azure clouds are supported.
 
@@ -27,9 +27,9 @@ The architecture is compatible with Adobe Experience Data Model (XDM) Schema tha
 
 The architecture consists of the following parts:
 
-* **An API and orchestration layer** receives requests (in JSON format) which instruct the service to transform a source asset (or more) into multiple renditions. These requests are asynchronous and return with an activation id (aka "job id"). Instructions are purely declarative, and for all standard processing work (e.g. thumbnail generation, text extraction) consumers only specify the desired result, but not the workers that handle certain renditions.Generic API features such as authentication, analytics, rate limiting, are handled using the Adobe API Gateway in front of the service and manages all requests going to I/O Runtime. The worker routing is done dynamically by the orchestration layer. Custom workers can be specified by clients for particular renditions and include custom parameters. Worker execution can be fully parallelized as they are separate serverless functions in I/O Runtime.
+* **An API and orchestration layer** receives requests (in JSON format) which instruct the service to transform a source asset (or more) into multiple renditions. These requests are asynchronous and return with an activation id (aka "job id"). Instructions are purely declarative, and for all standard processing work (e.g. thumbnail generation, text extraction) consumers only specify the desired result, but not the workers that handle certain renditions. Generic API features such as authentication, analytics, rate limiting, are handled using the Adobe API Gateway in front of the service and manages all requests going to I/O Runtime. The worker routing is done dynamically by the orchestration layer. Custom workers can be specified by clients for specific renditions and include custom parameters. Worker execution can be fully parallelized as they are separate serverless functions in I/O Runtime.
 
-* **Workers to process assets** that specialize on certain types of file formats or target renditions. Conceptually, a worker is similar to the Unix pipe concept: an input file gets transformed into one or more output files.
+* **Workers to process assets** that specialize on certain types of file formats or target renditions. Conceptually, a worker is like the Unix pipe concept: an input file gets transformed into one or more output files.
 
 * **A [common worker library](https://github.com/adobe/asset-compute-sdk)** handles common tasks like downloading the source file, uploading the renditions, error reporting, event sending and monitoring . This is designed so that developing a worker stays as simple as possible, following the serverless idea, and can be restricted to local filesystem interactions.
 

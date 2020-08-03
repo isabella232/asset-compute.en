@@ -130,7 +130,7 @@ The HTTP status codes are:
 
 ### Unregister request {#unregister-request}
 
-This API call deregisters an [!DNL Asset Compute] client. After this it is no longer possible to invoke `/process`. Using the API call for an unregistered client or a yet-to-be registered client returns a `404` error.
+This API call unregisters an [!DNL Asset Compute] client. After this it is no longer possible to invoke `/process`. Using the API call for an unregistered client or a yet-to-be registered client returns a `404` error.
 
 | Parameter                | Value                                                |
 |--------------------------|------------------------------------------------------|
@@ -228,7 +228,7 @@ The available fields are:
 | `source`     | `object` | Describing the source asset to process. See description of [Source object fields](#source-object-fields) below. Optional based on requested rendition format (e.g. `fmt=zip`). | `{"url": "http://example.com/image.jpg", "mimeType": "image/jpeg" }` |
 | `renditions` | `array`  | Renditions to generate from the source file. Each rendition object supports [rendition instruction](#rendition-instructions). Required. | `[{ "target": "https://....", "fmt": "png" }]` |
 
-Note that `source` can either be a `<string>`, which is seen as a URL, or an `<object>` with additional field. The following variants are identical:
+The `source` can either be a `<string>` that is seen as a URL or it can be an `<object>` with an additional field. The following variants are similar:
 
 ```json
 "source": "http://example.com/image.jpg"
@@ -340,7 +340,7 @@ All JSON responses (if present) include the `requestId` which is the same value 
 
 These are the available options for the `renditions` array in [/process](#process-request).
 
-### Common fields
+### Common fields {#common-fields}
 
 | Name              | Type     | Description | Example |
 |-------------------|----------|-------------|---------|
@@ -348,9 +348,9 @@ These are the available options for the `renditions` array in [/process](#proces
 | `worker`          | `string` | URL of a [custom worker](develop-custom-worker.md). Must be an `https://` URL. If this field is present, the rendition is created by a custom worker. Any other set rendition field is then used in the custom worker. | `"https://1234.adobeioruntime.net`<br>`/api/v1/web`<br>`/example-custom-worker-master/worker"` |
 | `target` | `string` | URL to which the generated rendition should be uploaded using HTTP PUT. | `http://w.com/img.jpg` |
 | `target`          | `object` | Multipart pre-signed URL upload information for the generated rendition. This is for [AEM/Oak Direct Binary Upload](https://jackrabbit.apache.org/oak/docs/features/direct-binary-access.html) with this [multipart upload behavior](http://jackrabbit.apache.org/oak/docs/apidocs/org/apache/jackrabbit/api/binary/BinaryUpload.html).<br>Fields:<ul><li>`urls`: array of strings, one for each pre-signed part URL</li><li>`minPartSize`: the minimum size to use for one part = url</li><li>`maxPartSize`: the maximum size to use for one part = url</li></ul> | `{ "urls": [ "https://part1...", "https://part2..." ], "minPartSize": 10000, "maxPartSize": 100000 }` |
-| `userData`        | `object` | Optional reserved space controlled by the client and passed through as is to rendition events. Allows clients to add custom information to identify rendition events. Must not be modifed or relied upon in custom workers, as clients are free to change this any time. | `{ ... }` |
+| `userData`        | `object` | Optional reserved space controlled by the client and passed through as is to rendition events. Allows clients to add custom information to identify rendition events. Must not be modified or relied upon in custom workers, as clients are free to change this any time. | `{ ... }` |
 
-### Rendition specific fields
+### Rendition specific fields {#rendition-specific-fields}
 
 For a list of currently supported file formats, see [supported file formats](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/file-format-support.html).
 
@@ -363,7 +363,7 @@ For a list of currently supported file formats, see [supported file formats](htt
 | `quality`         | `number` | Specify jpeg quality in the range of `1` to `100`. Applicable only for image renditions. | `90` |
 | `xmp`             | `string` | Used only by XMP metadata writeback, it is base64 encoded XMP to write back to the specified rendition. | |
 | `interlace`       | `bool`   | Create interlaced PNG or GIF or progressive JPEG by setting it to `true`. It has no effect on other file formats. | |
-| `jpegSize`        | `number` | Approximate size of JPEG file in bytes. Note this overrides any `quality` setting. Has no effect on other formats. | |
+| `jpegSize`        | `number` | Approximate size of JPEG file in bytes. It overrides any `quality` setting. Has no effect on other formats. | |
 | `dpi`             | `number` or `object` | Set x and y DPI. For simplicity, it can also be set to a single number which will be used for both x and y. It has no effect on the image itself. | `96` or `{ xdpi: 96, ydpi: 96 }` |
 | `convertToDpi`    | `number` or `object` | x and y DPI re-sample values while maintaining physical size. For simplicity, it can also be set to a single number which is used for both x and y. | `96` or `{ xdpi: 96, ydpi: 96 }` |
 | `files`           | `array`  | List of files to include in the ZIP archive (`fmt=zip`). Each entry can either be a URL string or an object with the fields:<ul><li>`url`: URL to download file</li><li>`path`: Store file under this path in the ZIP</li></ul> | `[{ "url": "https://host/asset.jpg", "path": "folder/location/asset.jpg" }]` |
@@ -386,7 +386,7 @@ The Adobe I/O Event type for all events of the [!DNL Asset Compute Service] is `
 
 | Attribute   | Type     | Event         | Description |
 |-------------|----------|---------------|-------------|
-| `date`      | `string` | `*`           | Timestamp when event was sent in simplified extended [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format (as defined by [Javascript Date.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)). |
+| `date`      | `string` | `*`           | Timestamp when event was sent in simplified extended [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format, as defined by JavaScript [Date.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). |
 | `requestId` | `string` | `*`           | The request id of the original request to `/process`, same as `X-Request-Id` header. |
 | `source`    | `object` | `*`           | The `source` of the `/process` request. |
 | `userData`  | `object` | `*`           | The `userData` of the rendition from the `/process` request if set. |

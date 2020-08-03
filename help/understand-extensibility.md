@@ -5,7 +5,7 @@ description: Considerations when creating and using [!DNL Asset Compute Service]
 
 # Introduction to extensibility {#introduction-to-extensibilty}
 
-Many rendition requirements like changing formats and size of images are addressed by [Processing Profiles in [!DNL Experience Manager] as a Cloud Service](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html). More complex business requirements may need a custom-created solution that suits an organizations needs. [!DNL Asset Compute Service] can be extended by creating custom workers that are invoked from Processing Profiles in [!DNL Experience Manager] and that address the need for these [supported use cases](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
+Many rendition requirements like converting to formats and resizing images are addressed by [Processing Profiles in [!DNL Experience Manager] as a Cloud Service](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/asset-microservices-overview.html). More complex business requirements may need a custom-created solution that suits an organization's needs. [!DNL Asset Compute Service] can be extended by creating custom workers that are invoked from Processing Profiles in [!DNL Experience Manager] and that address the need for these [supported use cases](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
 
 >[!NOTE]
 >
@@ -13,14 +13,16 @@ Many rendition requirements like changing formats and size of images are address
 
 Extending [!DNL Asset Compute Service] with custom workers is made simple through the [worker SDK](https://github.com/adobe/asset-compute-sdk) and Project Firefly developer tooling. This allows developers to focus on business logic. Writing custom workers is not more complex than writing a plain serverless Adobe I/O Runtime action, which itself is nothing more than a single Node.js JavaScript function. The [basic worker example](https://github.com/adobe/asset-compute-example-workers/blob/master/projects/worker-basic/worker-basic.js) showcases that.
 
-## Prerequisites and provisioning requirements {#provisioning}
+## Prerequisites and provisioning requirements {#prerequisites-and-provisioning}
 
 Ensure you meet the following prerequisites:
 
 * Project Firefly tools are installed on your machine.
 * An [!DNL Experience Cloud] organization. More information [here](https://github.com/AdobeDocs/project-firefly/blob/master/getting_started/setup.md#acquire-access-and-credentials).
-* The Experience Organization must have AEM as a Cloud Service enabled.
-* The Experience Organization must be added to Project Firefly developer preview program. If you do not have access to Project Firefly, read [here](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md) how you can apply for access.
+* The Experience Organization must have [!DNL Experience Manager] as a Cloud Service enabled.
+* [!DNL Adobe Experience Cloud] organization is part of the [!DNL Project Firefly] developer preview program. See [how to apply for access](https://github.com/AdobeDocs/project-firefly/blob/master/overview/getting_access.md).
+* Ensure a developer role or administrator permissions in the organization for the developer.
+* Ensure that [Adobe I/O CLI](https://github.com/adobe/aio-cli) is installed locally.
 
 <!-- TBD for later:
 

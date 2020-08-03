@@ -5,7 +5,7 @@ description: [!DNL Asset Compute Service] is a cloud-native asset processing ser
 
 # Overview of [!DNL Asset Compute Service] {#overview}
 
-[!DNL Asset Compute Service] is a scalable and extensible service of [!DNL Adobe Experience Cloud] to process digital assets. It can transform image, video, document and other file formats into different renditions including thumbnails, extracted text and metadata, and archives.
+[!DNL Asset Compute Service] is a scalable and extensible service of [!DNL Adobe Experience Cloud] to process digital assets. It can transform image, video, document, and other file formats into different renditions including thumbnails, extracted text and metadata, and archives.
 
 Developers can plugin custom asset workers to address custom use cases. The service works on the [!DNL Adobe I/O] runtime. It is extendable through [!DNL Project Firefly] headless apps written in Node.js. These can do custom operations such as calling external APIs to perform image operations or leverage [!DNL Adobe Sensei] support.
 
@@ -13,7 +13,7 @@ Developers can plugin custom asset workers to address custom use cases. The serv
 
 >[!NOTE]
 >
->Currently, the [!DNL Asset Compute Service] can only be used in [!DNL Experience Manager] as a Cloud Service. Administrators create processing profiles that can invoke the [!DNL Asset Compute Service] to pass assets for processing. See [use asset microservices and processing profiles](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
+>Currently, the [!DNL Asset Compute Service] can be used only via [!DNL Experience Manager] as a Cloud Service. Administrators create processing profiles that can invoke the [!DNL Asset Compute Service] to pass assets for processing. See [use asset microservices and processing profiles](https://docs.adobe.com/content/help/en/experience-manager-cloud-service/assets/manage/asset-microservices-configure-and-use.html).
 
 ## Supported use cases of [!DNL Asset Compute Service] {#possible-use-cases-benefits}
 
@@ -23,7 +23,7 @@ You can use [!DNL Asset Compute] web service to generate thumbnails for differen
 
 >[!NOTE]
 >
->The service does not provide asset storage. It must be provided by consumers that provide references to source and rendition file locations in cloud storage.
+>The service does not provide asset storage. Users provide it and provide references to source and rendition file locations in cloud storage.
 
 <!-- TBD: Should this be mentioned in the docs?
 
